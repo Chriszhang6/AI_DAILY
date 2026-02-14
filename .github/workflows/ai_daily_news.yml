@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: pip install -r requirements.txt
       - name: Run AI Daily News
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}

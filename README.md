@@ -14,7 +14,9 @@ Automated daily AI news digest delivered to your inbox via email.
 ### 1. Clone and Install Dependencies
 
 ```bash
-pip install requests beautifulsoup4 python-dotenv
+pip install -r requirements.txt
+# Or manually:
+# pip install requests beautifulsoup4 lxml python-dotenv
 ```
 
 ### 2. Configure Gmail
