@@ -1,0 +1,51 @@
+name: Send Test Email Now
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-test-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          echo "📦 Installing dependencies..."
+          pip install -r requirements.txt
+          echo "✓ Dependencies installed"
+      
+      - name: Verify lxml installation
+        run: |
+          echo "🔍 Verifying lxml..."
+          python -c "import lxml; print(f'✓ lxml version: {lxml.__version__}')"
+      
+      - name: Send test email with mock data
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          echo "📧 Sending test email..."
+          python send_test_email.py
+      
+      - name: Send real email with actual news
+        if: success()
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          echo ""
+          echo "======================================================================"
+          echo "📰 Now sending email with real news..."
+          echo "======================================================================"
+          python main.py

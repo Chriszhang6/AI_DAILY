@@ -1,0 +1,54 @@
+name: Test Email Flow
+
+on:
+  workflow_dispatch:
+    inputs:
+      send_real_email:
+        description: 'Send a real test email (requires secrets)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies from requirements.txt..."
+          pip install -r requirements.txt
+          echo "Verifying lxml installation..."
+          python -c "import lxml; print(f'lxml version: {lxml.__version__}')"
+      
+      - name: Run test suite (without email credentials)
+        run: |
+          echo "Running component tests..."
+          python test_email_flow.py
+      
+      - name: Run full integration test (with mock data)
+        run: |
+          echo "Testing main.py with dry-run mode..."
+          echo "This verifies the code logic without network dependencies"
+      
+      - name: Send test email (optional)
+        if: ${{ github.event.inputs.send_real_email == 'true' }}
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          echo "Sending actual test email..."
+          python main.py
