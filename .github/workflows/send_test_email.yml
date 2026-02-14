@@ -3,6 +3,9 @@ name: Send Test Email Now
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   send-test-email:
     runs-on: ubuntu-latest
