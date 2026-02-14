@@ -2,7 +2,13 @@ name: AI Daily News
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    # Run 3 times daily in Australian Eastern time
+    # Note: These times are fixed in UTC and do not automatically adjust for daylight saving
+    # During AEST (Apr-Oct, UTC+10): 8am, 12pm, 5pm local time
+    # During AEDT (Oct-Apr, UTC+11): 9am, 1pm, 6pm local time
+    - cron: '0 22 * * *'  # 8am AEST / 9am AEDT
+    - cron: '0 2 * * *'   # 12pm AEST / 1pm AEDT
+    - cron: '0 7 * * *'   # 5pm AEST / 6pm AEDT
   workflow_dispatch:
 
 jobs:

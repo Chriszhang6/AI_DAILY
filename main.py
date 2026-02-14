@@ -316,6 +316,18 @@ def generate_html_content(news_items):
             margin-left: 34px;
             text-transform: uppercase;
         }
+        .standard-item .read-more {
+            display: block;
+            font-size: 11px;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-left: 34px;
+        }
+        .standard-item .read-more:hover {
+            color: #e94560;
+        }
 
         /* 侧边栏小方块 */
         .sidebar-item {
@@ -420,6 +432,7 @@ def generate_html_content(news_items):
                         <span class="number">{item['index']}</span>
                         <h3>{item['title']}</h3>
                         <span class="source">{item['source']}</span>
+                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                     </div>
             """
         html += '</div>'
