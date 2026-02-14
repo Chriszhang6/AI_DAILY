@@ -9,6 +9,14 @@ import sys
 import time
 from datetime import datetime
 
+# Check for required lxml dependency for XML parsing
+try:
+    import lxml
+except ImportError:
+    print("✗ ERROR: lxml package is required for XML parsing", file=sys.stderr)
+    print("  Install it with: pip install lxml", file=sys.stderr)
+    sys.exit(1)
+
 # Load .env file for local development
 try:
     from dotenv import load_dotenv
