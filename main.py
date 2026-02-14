@@ -8,6 +8,7 @@ import os
 import sys
 import time
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # Check for required lxml dependency for XML parsing
 try:
@@ -23,6 +24,10 @@ try:
     load_dotenv()
 except ImportError:
     pass  # dotenv is optional
+
+def get_aest_time():
+    """Get current time in Australian Eastern Time (AEST/AEDT)"""
+    return datetime.now(ZoneInfo('Australia/Sydney'))
 
 def fetch_google_news(keyword, max_items=2, retries=3):
     """从Google News RSS获取新闻"""
@@ -373,8 +378,8 @@ def generate_html_content(news_items):
             <div class="tagline">Your Source for Artificial Intelligence News</div>
         </div>
         <div class="subheader">
-            <div class="date">""" + datetime.now().strftime('%A, %B %d, %Y').upper() + """</div>
-            <div class="issue">Vol. """ + datetime.now().strftime('%Y%m%d') + """ • """ + str(len(news_items)) + """ Stories</div>
+            <div class="date">""" + get_aest_time().strftime('%A, %B %d, %Y').upper() + """</div>
+            <div class="issue">Vol. """ + get_aest_time().strftime('%Y%m%d') + """ • """ + str(len(news_items)) + """ Stories</div>
         </div>
         <div class="main-layout">
             <div class="content-area">
@@ -457,7 +462,7 @@ def generate_html_content(news_items):
             </div>
         </div>
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • """ + datetime.now().strftime('%I:%M %p').upper() + """ AEST</p>
+            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • """ + get_aest_time().strftime('%I:%M %p').upper() + """ AEST</p>
         </div>
     </div>
 </body>
@@ -514,7 +519,7 @@ def main():
         sys.exit(1)  # Exit with error code
     
     print(f"📧 Sending email to {to_email}...")
-    subject = f"AI Daily News Digest - {datetime.now().strftime('%Y-%m-%d')}"
+    subject = f"AI Daily News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
     success = send_email(subject, html_content, to_email, gmail_user, gmail_pass)
     
     if not success:
