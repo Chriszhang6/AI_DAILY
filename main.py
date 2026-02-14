@@ -6,6 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
 import sys
+import time
 from datetime import datetime
 
 # Load .env file for local development
@@ -15,32 +16,50 @@ try:
 except ImportError:
     pass  # dotenv is optional
 
-def fetch_google_news(keyword, max_items=2):
+def fetch_google_news(keyword, max_items=2, retries=3):
     """从Google News RSS获取新闻"""
-    try:
-        # Google News RSS格式
-        url = f'https://news.google.com/rss/search?q={keyword}'
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
-        resp = requests.get(url, timeout=10, headers=headers)
-        soup = BeautifulSoup(resp.text, 'xml')
-        articles = []
-        
-        for item in soup.select('item')[:max_items]:
-            title_elem = item.select_one('title')
-            link_elem = item.select_one('link')
-            source_elem = item.select_one('source')
+    last_error = None
+    
+    for attempt in range(retries):
+        try:
+            # Google News RSS格式
+            url = f'https://news.google.com/rss/search?q={keyword}'
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+            resp = requests.get(url, timeout=10, headers=headers)
+            resp.raise_for_status()  # Raise an exception for bad status codes
             
-            if title_elem and link_elem:
-                source = source_elem.text if source_elem else 'News'
-                articles.append({
-                    'title': title_elem.text.strip(),
-                    'link': link_elem.text.strip(),
-                    'source': source
-                })
-        return articles
-    except Exception as e:
-        print(f"Error fetching Google News for '{keyword}': {e}", file=sys.stderr)
-        return []
+            soup = BeautifulSoup(resp.text, 'xml')
+            articles = []
+            
+            for item in soup.select('item')[:max_items]:
+                title_elem = item.select_one('title')
+                link_elem = item.select_one('link')
+                source_elem = item.select_one('source')
+                
+                if title_elem and link_elem:
+                    source = source_elem.text if source_elem else 'News'
+                    articles.append({
+                        'title': title_elem.text.strip(),
+                        'link': link_elem.text.strip(),
+                        'source': source
+                    })
+            
+            if articles:
+                print(f"  ✓ Fetched {len(articles)} articles for '{keyword}'")
+            else:
+                print(f"  ⚠ No articles found for '{keyword}'", file=sys.stderr)
+            
+            return articles
+            
+        except Exception as e:
+            last_error = e
+            if attempt < retries - 1:
+                print(f"  ⚠ Attempt {attempt + 1}/{retries} failed for '{keyword}': {e}", file=sys.stderr)
+                time.sleep(2)  # Wait before retrying
+            else:
+                print(f"  ✗ All {retries} attempts failed for '{keyword}': {e}", file=sys.stderr)
+    
+    return []
 
 def fetch_all_news():
     """从多个关键词聚合AI新闻"""
@@ -451,11 +470,11 @@ def main():
     # Fetch news
     print("📡 Fetching news from sources...")
     news = fetch_all_news()
-    print(f"✓ Fetched {len(news)} articles")
+    print(f"✓ Fetched {len(news)} articles total")
     
     if not news:
-        print("⚠️  No news found")
-        return
+        print("✗ ERROR: No news found. Cannot send email.", file=sys.stderr)
+        sys.exit(1)  # Exit with error code
     
     # Generate HTML
     print("📝 Generating email content...")
@@ -467,15 +486,22 @@ def main():
     to_email = os.environ.get('TO_EMAIL')
     
     if not all([gmail_user, gmail_pass, to_email]):
-        print("✗ Missing required environment variables:")
-        print(f"  GMAIL_USER: {bool(gmail_user)}")
-        print(f"  GMAIL_PASS: {bool(gmail_pass)}")
-        print(f"  TO_EMAIL: {bool(to_email)}")
-        return
+        print("✗ ERROR: Missing required environment variables:", file=sys.stderr)
+        print(f"  GMAIL_USER: {'✓' if gmail_user else '✗'}", file=sys.stderr)
+        print(f"  GMAIL_PASS: {'✓' if gmail_pass else '✗'}", file=sys.stderr)
+        print(f"  TO_EMAIL: {'✓' if to_email else '✗'}", file=sys.stderr)
+        sys.exit(1)  # Exit with error code
     
     print(f"📧 Sending email to {to_email}...")
     subject = f"AI Daily News Digest - {datetime.now().strftime('%Y-%m-%d')}"
-    send_email(subject, html_content, to_email, gmail_user, gmail_pass)
+    success = send_email(subject, html_content, to_email, gmail_user, gmail_pass)
+    
+    if not success:
+        print("✗ ERROR: Failed to send email", file=sys.stderr)
+        sys.exit(1)  # Exit with error code
+    
+    print("✓ Daily news digest completed successfully!")
+    sys.exit(0)
 
 if __name__ == '__main__':
     main()
