@@ -11,6 +11,8 @@
 
 **AI DAILY** is an automated news aggregation system that delivers a daily digest of AI-related news directly to your inbox. It fetches the latest articles from multiple sources, compiles them into a beautifully formatted newspaper-style HTML email, and sends it automatically via GitHub Actions.
 
+📖 **New to GitHub Actions or RSS?** Check out the [Solution Architecture Guide](SOLUTION_SUMMARY.md) for a detailed explanation with diagrams!
+
 ### ✨ Features
 
 - 📰 **Professional Layout**: Newspaper-style HTML email with responsive design
@@ -164,6 +166,8 @@ MIT License - Feel free to use and modify for your own needs!
 ### 📰 项目简介
 
 **AI DAILY (AI 日报)** 是一个自动化的新闻聚合系统，每天自动将 AI 相关的最新新闻整理成精美的报纸风格 HTML 邮件，直接发送到您的邮箱。通过 GitHub Actions 实现完全自动化，无需服务器。
+
+📖 **不熟悉 GitHub Actions 或 RSS？** 查看[解决方案架构指南](SOLUTION_SUMMARY.md)，内含详细说明和架构图！
 
 ### ✨ 功能特点
 
