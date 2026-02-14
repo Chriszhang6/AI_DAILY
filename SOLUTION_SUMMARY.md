@@ -241,7 +241,7 @@ Stop when we have at least 10 articles
 1. **Serverless**: No server costs, no maintenance, no downtime worries
 2. **Free**: All components are free (GitHub Actions, Google RSS, Gmail)
 3. **Reliable**: Built on enterprise-grade infrastructure (GitHub + Google)
-4. **Simple**: Compact and readable Python codebase, easy to understand
+4. **Simple**: Single-file Python implementation (~500 lines), easy to understand
 5. **Flexible**: Easy to modify keywords, schedule, or HTML layout
 6. **Scalable**: Can handle thousands of recipients with minor changes
 7. **Secure**: Industry-standard security practices
@@ -496,7 +496,7 @@ Users can easily customize:
 1. **无服务器**：无服务器成本、无维护、无停机时间担忧
 2. **免费**：所有组件都是免费的（GitHub Actions、Google RSS、Gmail）
 3. **可靠**：构建在企业级基础设施上（GitHub + Google）
-4. **简单**：紧凑且可读的 Python 代码库，易于理解
+4. **简单**：单文件 Python 实现（约 500 行代码），易于理解
 5. **灵活**：易于修改关键词、时间表或 HTML 布局
 6. **可扩展**：稍作更改即可处理数千个收件人
 7. **安全**：采用行业标准的安全实践
