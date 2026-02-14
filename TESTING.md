@@ -39,12 +39,34 @@
 
 ### 2. 本地测试 (Local Testing)
 
-运行测试脚本验证所有组件：
+#### 快速测试：发送测试邮件 🚀
+
+最快的验证方法是直接发送一封测试邮件：
 
 ```bash
 # 安装依赖
 pip install -r requirements.txt
 
+# 设置环境变量
+export GMAIL_USER=your_email@gmail.com
+export GMAIL_PASS=your_app_password
+export TO_EMAIL=recipient@example.com
+
+# 发送测试邮件（使用模拟数据）
+python send_test_email.py
+```
+
+这个脚本会：
+- 使用预定义的测试新闻数据
+- 生成完整的HTML邮件
+- 立即发送到你的邮箱
+- 不依赖网络获取真实新闻（更快、更可靠）
+
+#### 完整测试：运行测试套件
+
+运行测试脚本验证所有组件：
+
+```bash
 # 运行测试套件
 python test_email_flow.py
 ```
@@ -57,9 +79,30 @@ python test_email_flow.py
 - ⚠ 新闻获取（需要网络访问）
 - ⚠ SMTP 连接（需要邮件凭证）
 
+#### 生产测试：获取真实新闻并发送
+
+```bash
+# 运行完整的生产流程
+python main.py
+```
+
 ### 3. GitHub Actions 测试 (GitHub Actions Testing)
 
-#### 方式 A: 使用测试工作流（推荐）
+#### 方式 A: 立即发送测试邮件（最快方式！🚀）
+
+**推荐：最快验证邮件功能的方法**
+
+1. 进入 GitHub 仓库的 Actions 标签
+2. 选择 "**Send Test Email Now**" 工作流
+3. 点击 "**Run workflow**" → 选择 `main` 分支 → 点击 "**Run workflow**"
+4. 等待 1-2 分钟
+5. 检查你的邮箱！
+
+这个工作流会：
+- 发送一封使用模拟数据的测试邮件（验证邮件功能）
+- 然后发送一封包含真实AI新闻的邮件（完整验证）
+
+#### 方式 B: 使用测试工作流
 
 1. 进入 GitHub 仓库的 Actions 标签
 2. 选择 "Test Email Flow" 工作流
@@ -68,7 +111,7 @@ python test_email_flow.py
    - `false`: 仅测试组件和逻辑（不需要secrets）
    - `true`: 发送真实邮件（需要配置 secrets）
 
-#### 方式 B: 手动触发生产工作流
+#### 方式 C: 手动触发生产工作流
 
 1. 进入 GitHub 仓库的 Actions 标签
 2. 选择 "AI Daily News" 工作流
@@ -101,8 +144,27 @@ python test_email_flow.py
 
 ## 测试文件说明 (Test Files)
 
+### `send_test_email.py` 🚀
+**快速测试脚本** - 立即发送测试邮件
+
+用途：
+- 最快验证邮件发送功能的方法
+- 使用预定义的测试新闻数据
+- 不依赖网络获取真实新闻
+- 适合快速验证配置是否正确
+
+使用方法：
+```bash
+export GMAIL_USER=your_email@gmail.com
+export GMAIL_PASS=your_app_password
+export TO_EMAIL=recipient@example.com
+python send_test_email.py
+```
+
 ### `test_email_flow.py`
-综合测试脚本，验证所有组件：
+**综合测试脚本** - 验证所有组件
+
+用途：
 - 模块导入测试
 - XML 解析器测试
 - 新闻获取测试（需要网络）
@@ -111,14 +173,32 @@ python test_email_flow.py
 - 环境变量检查
 - SMTP 连接测试（需要凭证）
 
+使用方法：
+```bash
+python test_email_flow.py
+```
+
+### `.github/workflows/send_test_email.yml` ⚡
+**快速测试工作流** - GitHub Actions 中最快的验证方式
+
+特点：
+- 一键发送测试邮件
+- 先发送模拟数据邮件
+- 再发送真实新闻邮件
+- 适合快速验证 GitHub Secrets 配置
+
 ### `.github/workflows/test_email_flow.yml`
-测试工作流，可以：
+**测试工作流** - 全面的组件测试
+
+特点：
 - 在 CI 环境中运行测试
 - 可选择性发送真实邮件
 - 验证依赖安装正确
 
 ### `.github/workflows/ai_daily_news.yml`
-生产工作流：
+**生产工作流** - 日常自动化邮件
+
+特点：
 - 每天 UTC 8:00 自动运行
 - 可以手动触发
 - 获取真实新闻并发送邮件
