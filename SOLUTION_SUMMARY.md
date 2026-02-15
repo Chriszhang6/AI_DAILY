@@ -15,9 +15,8 @@
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                        GitHub Actions Workflow                         │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │  Scheduled Triggers (3x daily):                                 │  │  │
-│  │  │  • 22:00 UTC (8am AEST)  • 02:00 UTC (12pm AEST)               │  │  │
-│  │  │  • 07:00 UTC (5pm AEST)                                         │  │  │
+│  │  │  Scheduled Trigger (once daily):                                │  │  │
+│  │  │  • 22:00 UTC (8am AEST / 9am AEDT)                              │  │  │
 │  │  │  • Manual trigger available anytime                             │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
 │  │                              ↓                                         │  │
@@ -145,7 +144,7 @@
 
 #### Phase 1: Scheduled Trigger
 ```
-1. GitHub Actions timer reaches scheduled time (e.g., 22:00 UTC)
+1. GitHub Actions timer reaches scheduled time (22:00 UTC daily)
 2. GitHub automatically starts a virtual machine (Ubuntu Linux)
 3. Workflow file (.github/workflows/ai_daily_news.yml) is read
 4. Execution begins...
@@ -270,9 +269,8 @@ Users can easily customize:
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                        GitHub Actions 工作流                           │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │  定时触发器（每天3次）：                                          │  │  │
-│  │  │  • 22:00 UTC (澳东时间上午8点)  • 02:00 UTC (中午12点)            │  │  │
-│  │  │  • 07:00 UTC (下午5点)                                            │  │  │
+│  │  │  定时触发器（每天一次）：                                        │  │  │
+│  │  │  • 22:00 UTC (澳东时间上午8点 / 夏令时上午9点)                  │  │  │
 │  │  │  • 支持随时手动触发                                               │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
 │  │                              ↓                                         │  │
@@ -400,7 +398,7 @@ Users can easily customize:
 
 #### 阶段 1：定时触发
 ```
-1. GitHub Actions 计时器到达计划时间（例如，22:00 UTC）
+1. GitHub Actions 计时器到达计划时间（每天 22:00 UTC）
 2. GitHub 自动启动虚拟机（Ubuntu Linux）
 3. 读取工作流文件 (.github/workflows/ai_daily_news.yml)
 4. 开始执行...

@@ -17,7 +17,7 @@
 
 - 📰 **Professional Layout**: Newspaper-style HTML email with responsive design
 - 🤖 **Comprehensive Coverage**: Aggregates news from 12 AI-related keywords including OpenAI, Claude, DeepMind, Qwen, Kimi, GLM, DeepSeek, and more
-- ⏰ **Automated Delivery**: Runs 3 times daily via GitHub Actions (8am, 12pm, 5pm AEST)
+- ⏰ **Automated Delivery**: Runs once daily via GitHub Actions (8am AEST)
 - 🌏 **Global Perspective**: Covers both international and Chinese AI companies and research
 - 🎨 **Responsive Design**: Looks great on both desktop and mobile devices
 - 🔒 **Secure**: Uses GitHub Secrets to protect your credentials
@@ -122,10 +122,8 @@ The system searches for news using these keywords:
 
 #### Schedule
 
-The GitHub Actions workflow runs automatically 3 times daily:
-- **22:00 UTC** (8am AEST)
-- **02:00 UTC** (12pm AEST)
-- **07:00 UTC** (5pm AEST)
+The GitHub Actions workflow runs automatically once daily:
+- **22:00 UTC** (8am AEST / 9am AEDT)
 
 You can also manually trigger the workflow anytime from the Actions tab.
 
@@ -173,7 +171,7 @@ MIT License - Feel free to use and modify for your own needs!
 
 - 📰 **专业排版**：报纸风格的 HTML 邮件，响应式设计
 - 🤖 **全面覆盖**：聚合 12 个 AI 相关关键词的新闻，包括 OpenAI、Claude、DeepMind、通义千问、Kimi、智谱、DeepSeek 等
-- ⏰ **自动推送**：通过 GitHub Actions 每天自动运行 3 次（澳东时间上午 8 点、中午 12 点、下午 5 点）
+- ⏰ **自动推送**：通过 GitHub Actions 每天自动运行一次（澳东时间上午 8 点）
 - 🌏 **国际视野**：涵盖国际和中国的 AI 公司及研究
 - 🎨 **响应式设计**：在桌面和移动设备上都有很好的显示效果
 - 🔒 **安全可靠**：使用 GitHub Secrets 保护您的凭证信息
@@ -278,10 +276,8 @@ MIT License - Feel free to use and modify for your own needs!
 
 #### 运行时间表
 
-GitHub Actions 工作流每天自动运行 3 次：
-- **22:00 UTC**（澳东时间上午 8 点）
-- **02:00 UTC**（澳东时间中午 12 点）
-- **07:00 UTC**（澳东时间下午 5 点）
+GitHub Actions 工作流每天自动运行一次：
+- **22:00 UTC**（澳东时间上午 8 点 / 夏令时上午 9 点）
 
 您也可以随时从 Actions 标签页手动触发工作流。
 
