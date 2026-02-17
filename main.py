@@ -117,14 +117,14 @@ def fetch_all_news():
         if len(news) >= 10:
             break
     
-    # 去重（按title）和返回前10条
+    # 去重（按title）和返回前20条
     seen_titles = set()
     unique_news = []
     for item in news:
         if item['title'] not in seen_titles:
             seen_titles.add(item['title'])
             unique_news.append(item)
-            if len(unique_news) >= 10:
+            if len(unique_news) >= 20:
                 break
     
     return unique_news
@@ -132,7 +132,9 @@ def fetch_all_news():
 def generate_html_content(news_items):
     # 报纸风格：每个新闻项指定其布局类型
     # layout types: 'hero' (头条大图), 'featured' (重要新闻), 'sidebar' (侧边栏小方块), 'standard' (标准)
-    layouts = ['hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard']
+    # 扩展到 20 条新闻，每页 10 条
+    layouts = ['hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard',
+               'hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard']
 
     html = """<!DOCTYPE html>
 <html>
@@ -188,6 +190,43 @@ def generate_html_content(news_items):
         .subheader .issue {
             font-size: 11px;
             color: #666;
+        }
+
+        /* 翻页控制 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 25px 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+        .pagination button {
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .pagination button:hover {
+            background: #e94560;
+        }
+        .pagination button.active {
+            background: #e94560;
+        }
+
+        /* 分页容器 */
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
         }
 
         /* 主布局：左侧主内容区 + 右侧边栏 */
@@ -400,90 +439,146 @@ def generate_html_content(news_items):
             <div class="date">""" + get_aest_time().strftime('%A, %B %d, %Y').upper() + """</div>
             <div class="issue">Vol. """ + get_aest_time().strftime('%Y%m%d') + """ • """ + str(len(news_items)) + """ Stories</div>
         </div>
-        <div class="main-layout">
-            <div class="content-area">
     """
 
-    # 分配新闻到不同区域
-    hero_items = []
-    featured_items = []
-    standard_items = []
-    sidebar_items = []
+    # 生成翻页按钮
+    html += """
+        <div class="pagination">
+            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
+        </div>
+    """
 
-    for i, item in enumerate(news_items):
-        layout = layouts[i] if i < len(layouts) else 'standard'
-        item_with_layout = {**item, 'index': i + 1}
+    # 分割新闻为两页，每页 10 条
+    page1_news = news_items[:10]
+    page2_news = news_items[10:20] if len(news_items) > 10 else []
 
-        if layout == 'hero':
-            hero_items.append(item_with_layout)
-        elif layout == 'featured':
-            featured_items.append(item_with_layout)
-        elif layout == 'sidebar':
-            sidebar_items.append(item_with_layout)
-        else:
-            standard_items.append(item_with_layout)
+    # 生成两页内容
+    for page_num, page_news in enumerate([page1_news, page2_news], 1):
+        if not page_news:
+            continue
 
-    # 英雄头条
-    if hero_items:
-        item = hero_items[0]
+        active_class = "active" if page_num == 1 else ""
         html += f"""
-                <article class="hero-article">
-                    <h2>{item['title']}</h2>
-                    <div class="meta">From {item['source']} • Full story inside</div>
-                    <a href="{item['link']}" class="hero-link" target="_blank">Read Full Story →</a>
-                </article>
+        <div id="page{page_num}" class="page-content {active_class}">
+            <div class="main-layout">
+                <div class="content-area">
         """
 
-    # 重点新闻网格
-    if featured_items:
-        html += '<div class="featured-grid">'
-        for item in featured_items:
+        # 分配新闻到不同区域（每页重新开始布局）
+        hero_items = []
+        featured_items = []
+        standard_items = []
+        sidebar_items = []
+
+        page_layouts = layouts[:10]  # 每页使用相同的布局模式
+
+        for i, item in enumerate(page_news):
+            layout = page_layouts[i] if i < len(page_layouts) else 'standard'
+            item_with_layout = {**item, 'index': (page_num - 1) * 10 + i + 1}
+
+            if layout == 'hero':
+                hero_items.append(item_with_layout)
+            elif layout == 'featured':
+                featured_items.append(item_with_layout)
+            elif layout == 'sidebar':
+                sidebar_items.append(item_with_layout)
+            else:
+                standard_items.append(item_with_layout)
+
+        # 英雄头条
+        if hero_items:
+            item = hero_items[0]
             html += f"""
-                    <article class="featured-article">
-                        <span class="source-tag">{item['source']}</span>
-                        <h3>{item['title']}</h3>
-                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                    <article class="hero-article">
+                        <h2>{item['title']}</h2>
+                        <div class="meta">From {item['source']} • Full story inside</div>
+                        <a href="{item['link']}" class="hero-link" target="_blank">Read Full Story →</a>
                     </article>
             """
-        html += '</div>'
 
-    # 标准新闻列表
-    if standard_items:
-        html += '<div class="standard-list"><h4>In Brief</h4>'
-        for item in standard_items:
+        # 重点新闻网格
+        if featured_items:
+            html += '<div class="featured-grid">'
+            for item in featured_items:
+                html += f"""
+                        <article class="featured-article">
+                            <span class="source-tag">{item['source']}</span>
+                            <h3>{item['title']}</h3>
+                            <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                        </article>
+                """
+            html += '</div>'
+
+        # 标准新闻列表
+        if standard_items:
+            html += '<div class="standard-list"><h4>In Brief</h4>'
+            for item in standard_items:
+                html += f"""
+                        <div class="standard-item">
+                            <span class="number">{item['index']}</span>
+                            <h3>{item['title']}</h3>
+                            <span class="source">{item['source']}</span>
+                            <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                        </div>
+                """
+            html += '</div>'
+
+        html += """
+                </div>
+                <div class="sidebar">
+                    <div class="sidebar-title">Quick Reads</div>
+            """
+
+        # 侧边栏
+        for item in sidebar_items:
             html += f"""
-                    <div class="standard-item">
-                        <span class="number">{item['index']}</span>
+                    <div class="sidebar-item">
+                        <div class="source">{item['source']}</div>
                         <h3>{item['title']}</h3>
-                        <span class="source">{item['source']}</span>
-                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                        <a href="{item['link']}" class="link" target="_blank">Read →</a>
                     </div>
             """
-        html += '</div>'
 
-    html += """
-            </div>
-            <div class="sidebar">
-                <div class="sidebar-title">Quick Reads</div>
-        """
-
-    # 侧边栏
-    for item in sidebar_items:
-        html += f"""
-                <div class="sidebar-item">
-                    <div class="source">{item['source']}</div>
-                    <h3>{item['title']}</h3>
-                    <a href="{item['link']}" class="link" target="_blank">Read →</a>
+        html += """
                 </div>
-        """
-
-    html += """
             </div>
         </div>
+        """
+
+    # 在每页底部也添加翻页按钮
+    html += """
+        <div class="pagination">
+            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
+        </div>
+    """
+
+    html += """
         <div class="footer">
             <p>AI DAILY DIGEST • AUTOMATED DELIVERY • """ + get_aest_time().strftime('%I:%M %p').upper() + """ AEST</p>
         </div>
     </div>
+    <script>
+    function showPage(pageNum) {
+        // 隐藏所有页面
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.classList.remove('active');
+        });
+        // 显示目标页面
+        document.getElementById('page' + pageNum).classList.add('active');
+        // 更新所有按钮状态
+        document.querySelectorAll('.pagination button').forEach(btn => {
+            if (btn.id.includes('page' + pageNum)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    </script>
 </body>
 </html>
     """
