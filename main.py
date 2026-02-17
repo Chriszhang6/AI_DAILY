@@ -77,6 +77,7 @@ def fetch_google_news(keyword, max_items=2, retries=3):
 def fetch_all_news():
     """从多个关键词聚合AI新闻"""
     keywords = [
+        # AI 公司和产品
         'OpenAI GPT',
         'Claude AI Anthropic',
         'Google DeepMind',
@@ -84,6 +85,24 @@ def fetch_all_news():
         'Kimi AI Moonshot',
         'GLM Zhipu',
         'DeepSeek AI',
+        # AI 创始人/CEO
+        'Sam Altman OpenAI',
+        'Dario Amodei Anthropic',
+        'Demis Hassabis DeepMind',
+        'AI founder CEO',
+        # AI 人事变动
+        'OpenAI hiring',
+        'AI executive',
+        'AI leadership',
+        # AI 创投/融资
+        'AI startup funding',
+        'AI investment',
+        'AI venture capital',
+        # AI 行业动态/政策
+        'AI regulation',
+        'AI safety',
+        'AI competition',
+        # 通用 AI 新闻
         'Artificial Intelligence breakthrough',
         'LLM large language model',
         'Machine Learning news',
