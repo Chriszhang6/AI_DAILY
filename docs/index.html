@@ -54,6 +54,43 @@
             color: #666;
         }
 
+        /* 翻页控制 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 25px 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+        .pagination button {
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .pagination button:hover {
+            background: #e94560;
+        }
+        .pagination button.active {
+            background: #e94560;
+        }
+
+        /* 分页容器 */
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+
         /* 主布局：左侧主内容区 + 右侧边栏 */
         .main-layout {
             display: flex;
@@ -264,82 +301,116 @@
             <div class="date">TUESDAY, FEBRUARY 17, 2026</div>
             <div class="issue">Vol. 20260217 • 10 Stories</div>
         </div>
-        <div class="main-layout">
-            <div class="content-area">
     
-                <article class="hero-article">
-                    <h2>'I'm grieving': OpenAI has switched off ChatGPT-4o, and angry users are backing a #keep4o campaign to restore it - TechRadar</h2>
-                    <div class="meta">From TechRadar • Full story inside</div>
-                    <a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxPb3ktN1M0WU0wN3pCN2JOcmlMclZBMUVCM1hvdFZIM2pXeHV4WkZ5Zm1PVmE4MVZpdXF5NW1Kc2xjNU44dWtCWWt4aGJmeFphTGZZb0hPc1ZUOFBCZmRoX0Jfdi1TT0NJLVBxWEFiTzBRX21pVHItUGJkNmstOHBCcFFVYlN5Z3JVSnJtTGNuWjh3b19lN3Zudlp3SVFIYkI3OGx2X0xEYlVhbzlXV2ZUa1l3SWdMcHZqVUtQYkphRUpSRHRmZ09rOWR2cTVpdnpTWkV5UlFrTk1fbWYtVC16S0ZUZEhfXzg2WnIzRkJUbHcxTmU5UHZF?oc=5" class="hero-link" target="_blank">Read Full Story →</a>
-                </article>
-        <div class="featured-grid">
-                    <article class="featured-article">
-                        <span class="source-tag">WIRED</span>
-                        <h3>OpenAI Is Nuking Its 4o Model. China’s ChatGPT Fans Aren’t OK - WIRED</h3>
-                        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQeTBkZEF0SlRSeXk0WTEyMkhueE9HZlM5NklxY29KdTZHYUNjc0lRWnh4dlFadWs0dlBnM0xqM2hCYWZGWk9hdVdUR0xRdGNId1c0b1BPNzdDUm1ncDNzcUtaVXVEeFAzV1N2ZVl2dWU4emNRM3ZTc25DNVhhRVNyOFhLUE9OZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+        <div class="pagination">
+            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
+        </div>
+    
+        <div id="page1" class="page-content active">
+            <div class="main-layout">
+                <div class="content-area">
+        
+                    <article class="hero-article">
+                        <h2>'I'm grieving': OpenAI has switched off ChatGPT-4o, and angry users are backing a #keep4o campaign to restore it - TechRadar</h2>
+                        <div class="meta">From TechRadar • Full story inside</div>
+                        <a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxPb3ktN1M0WU0wN3pCN2JOcmlMclZBMUVCM1hvdFZIM2pXeHV4WkZ5Zm1PVmE4MVZpdXF5NW1Kc2xjNU44dWtCWWt4aGJmeFphTGZZb0hPc1ZUOFBCZmRoX0Jfdi1TT0NJLVBxWEFiTzBRX21pVHItUGJkNmstOHBCcFFVYlN5Z3JVSnJtTGNuWjh3b19lN3Zudlp3SVFIYkI3OGx2X0xEYlVhbzlXV2ZUa1l3SWdMcHZqVUtQYkphRUpSRHRmZ09rOWR2cTVpdnpTWkV5UlFrTk1fbWYtVC16S0ZUZEhfXzg2WnIzRkJUbHcxTmU5UHZF?oc=5" class="hero-link" target="_blank">Read Full Story →</a>
                     </article>
+            <div class="featured-grid">
+                        <article class="featured-article">
+                            <span class="source-tag">ServeTheHome</span>
+                            <h3>OpenAI GPT-5.3-Codex-Spark Now Running at 1K Tokens Per Second on BIG Cerebras Chips - ServeTheHome</h3>
+                            <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQR3hvLXpoQlRrUUw0TUQ2MTRwNldMLXMxVG5ucVFHRXNBS1NkVUMwX09namo1cnVCallyNU9ia2txcUF3cmsySXNXejEwVWgwdmtqeDBVNWlFZVEwNElNYnhnWV9EUTRsUXZDZ3ZQM3pJSFNnakJRVWlpUldneFNuZzVRSVYwOHdqWHJWZk1UWWthMW9vNWJ3aGVkT1hCLWZKMHJBbkJFWGdhUTlyU0RvdWhCQ28?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        </article>
+                
+                        <article class="featured-article">
+                            <span class="source-tag">Fortune</span>
+                            <h3>We're creating cutting-edge AI science tools for Google DeepMind—and 3 million researchers across 190+ countries - Fortune</h3>
+                            <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOU3ZpSWVxdGdUNVBRLWZOcUEzNWUxUUVrd2JRSy1MeXBBZFR1dkhDdUdqUG9kcFBPS3ItQUtTWjZNNk1nYTNpZXNoSlhQVFJzMXlkSzYtYUZabTZDWVhDSXowRE9nS1pKbmdzWEZNTWVyUHA1NTgyM3Y0ZnpYTHRJZXpESG82TWl2SV9EZTU0WmVKNE0tMFlQYzV0T3RFc2N4SDdkRDBwZWtEcVN6SENiUg?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        </article>
+                </div><div class="standard-list"><h4>In Brief</h4>
+                        <div class="standard-item">
+                            <span class="number">6</span>
+                            <h3>Google DeepMind Proposes New Framework for Intelligent AI Delegation to Secure the Emerging Agentic Web for Future Economies - MarkTechPost</h3>
+                            <span class="source">MarkTechPost</span>
+                            <a href="https://news.google.com/rss/articles/CBMi-AFBVV95cUxObFM5ODIxSjJyQWc3NEVSOWszTThLNlRRRWdBSk4teXpuNmI4aE1yY2s0Ym0tZmU1Qkw1OU1sb2c0M3I0WEl1MjF1alZnb2pCRE5memdRS2NWREJ4Z1hobnF6Wk5HVjktaHpKSDBJQUFIWFVoak41NEk0R2JSX3ZGUnBlbHM4NmFWSXVGMnBidnlxanBBay11a2pxLUVlWFl4NHl5OUpaRXVaLVpnS3FjTzVZcVRxZldFM3ZacTU3Y3lTSzJEVjdUQjFEYjdPbXUtSG5MU2hoZGpaUTZFOWpNbW44eVF0cFFhdWw3Uk4wbEJXYmQ5cnJnMNIB_gFBVV95cUxPNFg3akhNSmRWc3hxUnlMZ2FLVkV0U1NRZzZpZkFWRHYzV2ZzV0ZuWllSYUpmVTQzSGNkclJpczNlRk9URndBMGR5NFNaWVBhQ25LRjgzd3UtcWhDTmNWLWtkRlFCZ0puUlRUeU9hbWI0bndCSHRSMlNRVEwtZHBLMS1UUXNoeE50OUFFb2dwelowS0w1TURoc0U1eEFDUzdtbzNCSjYwck9QWWFpSHZRMjJIb0VnTkt6b3VRMjBMY1RXMmF2VWNhUXM2a2t1dVVfSFRBQUVTY29PQ2FpMjFhR1g3YzhNOUlEZ2hIUWV0ZlVOTFVscEFfVWZuQlZPUQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        </div>
+                
+                        <div class="standard-item">
+                            <span class="number">7</span>
+                            <h3>Alibaba unveils Qwen3.5 as China’s chatbot race shifts to AI agents - CNBC</h3>
+                            <span class="source">CNBC</span>
+                            <a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxOckc0NG5BTDd3Z2ZwcXU2cU5RejljNWVNNmNGNXV3M0ZTeUZjUG1YbjdqamlzSDlPZnZIdXJlRTBjMU1rOTJZcWVVcU41QUVueF9kWWF2VHVwU05SZ3BmbFhEczVDeGNQd0VXUGowd0lEZG9qbV9WbEFTbk40ZlRHQ3RvRdIBiAFBVV95cUxQVVVueDE4NEktZlB1TW5QNmtSOUV2QzJQTktBSndsdncxeXoyUjhPOE9Pb1NLWEZ3Nl83M3U3Szg5SXhGSklWem9xVWQ4S2dJYUdRZGRoenp4TVNkRnpseTNJM1JKZFphZEpTN1JoS0VIdFJqNEFFMEw2WkgxZ1laYTJ1ckpsYjVF?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        </div>
+                
+                        <div class="standard-item">
+                            <span class="number">10</span>
+                            <h3>China AI Startup Moonshot Seeks $10 Billion Value in New Funding - Bloomberg.com</h3>
+                            <span class="source">Bloomberg.com</span>
+                            <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQMFlwM25PaTBUZFhPdDJvd2ZhaU1VZ2ZDb2tDV1R1S09kbE1JVTM0N2xVdGRwcHJLQ1QtVkRPa2JQU3BndU9GNlFXSFYtTHlDN0U1Q0dlSnNfU2wwMEMtSExHU3NIVE0xTnRoZlF5dFZ2eHFmdGhwZFYySEFhbldVa1VlTkVRWVROYjNidlY2MVBzZG5vME9URmVFeEoxeGZmb3NDanh3VU5nZ3RlVGU0MHNnUTI?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        </div>
+                </div>
+                </div>
+                <div class="sidebar">
+                    <div class="sidebar-title">Quick Reads</div>
             
-                    <article class="featured-article">
-                        <span class="source-tag">Fortune</span>
-                        <h3>We're creating cutting-edge AI science tools for Google DeepMind—and 3 million researchers across 190+ countries - Fortune</h3>
-                        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOU3ZpSWVxdGdUNVBRLWZOcUEzNWUxUUVrd2JRSy1MeXBBZFR1dkhDdUdqUG9kcFBPS3ItQUtTWjZNNk1nYTNpZXNoSlhQVFJzMXlkSzYtYUZabTZDWVhDSXowRE9nS1pKbmdzWEZNTWVyUHA1NTgyM3Y0ZnpYTHRJZXpESG82TWl2SV9EZTU0WmVKNE0tMFlQYzV0T3RFc2N4SDdkRDBwZWtEcVN6SENiUg?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </article>
-            </div><div class="standard-list"><h4>In Brief</h4>
-                    <div class="standard-item">
-                        <span class="number">6</span>
-                        <h3>Google DeepMind Proposes New Framework for Intelligent AI Delegation to Secure the Emerging Agentic Web for Future Economies - MarkTechPost</h3>
-                        <span class="source">MarkTechPost</span>
-                        <a href="https://news.google.com/rss/articles/CBMi-AFBVV95cUxObFM5ODIxSjJyQWc3NEVSOWszTThLNlRRRWdBSk4teXpuNmI4aE1yY2s0Ym0tZmU1Qkw1OU1sb2c0M3I0WEl1MjF1alZnb2pCRE5memdRS2NWREJ4Z1hobnF6Wk5HVjktaHpKSDBJQUFIWFVoak41NEk0R2JSX3ZGUnBlbHM4NmFWSXVGMnBidnlxanBBay11a2pxLUVlWFl4NHl5OUpaRXVaLVpnS3FjTzVZcVRxZldFM3ZacTU3Y3lTSzJEVjdUQjFEYjdPbXUtSG5MU2hoZGpaUTZFOWpNbW44eVF0cFFhdWw3Uk4wbEJXYmQ5cnJnMNIB_gFBVV95cUxPNFg3akhNSmRWc3hxUnlMZ2FLVkV0U1NRZzZpZkFWRHYzV2ZzV0ZuWllSYUpmVTQzSGNkclJpczNlRk9URndBMGR5NFNaWVBhQ25LRjgzd3UtcWhDTmNWLWtkRlFCZ0puUlRUeU9hbWI0bndCSHRSMlNRVEwtZHBLMS1UUXNoeE50OUFFb2dwelowS0w1TURoc0U1eEFDUzdtbzNCSjYwck9QWWFpSHZRMjJIb0VnTkt6b3VRMjBMY1RXMmF2VWNhUXM2a2t1dVVfSFRBQUVTY29PQ2FpMjFhR1g3YzhNOUlEZ2hIUWV0ZlVOTFVscEFfVWZuQlZPUQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    <div class="sidebar-item">
+                        <div class="source">Anthropic</div>
+                        <h3>Anthropic opens Bengaluru office and announces new partnerships across India - Anthropic</h3>
+                        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE0wckxXSHp1UXlwOGhNNVM5eXhzWEQyaTFMUzJZZDNPOU1fSDA2RlpzcFpEMXVXQW5kTjNGZzZOZG5ySWE0dko5X3lUVzdJems2S29BZlJrN1pwelFBVzJGWFgyWFRaYXJqTUQzUVhTaERVckZTSjBDRlhjLXNRUQ?oc=5" class="link" target="_blank">Read →</a>
                     </div>
             
-                    <div class="standard-item">
-                        <span class="number">7</span>
-                        <h3>Alibaba unveils Qwen3.5 as China’s chatbot race shifts to AI agents - CNBC</h3>
-                        <span class="source">CNBC</span>
-                        <a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxOckc0NG5BTDd3Z2ZwcXU2cU5RejljNWVNNmNGNXV3M0ZTeUZjUG1YbjdqamlzSDlPZnZIdXJlRTBjMU1rOTJZcWVVcU41QUVueF9kWWF2VHVwU05SZ3BmbFhEczVDeGNQd0VXUGowd0lEZG9qbV9WbEFTbk40ZlRHQ3RvRdIBiAFBVV95cUxQVVVueDE4NEktZlB1TW5QNmtSOUV2QzJQTktBSndsdncxeXoyUjhPOE9Pb1NLWEZ3Nl83M3U3Szg5SXhGSklWem9xVWQ4S2dJYUdRZGRoenp4TVNkRnpseTNJM1JKZFphZEpTN1JoS0VIdFJqNEFFMEw2WkgxZ1laYTJ1ckpsYjVF?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    <div class="sidebar-item">
+                        <div class="source">Axios</div>
+                        <h3>Pentagon's use of Claude during Maduro raid sparks Anthropic feud - Axios</h3>
+                        <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1LdzdCQ0JBeHB5SHB1bDBGYUFNb1lGVlVLUFF1ak5ncXJNQkhvVVRPVl9YT01zWklXa0xMUU5DbDUzSm1QSERMZWg4Q0tyWDNRT0tNQzJDdmUxa28tM1NCQnh0QmlFZzNyNU5US1Z5UG9QaTZhMXpmR19B?oc=5" class="link" target="_blank">Read →</a>
                     </div>
             
-                    <div class="standard-item">
-                        <span class="number">10</span>
-                        <h3>Moonshot AI Integrates OpenClaw Into Kimi Chatbot - trendingtopics.eu</h3>
-                        <span class="source">trendingtopics.eu</span>
-                        <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQWUZaZDFtMHJZTjNVSF9LYmZIOER0N3o0cGJEeEZXSHJrb0NYakM5VFhJMmYteU9qSmNUcEJWOEotWi1KN3pnUHVBT1FGVGwyY2QwVDhhSDdkRXVTYUkzYVBvcENjWFNMUHlKQUxVZ0lUVW1aR2tiUzRUMHMtYWl3S21YckluZk0?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    <div class="sidebar-item">
+                        <div class="source">Reuters</div>
+                        <h3>Alibaba unveils new Qwen3.5 model for 'agentic AI era' - Reuters</h3>
+                        <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUhyaThBa1JLU3hyVjNicVl0T0lYT1ppbURtMjdwTGdyb2xtSnpWRDRqUG9Zd0JrOXBVZ3QzRFNhZG9LSjY2dDZyVGQ3NDVpaUJtaDVQTXNCek5lLXdIcmpXZkhJSjdFTGNlMHhwOGZONHJHWGxETjBENVlrRVRXdVJqRzBXVktpejFISW5vUjNLdzBhUzBZWVJJOA?oc=5" class="link" target="_blank">Read →</a>
                     </div>
-            </div>
-            </div>
-            <div class="sidebar">
-                <div class="sidebar-title">Quick Reads</div>
-        
-                <div class="sidebar-item">
-                    <div class="source">Anthropic</div>
-                    <h3>Anthropic opens Bengaluru office and announces new partnerships across India - Anthropic</h3>
-                    <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE0wckxXSHp1UXlwOGhNNVM5eXhzWEQyaTFMUzJZZDNPOU1fSDA2RlpzcFpEMXVXQW5kTjNGZzZOZG5ySWE0dko5X3lUVzdJems2S29BZlJrN1pwelFBVzJGWFgyWFRaYXJqTUQzUVhTaERVckZTSjBDRlhjLXNRUQ?oc=5" class="link" target="_blank">Read →</a>
+            
+                    <div class="sidebar-item">
+                        <div class="source">MarkTechPost</div>
+                        <h3>Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now - MarkTechPost</h3>
+                        <a href="https://news.google.com/rss/articles/CBMi6AFBVV95cUxOaXJ3bmZfZTQ0MWY3TXpMRElyal80MWxBV0dMZ082S0Z1MzJUWTUtTkpQaEYtc095SzA3bmplWUlCZlhTbEl1Rkxsb3FfbVBoTW9xcXBCVWtTdHhicml5ZmNqdThURGdsT09WS0tDTE9DaTNaVDlEQ0VEMUxUaUpHV2pGYUVUa3ZGbTFXajVPR0tUSkcwX2F4cUg4elFhWld0dW9qeUZEM0MtQ3NiVDdLRXJ4eVJENmN5V2s4RVpTcUVvREo2NFpuSHl5MVlCODJrUHBaeUlTU250MTVsaUFSRlN5V09xdk5i0gHuAUFVX3lxTFB0WjAzeFhBcDRVNGt0NW5nLTZOR1dNUDI0VTByemlnLVY4VTdVbzRMVEoybGxNaElIU0NBalBCcVowWVFpTk9JZFFnOTNSWHUwaWQ0SW1wZ1pzZ0xIcWlBWGlCVE9lNUtGVmthTUU1bW51SmxWLTJXLTFNcVBWOGhET2taRlZXYUhrV3lmcTVCUUJiSFFEcFN6bEZMa3puQWk2dUpldlJDYy03QUhJalBhUHQwazRYVDFyU3NyUGdELUdEUjBHQlZMSGFVTUhjM0xnNXdaV0VfNkFhUS1aS0xKemY4Zzc4b3FzQTQ1SUE?oc=5" class="link" target="_blank">Read →</a>
+                    </div>
+            
                 </div>
-        
-                <div class="sidebar-item">
-                    <div class="source">Axios</div>
-                    <h3>Pentagon's use of Claude during Maduro raid sparks Anthropic feud - Axios</h3>
-                    <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1LdzdCQ0JBeHB5SHB1bDBGYUFNb1lGVlVLUFF1ak5ncXJNQkhvVVRPVl9YT01zWklXa0xMUU5DbDUzSm1QSERMZWg4Q0tyWDNRT0tNQzJDdmUxa28tM1NCQnh0QmlFZzNyNU5US1Z5UG9QaTZhMXpmR19B?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-        
-                <div class="sidebar-item">
-                    <div class="source">Reuters</div>
-                    <h3>Alibaba unveils new Qwen3.5 model for 'agentic AI era' - Reuters</h3>
-                    <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUhyaThBa1JLU3hyVjNicVl0T0lYT1ppbURtMjdwTGdyb2xtSnpWRDRqUG9Zd0JrOXBVZ3QzRFNhZG9LSjY2dDZyVGQ3NDVpaUJtaDVQTXNCek5lLXdIcmpXZkhJSjdFTGNlMHhwOGZONHJHWGxETjBENVlrRVRXdVJqRzBXVktpejFISW5vUjNLdzBhUzBZWVJJOA?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-        
-                <div class="sidebar-item">
-                    <div class="source">MarkTechPost</div>
-                    <h3>Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now - MarkTechPost</h3>
-                    <a href="https://news.google.com/rss/articles/CBMi6AFBVV95cUxOaXJ3bmZfZTQ0MWY3TXpMRElyal80MWxBV0dMZ082S0Z1MzJUWTUtTkpQaEYtc095SzA3bmplWUlCZlhTbEl1Rkxsb3FfbVBoTW9xcXBCVWtTdHhicml5ZmNqdThURGdsT09WS0tDTE9DaTNaVDlEQ0VEMUxUaUpHV2pGYUVUa3ZGbTFXajVPR0tUSkcwX2F4cUg4elFhWld0dW9qeUZEM0MtQ3NiVDdLRXJ4eVJENmN5V2s4RVpTcUVvREo2NFpuSHl5MVlCODJrUHBaeUlTU250MTVsaUFSRlN5V09xdk5i0gHuAUFVX3lxTFB0WjAzeFhBcDRVNGt0NW5nLTZOR1dNUDI0VTByemlnLVY4VTdVbzRMVEoybGxNaElIU0NBalBCcVowWVFpTk9JZFFnOTNSWHUwaWQ0SW1wZ1pzZ0xIcWlBWGlCVE9lNUtGVmthTUU1bW51SmxWLTJXLTFNcVBWOGhET2taRlZXYUhrV3lmcTVCUUJiSFFEcFN6bEZMa3puQWk2dUpldlJDYy03QUhJalBhUHQwazRYVDFyU3NyUGdELUdEUjBHQlZMSGFVTUhjM0xnNXdaV0VfNkFhUS1aS0xKemY4Zzc4b3FzQTQ1SUE?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-        
             </div>
         </div>
+        
+        <div class="pagination">
+            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
+        </div>
+    
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 07:18 PM AEST</p>
+            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 08:18 PM AEST</p>
         </div>
     </div>
+    <script>
+    function showPage(pageNum) {
+        // 隐藏所有页面
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.classList.remove('active');
+        });
+        // 显示目标页面
+        document.getElementById('page' + pageNum).classList.add('active');
+        // 更新所有按钮状态
+        document.querySelectorAll('.pagination button').forEach(btn => {
+            if (btn.id.includes('page' + pageNum)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    </script>
 </body>
 </html>
     
