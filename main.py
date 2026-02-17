@@ -476,18 +476,30 @@ def send_email(subject, html_content, to_email, gmail_user, gmail_pass):
         msg['Subject'] = subject
         msg['From'] = gmail_user
         msg['To'] = to_email
-        
+
         part = MIMEText(html_content, 'html', _charset='UTF-8')
         msg.attach(part)
-        
+
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(gmail_user, gmail_pass)
             server.sendmail(gmail_user, to_email, msg.as_string())
-        
+
         print(f"✓ Email sent successfully to {to_email}")
         return True
     except Exception as e:
         print(f"✗ Error sending email: {e}", file=sys.stderr)
+        return False
+
+def save_html_file(html_content, output_path='docs/index.html'):
+    """Save HTML content to a file for GitHub Pages"""
+    try:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"✓ HTML file saved to {output_path}")
+        return True
+    except Exception as e:
+        print(f"✗ Error saving HTML file: {e}", file=sys.stderr)
         return False
 
 def main():
@@ -521,11 +533,17 @@ def main():
     print(f"📧 Sending email to {to_email}...")
     subject = f"AI Daily News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
     success = send_email(subject, html_content, to_email, gmail_user, gmail_pass)
-    
+
     if not success:
         print("✗ ERROR: Failed to send email", file=sys.stderr)
         sys.exit(1)  # Exit with error code
-    
+
+    # Save HTML file for GitHub Pages
+    print("💾 Saving HTML file for GitHub Pages...")
+    html_saved = save_html_file(html_content)
+    if not html_saved:
+        print("⚠ Warning: Failed to save HTML file, but email was sent successfully")
+
     print("✓ Daily news digest completed successfully!")
     sys.exit(0)
 

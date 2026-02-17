@@ -26,3 +26,10 @@ jobs:
           GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python main.py
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/index.html
+          git diff --staged --quiet || git commit -m "Update daily news - $(date +'%Y-%m-%d')"
+          git push
