@@ -1,5 +1,8 @@
 name: AI Daily News
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # Run once daily in Australian Eastern time
