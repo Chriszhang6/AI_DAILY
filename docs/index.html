@@ -54,9 +54,9 @@
             color: #666;
         }
 
-        /* 翻页控制 */
+        /* 翻页控制 - 默认隐藏，JavaScript 启用时显示 */
         .pagination {
-            display: flex;
+            display: none;
             justify-content: center;
             gap: 15px;
             padding: 25px 20px;
@@ -64,44 +64,57 @@
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
         }
-        .pagination a {
-            display: inline-block;
+        .js-enabled .pagination {
+            display: flex;
+        }
+        .pagination button {
             background: #1a1a2e;
             color: white;
+            border: none;
             padding: 12px 24px;
             font-size: 13px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-decoration: none;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        .pagination a:hover {
+        .pagination button:hover {
+            background: #e94560;
+        }
+        .pagination button.active {
             background: #e94560;
         }
 
-        /* 分页容器 - 使用 :target 伪类实现 CSS 分页 */
-        .page-wrapper {
-            position: relative;
+        /* 页面分隔线 - 只在邮件中显示 */
+        .page-break {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            margin: 20px 0;
         }
-        .page-content {
+        .page-break span {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .js-enabled .page-break {
             display: none;
         }
-        /* 默认显示第 1 页 */
-        #page1 {
+
+        /* 分页容器 - 默认显示全部，JS 启用时隐藏 */
+        .page-section {
             display: block;
         }
-        /* 当点击 page2 链接时显示第 2 页，隐藏第 1 页 */
-        #page2:target ~ .page-content #page1,
-        #page2:target {
+        .js-enabled .page-section {
             display: none;
         }
-        #page2:target {
+        .js-enabled .page-section.active {
             display: block;
-        }
-        /* 使用 JavaScript 的浏览器会通过 active 类控制 */
-        .page-content.active {
-            display: block !important;
         }
 
         /* 主布局：左侧主内容区 + 右侧边栏 */
@@ -135,17 +148,6 @@
             margin-bottom: 25px;
             padding-bottom: 25px;
             border-bottom: 3px double #000;
-        }
-        .hero-article .hero-badge {
-            display: inline-block;
-            background: #e94560;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 4px 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
         }
         .hero-article h2 {
             font-size: 32px;
@@ -316,15 +318,11 @@
         </div>
     
         <div class="pagination">
-            <a href="#page1">Page 1-2</a>
-            <a href="#page2">Page 2-2</a>
+            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
         </div>
         
-        <div class="page-wrapper">
-        <span id="page2"></span>
-        <div class="page-content">
-    
-        <div id="page1" class="page-content active">
+        <div id="page1" class="page-section active">
             <div class="main-layout">
                 <div class="content-area">
     
@@ -335,9 +333,9 @@
                 </article>
         <div class="featured-grid">
                     <article class="featured-article">
-                        <span class="source-tag">ServeTheHome</span>
-                        <h3>OpenAI GPT-5.3-Codex-Spark Now Running at 1K Tokens Per Second on BIG Cerebras Chips - ServeTheHome</h3>
-                        <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQR3hvLXpoQlRrUUw0TUQ2MTRwNldMLXMxVG5ucVFHRXNBS1NkVUMwX09namo1cnVCallyNU9ia2txcUF3cmsySXNXejEwVWgwdmtqeDBVNWlFZVEwNElNYnhnWV9EUTRsUXZDZ3ZQM3pJSFNnakJRVWlpUldneFNuZzVRSVYwOHdqWHJWZk1UWWthMW9vNWJ3aGVkT1hCLWZKMHJBbkJFWGdhUTlyU0RvdWhCQ28?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                        <span class="source-tag">Engadget</span>
+                        <h3>OpenAI has officially retired the controversial GPT-4o model - Engadget</h3>
+                        <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxObWF5UE9SU083MWhYaE5VUTU1WEZfeWNWY1JBVGhqMDdUdGlnV3FiVmRRU2Q1Z1U4VGZCZ083ZjNwZkQzVXBWVi1oY3cwaVYyRGFqUHA2cU1yNVRvN1pibTVnSWozZWZuTGlBOGpzOXpjZVR1em9iSlU2eVBaTVNUbGc1ODZ5NkthQW9fWDc5MGd6LWZuT0ppcnI3SnNmeDZwemhjTlB3?oc=5" class="read-more" target="_blank">READ MORE →</a>
                     </article>
             
                     <article class="featured-article">
@@ -376,29 +374,33 @@
                     <h3>Anthropic opens Bengaluru office and announces new partnerships across India - Anthropic</h3>
                     <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE0wckxXSHp1UXlwOGhNNVM5eXhzWEQyaTFMUzJZZDNPOU1fSDA2RlpzcFpEMXVXQW5kTjNGZzZOZG5ySWE0dko5X3lUVzdJems2S29BZlJrN1pwelFBVzJGWFgyWFRaYXJqTUQzUVhTaERVckZTSjBDRlhjLXNRUQ?oc=5" class="link" target="_blank">Read →</a>
                 </div>
-        
+            
                 <div class="sidebar-item">
                     <div class="source">Axios</div>
                     <h3>Pentagon's use of Claude during Maduro raid sparks Anthropic feud - Axios</h3>
                     <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1LdzdCQ0JBeHB5SHB1bDBGYUFNb1lGVlVLUFF1ak5ncXJNQkhvVVRPVl9YT01zWklXa0xMUU5DbDUzSm1QSERMZWg4Q0tyWDNRT0tNQzJDdmUxa28tM1NCQnh0QmlFZzNyNU5US1Z5UG9QaTZhMXpmR19B?oc=5" class="link" target="_blank">Read →</a>
                 </div>
-        
+            
                 <div class="sidebar-item">
                     <div class="source">Reuters</div>
                     <h3>Alibaba unveils new Qwen3.5 model for 'agentic AI era' - Reuters</h3>
                     <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUhyaThBa1JLU3hyVjNicVl0T0lYT1ppbURtMjdwTGdyb2xtSnpWRDRqUG9Zd0JrOXBVZ3QzRFNhZG9LSjY2dDZyVGQ3NDVpaUJtaDVQTXNCek5lLXdIcmpXZkhJSjdFTGNlMHhwOGZONHJHWGxETjBENVlrRVRXdVJqRzBXVktpejFISW5vUjNLdzBhUzBZWVJJOA?oc=5" class="link" target="_blank">Read →</a>
                 </div>
-        
+            
                 <div class="sidebar-item">
                     <div class="source">MarkTechPost</div>
                     <h3>Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now - MarkTechPost</h3>
                     <a href="https://news.google.com/rss/articles/CBMi6AFBVV95cUxOaXJ3bmZfZTQ0MWY3TXpMRElyal80MWxBV0dMZ082S0Z1MzJUWTUtTkpQaEYtc095SzA3bmplWUlCZlhTbEl1Rkxsb3FfbVBoTW9xcXBCVWtTdHhicml5ZmNqdThURGdsT09WS0tDTE9DaTNaVDlEQ0VEMUxUaUpHV2pGYUVUa3ZGbTFXajVPR0tUSkcwX2F4cUg4elFhWld0dW9qeUZEM0MtQ3NiVDdLRXJ4eVJENmN5V2s4RVpTcUVvREo2NFpuSHl5MVlCODJrUHBaeUlTU250MTVsaUFSRlN5V09xdk5i0gHuAUFVX3lxTFB0WjAzeFhBcDRVNGt0NW5nLTZOR1dNUDI0VTByemlnLVY4VTdVbzRMVEoybGxNaElIU0NBalBCcVowWVFpTk9JZFFnOTNSWHUwaWQ0SW1wZ1pzZ0xIcWlBWGlCVE9lNUtGVmthTUU1bW51SmxWLTJXLTFNcVBWOGhET2taRlZXYUhrV3lmcTVCUUJiSFFEcFN6bEZMa3puQWk2dUpldlJDYy03QUhJalBhUHQwazRYVDFyU3NyUGdELUdEUjBHQlZMSGFVTUhjM0xnNXdaV0VfNkFhUS1aS0xKemY4Zzc4b3FzQTQ1SUE?oc=5" class="link" target="_blank">Read →</a>
                 </div>
-        
+            
             </div>
         </div>
     
-        <div id="page2" class="page-content">
+        <div class="page-break">
+            <span>— Page Break —</span>
+        </div>
+        
+        <div id="page2" class="page-section">
             <div class="main-layout">
                 <div class="content-area">
         
@@ -443,47 +445,58 @@
                         <h3>Alibaba Unveils Major AI Model Upgrade Ahead of DeepSeek Release - Bloomberg.com</h3>
                         <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOT2JYVTVSMGZMdEZJN2dLVjA5U29mSWtmRGdFRVBLeFYyM21jcnZORVpfUUxxYnA3SXZUTkFybEdVZlB0aWlqVU5IdzhNamJCRGpzMVNWeTFFVi1xd3pfdUZQYThXSlhhUXRNVENySlJ2bk1qVDRBWjlNSXFlRmUxaE83R245VjZKMjZPSndfSFp6TDB4MC0ydEp0b2NJcHc4MlFra212X01vRzZWT05JTmNDNmdhdw?oc=5" class="link" target="_blank">Read →</a>
                     </div>
-            
+                
                     <div class="sidebar-item">
                         <div class="source">Reuters</div>
                         <h3>Chinese AI models festoon Spring Festival a year after DeepSeek shock - Reuters</h3>
                         <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOcWFnTGVzUjFsemd3SjlXb3dnOTZyQm85cHVscndzejlzOFNGdW5aY2FUWlBIME9VV3NVMDEzb2hXSjFHQmNpa2plRF9aWFFoVjI4SjkzVm1mcm1MVVV1Y0FFTWpzdlR5bGo0Qko3YjA5S1JyTFJSUkZadVVwMkN3dmJ5SjRPQklSaXJQTlNGc2NtRXRPODcxUS10TDh2eGE2dDVCbGx1X3gxWTRmdUJ6S0FCSGI2QQ?oc=5" class="link" target="_blank">Read →</a>
                     </div>
-            
+                
                     <div class="sidebar-item">
                         <div class="source">The New York Times</div>
                         <h3>Opinion | Anthropic’s Chief on A.I.: ‘We Don’t Know if the Models Are Conscious’ - The New York Times</h3>
                         <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNOWhTaVhtLXZNSW9JcHRqd242aC0xNWNZSlZPczJSR2dNNS13RDFzR0FMMk4wcUJjUkt4alltTFhhQk5VbWdKT2RzdzVpa0EzbzFycVNiTWhsTC1Zb2t3RkNEZW8weVY5bkNDVkhtMDMzNVA5aVBQdVZ6Y3phazNEbXVQUnFGWGJMUk1zaGYwYjVqQQ?oc=5" class="link" target="_blank">Read →</a>
                     </div>
-            
+                
                     <div class="sidebar-item">
                         <div class="source">Yahoo Finance UK</div>
                         <h3>Google DeepMind CEO Demis Hassabis Says AI Will Usher In 'New Golden Era Of Discovery' Within 15 Years, Transforming Medicine, Energy, Space - Yahoo Finance UK</h3>
                         <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPMmVwRjZBZ3dHS1lyVFpZY3BfZmlDNndOQkVkY2NEb242WUI0UmlDdUNWOFhJcHM5Y19OZzlmWGJJeVZSRTBqZV9lNWZXYnYwUzBveWxFY25nZW9kbmo1bHQ1VDVWdEZfLWtQOVFVZ2Z5dFU3Z2ZkREI4ZnU1RXJxMDNpdnZaTmVWd3NR?oc=5" class="link" target="_blank">Read →</a>
                     </div>
-            
+                
                 </div>
             </div>
         </div>
         
-        </div>
-    </div>
-    
         <div class="pagination">
-            <a href="#page1">Page 1-2</a>
-            <a href="#page2">Page 2-2</a>
+            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
         </div>
     
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 08:34 PM AEST</p>
+            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 08:42 PM AEST</p>
         </div>
     </div>
     <script>
+    // 检测 JavaScript 支持，启用分页功能
+    document.documentElement.classList.add('js-enabled');
+
     function showPage(pageNum) {
-        document.querySelectorAll('.page-content').forEach(page => {
+        // 隐藏所有页面
+        document.querySelectorAll('.page-section').forEach(page => {
             page.classList.remove('active');
         });
+        // 显示目标页面
         document.getElementById('page' + pageNum).classList.add('active');
+        // 更新所有按钮状态
+        document.querySelectorAll('.pagination button').forEach(btn => {
+            if (btn.id.includes('page' + pageNum)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // 滚动到顶部
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     </script>
