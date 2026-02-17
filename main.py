@@ -114,7 +114,7 @@ def fetch_all_news():
     for keyword in keywords:
         articles = fetch_google_news(keyword, max_items=2)
         news.extend(articles)
-        if len(news) >= 10:
+        if len(news) >= 20:
             break
     
     # 去重（按title）和返回前20条
@@ -202,31 +202,44 @@ def generate_html_content(news_items):
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
         }
-        .pagination button {
+        .pagination a {
+            display: inline-block;
             background: #1a1a2e;
             color: white;
-            border: none;
             padding: 12px 24px;
             font-size: 13px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-decoration: none;
             cursor: pointer;
-            transition: background 0.3s;
         }
-        .pagination button:hover {
-            background: #e94560;
-        }
-        .pagination button.active {
+        .pagination a:hover {
             background: #e94560;
         }
 
-        /* 分页容器 */
+        /* 分页容器 - 使用 :target 伪类实现 CSS 分页 */
+        .page-wrapper {
+            position: relative;
+        }
         .page-content {
             display: none;
         }
-        .page-content.active {
+        /* 默认显示第 1 页 */
+        #page1 {
             display: block;
+        }
+        /* 当点击 page2 链接时显示第 2 页，隐藏第 1 页 */
+        #page2:target ~ .page-content #page1,
+        #page2:target {
+            display: none;
+        }
+        #page2:target {
+            display: block;
+        }
+        /* 使用 JavaScript 的浏览器会通过 active 类控制 */
+        .page-content.active {
+            display: block !important;
         }
 
         /* 主布局：左侧主内容区 + 右侧边栏 */
@@ -441,41 +454,125 @@ def generate_html_content(news_items):
         </div>
     """
 
-    # 生成翻页按钮
-    html += """
-        <div class="pagination">
-            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
-            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
-        </div>
-    """
-
     # 分割新闻为两页，每页 10 条
     page1_news = news_items[:10]
     page2_news = news_items[10:20] if len(news_items) > 10 else []
 
-    # 生成两页内容
-    for page_num, page_news in enumerate([page1_news, page2_news], 1):
-        if not page_news:
-            continue
+    # 生成顶部翻页按钮
+    has_page2 = len(page2_news) > 0
+    if has_page2:
+        html += """
+        <div class="pagination">
+            <a href="#page1">Page 1-2</a>
+            <a href="#page2">Page 2-2</a>
+        </div>
+        """
 
-        active_class = "active" if page_num == 1 else ""
+    # 生成页面内容（使用 page-wrapper 和 target 标记）
+    html += """
+        <div class="page-wrapper">
+        <span id="page2"></span>
+        <div class="page-content">
+    """
+
+    # 生成第 1 页
+    html += """
+        <div id="page1" class="page-content active">
+            <div class="main-layout">
+                <div class="content-area">
+    """
+
+    hero_items = []
+    featured_items = []
+    standard_items = []
+    sidebar_items = []
+
+    page_layouts = layouts[:10]
+
+    for i, item in enumerate(page1_news):
+        layout = page_layouts[i] if i < len(page_layouts) else 'standard'
+        item_with_layout = {**item, 'index': i + 1}
+
+        if layout == 'hero':
+            hero_items.append(item_with_layout)
+        elif layout == 'featured':
+            featured_items.append(item_with_layout)
+        elif layout == 'sidebar':
+            sidebar_items.append(item_with_layout)
+        else:
+            standard_items.append(item_with_layout)
+
+    if hero_items:
+        item = hero_items[0]
         html += f"""
-        <div id="page{page_num}" class="page-content {active_class}">
+                <article class="hero-article">
+                    <h2>{item['title']}</h2>
+                    <div class="meta">From {item['source']} • Full story inside</div>
+                    <a href="{item['link']}" class="hero-link" target="_blank">Read Full Story →</a>
+                </article>
+        """
+
+    if featured_items:
+        html += '<div class="featured-grid">'
+        for item in featured_items:
+            html += f"""
+                    <article class="featured-article">
+                        <span class="source-tag">{item['source']}</span>
+                        <h3>{item['title']}</h3>
+                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                    </article>
+            """
+        html += '</div>'
+
+    if standard_items:
+        html += '<div class="standard-list"><h4>In Brief</h4>'
+        for item in standard_items:
+            html += f"""
+                    <div class="standard-item">
+                        <span class="number">{item['index']}</span>
+                        <h3>{item['title']}</h3>
+                        <span class="source">{item['source']}</span>
+                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+                    </div>
+            """
+        html += '</div>'
+
+    html += """
+            </div>
+            <div class="sidebar">
+                <div class="sidebar-title">Quick Reads</div>
+        """
+
+    for item in sidebar_items:
+        html += f"""
+                <div class="sidebar-item">
+                    <div class="source">{item['source']}</div>
+                    <h3>{item['title']}</h3>
+                    <a href="{item['link']}" class="link" target="_blank">Read →</a>
+                </div>
+        """
+
+    html += """
+            </div>
+        </div>
+    """
+
+    # 生成第 2 页
+    if has_page2:
+        html += """
+        <div id="page2" class="page-content">
             <div class="main-layout">
                 <div class="content-area">
         """
 
-        # 分配新闻到不同区域（每页重新开始布局）
         hero_items = []
         featured_items = []
         standard_items = []
         sidebar_items = []
 
-        page_layouts = layouts[:10]  # 每页使用相同的布局模式
-
-        for i, item in enumerate(page_news):
+        for i, item in enumerate(page2_news):
             layout = page_layouts[i] if i < len(page_layouts) else 'standard'
-            item_with_layout = {**item, 'index': (page_num - 1) * 10 + i + 1}
+            item_with_layout = {**item, 'index': 10 + i + 1}
 
             if layout == 'hero':
                 hero_items.append(item_with_layout)
@@ -486,7 +583,6 @@ def generate_html_content(news_items):
             else:
                 standard_items.append(item_with_layout)
 
-        # 英雄头条
         if hero_items:
             item = hero_items[0]
             html += f"""
@@ -497,7 +593,6 @@ def generate_html_content(news_items):
                     </article>
             """
 
-        # 重点新闻网格
         if featured_items:
             html += '<div class="featured-grid">'
             for item in featured_items:
@@ -510,7 +605,6 @@ def generate_html_content(news_items):
                 """
             html += '</div>'
 
-        # 标准新闻列表
         if standard_items:
             html += '<div class="standard-list"><h4>In Brief</h4>'
             for item in standard_items:
@@ -530,7 +624,6 @@ def generate_html_content(news_items):
                     <div class="sidebar-title">Quick Reads</div>
             """
 
-        # 侧边栏
         for item in sidebar_items:
             html += f"""
                     <div class="sidebar-item">
@@ -546,11 +639,17 @@ def generate_html_content(news_items):
         </div>
         """
 
-    # 在每页底部也添加翻页按钮
     html += """
+        </div>
+    </div>
+    """
+
+    # 生成底部翻页按钮
+    if has_page2:
+        html += """
         <div class="pagination">
-            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
-            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
+            <a href="#page1">Page 1-2</a>
+            <a href="#page2">Page 2-2</a>
         </div>
     """
 
@@ -561,21 +660,10 @@ def generate_html_content(news_items):
     </div>
     <script>
     function showPage(pageNum) {
-        // 隐藏所有页面
         document.querySelectorAll('.page-content').forEach(page => {
             page.classList.remove('active');
         });
-        // 显示目标页面
         document.getElementById('page' + pageNum).classList.add('active');
-        // 更新所有按钮状态
-        document.querySelectorAll('.pagination button').forEach(btn => {
-            if (btn.id.includes('page' + pageNum)) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-        // 滚动到顶部
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     </script>
