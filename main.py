@@ -191,39 +191,7 @@ def generate_html_content(news_items):
             color: #666;
         }
 
-        /* 翻页控制 - 默认隐藏，JavaScript 启用时显示 */
-        .pagination {
-            display: none;
-            justify-content: center;
-            gap: 15px;
-            padding: 25px 20px;
-            background: #f9f9f9;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
-        }
-        .js-enabled .pagination {
-            display: flex;
-        }
-        .pagination button {
-            background: #1a1a2e;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 13px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .pagination button:hover {
-            background: #e94560;
-        }
-        .pagination button.active {
-            background: #e94560;
-        }
-
-        /* 页面分隔线 - 只在邮件中显示 */
+        /* 页面分隔线 */
         .page-break {
             display: block;
             text-align: center;
@@ -238,20 +206,6 @@ def generate_html_content(news_items):
             color: #666;
             text-transform: uppercase;
             letter-spacing: 2px;
-        }
-        .js-enabled .page-break {
-            display: none;
-        }
-
-        /* 分页容器 - 默认显示全部，JS 启用时隐藏 */
-        .page-section {
-            display: block;
-        }
-        .js-enabled .page-section {
-            display: none;
-        }
-        .js-enabled .page-section.active {
-            display: block;
         }
 
         /* 主布局：左侧主内容区 + 右侧边栏 */
@@ -455,16 +409,6 @@ def generate_html_content(news_items):
         </div>
     """
 
-    # 生成顶部翻页按钮
-    has_page2 = len(news_items) > 10
-    if has_page2:
-        html += """
-        <div class="pagination">
-            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
-            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
-        </div>
-        """
-
     # 分配新闻到不同区域
     hero_items = []
     featured_items = []
@@ -486,9 +430,8 @@ def generate_html_content(news_items):
 
     # 第 1 页内容 (1-10)
     html += """
-        <div id="page1" class="page-section active">
-            <div class="main-layout">
-                <div class="content-area">
+        <div class="main-layout">
+            <div class="content-area">
     """
 
     # 英雄头条 (第1条)
@@ -554,7 +497,8 @@ def generate_html_content(news_items):
         </div>
     """
 
-    # 页面分隔符（邮件中显示，网页中隐藏）
+    # 页面分隔符
+    has_page2 = len(news_items) > 10
     if has_page2:
         html += """
         <div class="page-break">
@@ -565,9 +509,8 @@ def generate_html_content(news_items):
     # 第 2 页内容 (11-20)
     if has_page2:
         html += """
-        <div id="page2" class="page-section">
-            <div class="main-layout">
-                <div class="content-area">
+        <div class="main-layout">
+            <div class="content-area">
         """
 
         # 英雄头条 (第11条)
@@ -634,43 +577,11 @@ def generate_html_content(news_items):
         </div>
         """
 
-    # 底部翻页按钮
-    if has_page2:
-        html += """
-        <div class="pagination">
-            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
-            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
-        </div>
-    """
-
     html += """
         <div class="footer">
             <p>AI DAILY DIGEST • AUTOMATED DELIVERY • """ + get_aest_time().strftime('%I:%M %p').upper() + """ AEST</p>
         </div>
     </div>
-    <script>
-    // 检测 JavaScript 支持，启用分页功能
-    document.documentElement.classList.add('js-enabled');
-
-    function showPage(pageNum) {
-        // 隐藏所有页面
-        document.querySelectorAll('.page-section').forEach(page => {
-            page.classList.remove('active');
-        });
-        // 显示目标页面
-        document.getElementById('page' + pageNum).classList.add('active');
-        // 更新所有按钮状态
-        document.querySelectorAll('.pagination button').forEach(btn => {
-            if (btn.id.includes('page' + pageNum)) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-        // 滚动到顶部
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    </script>
 </body>
 </html>
     """
