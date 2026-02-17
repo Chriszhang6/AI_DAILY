@@ -102,6 +102,22 @@ def fetch_all_news():
         'AI regulation',
         'AI safety',
         'AI competition',
+        # AI 开源框架和工具
+        'Hugging Face transformers',
+        'LangChain framework',
+        'Stable Diffusion',
+        'Meta Llama open source',
+        'Mistral AI open source',
+        'Ollama AI',
+        'vLLM inference',
+        # AI 开源社区
+        'AI open source tools',
+        'GitHub AI Copilot',
+        'AI framework release',
+        'Gradio ML',
+        'Streamlit AI',
+        'AutoGPT autonomous agent',
+        'AI development tools',
         # 通用 AI 新闻
         'Artificial Intelligence breakthrough',
         'LLM large language model',
