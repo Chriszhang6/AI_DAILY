@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            background: #f5f5f5;
+            padding: 15px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .masthead {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 4px solid #e94560;
+        }
+        .masthead h1 {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 8px;
+            font-family: 'Arial Black', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .masthead .tagline {
+            font-size: 11px;
+            letter-spacing: 3px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+        .subheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid #000;
+            background: #fff;
+        }
+        .subheader .date {
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .subheader .issue {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* 主布局：左侧主内容区 + 右侧边栏 */
+        .main-layout {
+            display: flex;
+            gap: 0;
+        }
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .sidebar {
+            width: 280px;
+            background: #f9f9f9;
+            padding: 20px 15px;
+        }
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #e94560;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+
+        /* 英雄头条样式 */
+        .hero-article {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 3px double #000;
+        }
+        .hero-article .hero-badge {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .hero-article h2 {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            font-family: 'Georgia', serif;
+        }
+        .hero-article .meta {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        .hero-article .hero-link {
+            display: inline-block;
+            background: #1a1a2e;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 重点新闻样式 */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .featured-article {
+            border: 1px solid #e0e0e0;
+            padding: 18px;
+            background: white;
+            transition: box-shadow 0.2s;
+        }
+        .featured-article:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .featured-article .source-tag {
+            font-size: 9px;
+            color: #e94560;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .featured-article h3 {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 10px 0;
+            font-family: 'Georgia', serif;
+        }
+        .featured-article .read-more {
+            font-size: 11px;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* 标准新闻列表 */
+        .standard-list {
+            border-top: 2px solid #000;
+            padding-top: 20px;
+        }
+        .standard-list h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        .standard-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .standard-item:last-child {
+            border-bottom: none;
+        }
+        .standard-item .number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #1a1a2e;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 24px;
+            margin-right: 10px;
+        }
+        .standard-item h3 {
+            display: inline;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .standard-item .source {
+            display: block;
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+            margin-left: 34px;
+            text-transform: uppercase;
+        }
+        .standard-item .read-more {
+            display: block;
+            font-size: 11px;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-left: 34px;
+        }
+        .standard-item .read-more:hover {
+            color: #e94560;
+        }
+
+        /* 侧边栏小方块 */
+        .sidebar-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .sidebar-item h3 {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 8px 0;
+        }
+        .sidebar-item .source {
+            font-size: 9px;
+            color: #999;
+            text-transform: uppercase;
+        }
+        .sidebar-item .link {
+            font-size: 10px;
+            color: #e94560;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+        }
+        .footer p {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="masthead">
+            <h1>AI DAILY</h1>
+            <div class="tagline">Your Source for Artificial Intelligence News</div>
+        </div>
+        <div class="subheader">
+            <div class="date">TUESDAY, FEBRUARY 17, 2026</div>
+            <div class="issue">Vol. 20260217 • 10 Stories</div>
+        </div>
+        <div class="main-layout">
+            <div class="content-area">
+    
+                <article class="hero-article">
+                    <h2>'I'm grieving': OpenAI has switched off ChatGPT-4o, and angry users are backing a #keep4o campaign to restore it - TechRadar</h2>
+                    <div class="meta">From TechRadar • Full story inside</div>
+                    <a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxPb3ktN1M0WU0wN3pCN2JOcmlMclZBMUVCM1hvdFZIM2pXeHV4WkZ5Zm1PVmE4MVZpdXF5NW1Kc2xjNU44dWtCWWt4aGJmeFphTGZZb0hPc1ZUOFBCZmRoX0Jfdi1TT0NJLVBxWEFiTzBRX21pVHItUGJkNmstOHBCcFFVYlN5Z3JVSnJtTGNuWjh3b19lN3Zudlp3SVFIYkI3OGx2X0xEYlVhbzlXV2ZUa1l3SWdMcHZqVUtQYkphRUpSRHRmZ09rOWR2cTVpdnpTWkV5UlFrTk1fbWYtVC16S0ZUZEhfXzg2WnIzRkJUbHcxTmU5UHZF?oc=5" class="hero-link" target="_blank">Read Full Story →</a>
+                </article>
+        <div class="featured-grid">
+                    <article class="featured-article">
+                        <span class="source-tag">WIRED</span>
+                        <h3>OpenAI Is Nuking Its 4o Model. China’s ChatGPT Fans Aren’t OK - WIRED</h3>
+                        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQeTBkZEF0SlRSeXk0WTEyMkhueE9HZlM5NklxY29KdTZHYUNjc0lRWnh4dlFadWs0dlBnM0xqM2hCYWZGWk9hdVdUR0xRdGNId1c0b1BPNzdDUm1ncDNzcUtaVXVEeFAzV1N2ZVl2dWU4emNRM3ZTc25DNVhhRVNyOFhLUE9OZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    </article>
+            
+                    <article class="featured-article">
+                        <span class="source-tag">Fortune</span>
+                        <h3>We're creating cutting-edge AI science tools for Google DeepMind—and 3 million researchers across 190+ countries - Fortune</h3>
+                        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOU3ZpSWVxdGdUNVBRLWZOcUEzNWUxUUVrd2JRSy1MeXBBZFR1dkhDdUdqUG9kcFBPS3ItQUtTWjZNNk1nYTNpZXNoSlhQVFJzMXlkSzYtYUZabTZDWVhDSXowRE9nS1pKbmdzWEZNTWVyUHA1NTgyM3Y0ZnpYTHRJZXpESG82TWl2SV9EZTU0WmVKNE0tMFlQYzV0T3RFc2N4SDdkRDBwZWtEcVN6SENiUg?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    </article>
+            </div><div class="standard-list"><h4>In Brief</h4>
+                    <div class="standard-item">
+                        <span class="number">6</span>
+                        <h3>Google DeepMind Proposes New Framework for Intelligent AI Delegation to Secure the Emerging Agentic Web for Future Economies - MarkTechPost</h3>
+                        <span class="source">MarkTechPost</span>
+                        <a href="https://news.google.com/rss/articles/CBMi-AFBVV95cUxObFM5ODIxSjJyQWc3NEVSOWszTThLNlRRRWdBSk4teXpuNmI4aE1yY2s0Ym0tZmU1Qkw1OU1sb2c0M3I0WEl1MjF1alZnb2pCRE5memdRS2NWREJ4Z1hobnF6Wk5HVjktaHpKSDBJQUFIWFVoak41NEk0R2JSX3ZGUnBlbHM4NmFWSXVGMnBidnlxanBBay11a2pxLUVlWFl4NHl5OUpaRXVaLVpnS3FjTzVZcVRxZldFM3ZacTU3Y3lTSzJEVjdUQjFEYjdPbXUtSG5MU2hoZGpaUTZFOWpNbW44eVF0cFFhdWw3Uk4wbEJXYmQ5cnJnMNIB_gFBVV95cUxPNFg3akhNSmRWc3hxUnlMZ2FLVkV0U1NRZzZpZkFWRHYzV2ZzV0ZuWllSYUpmVTQzSGNkclJpczNlRk9URndBMGR5NFNaWVBhQ25LRjgzd3UtcWhDTmNWLWtkRlFCZ0puUlRUeU9hbWI0bndCSHRSMlNRVEwtZHBLMS1UUXNoeE50OUFFb2dwelowS0w1TURoc0U1eEFDUzdtbzNCSjYwck9QWWFpSHZRMjJIb0VnTkt6b3VRMjBMY1RXMmF2VWNhUXM2a2t1dVVfSFRBQUVTY29PQ2FpMjFhR1g3YzhNOUlEZ2hIUWV0ZlVOTFVscEFfVWZuQlZPUQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    </div>
+            
+                    <div class="standard-item">
+                        <span class="number">7</span>
+                        <h3>Alibaba unveils Qwen3.5 as China’s chatbot race shifts to AI agents - CNBC</h3>
+                        <span class="source">CNBC</span>
+                        <a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxOckc0NG5BTDd3Z2ZwcXU2cU5RejljNWVNNmNGNXV3M0ZTeUZjUG1YbjdqamlzSDlPZnZIdXJlRTBjMU1rOTJZcWVVcU41QUVueF9kWWF2VHVwU05SZ3BmbFhEczVDeGNQd0VXUGowd0lEZG9qbV9WbEFTbk40ZlRHQ3RvRdIBiAFBVV95cUxQVVVueDE4NEktZlB1TW5QNmtSOUV2QzJQTktBSndsdncxeXoyUjhPOE9Pb1NLWEZ3Nl83M3U3Szg5SXhGSklWem9xVWQ4S2dJYUdRZGRoenp4TVNkRnpseTNJM1JKZFphZEpTN1JoS0VIdFJqNEFFMEw2WkgxZ1laYTJ1ckpsYjVF?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    </div>
+            
+                    <div class="standard-item">
+                        <span class="number">10</span>
+                        <h3>Moonshot AI Integrates OpenClaw Into Kimi Chatbot - trendingtopics.eu</h3>
+                        <span class="source">trendingtopics.eu</span>
+                        <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQWUZaZDFtMHJZTjNVSF9LYmZIOER0N3o0cGJEeEZXSHJrb0NYakM5VFhJMmYteU9qSmNUcEJWOEotWi1KN3pnUHVBT1FGVGwyY2QwVDhhSDdkRXVTYUkzYVBvcENjWFNMUHlKQUxVZ0lUVW1aR2tiUzRUMHMtYWl3S21YckluZk0?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                    </div>
+            </div>
+            </div>
+            <div class="sidebar">
+                <div class="sidebar-title">Quick Reads</div>
+        
+                <div class="sidebar-item">
+                    <div class="source">Anthropic</div>
+                    <h3>Anthropic opens Bengaluru office and announces new partnerships across India - Anthropic</h3>
+                    <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE0wckxXSHp1UXlwOGhNNVM5eXhzWEQyaTFMUzJZZDNPOU1fSDA2RlpzcFpEMXVXQW5kTjNGZzZOZG5ySWE0dko5X3lUVzdJems2S29BZlJrN1pwelFBVzJGWFgyWFRaYXJqTUQzUVhTaERVckZTSjBDRlhjLXNRUQ?oc=5" class="link" target="_blank">Read →</a>
+                </div>
+        
+                <div class="sidebar-item">
+                    <div class="source">Axios</div>
+                    <h3>Pentagon's use of Claude during Maduro raid sparks Anthropic feud - Axios</h3>
+                    <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1LdzdCQ0JBeHB5SHB1bDBGYUFNb1lGVlVLUFF1ak5ncXJNQkhvVVRPVl9YT01zWklXa0xMUU5DbDUzSm1QSERMZWg4Q0tyWDNRT0tNQzJDdmUxa28tM1NCQnh0QmlFZzNyNU5US1Z5UG9QaTZhMXpmR19B?oc=5" class="link" target="_blank">Read →</a>
+                </div>
+        
+                <div class="sidebar-item">
+                    <div class="source">Reuters</div>
+                    <h3>Alibaba unveils new Qwen3.5 model for 'agentic AI era' - Reuters</h3>
+                    <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNTUhyaThBa1JLU3hyVjNicVl0T0lYT1ppbURtMjdwTGdyb2xtSnpWRDRqUG9Zd0JrOXBVZ3QzRFNhZG9LSjY2dDZyVGQ3NDVpaUJtaDVQTXNCek5lLXdIcmpXZkhJSjdFTGNlMHhwOGZONHJHWGxETjBENVlrRVRXdVJqRzBXVktpejFISW5vUjNLdzBhUzBZWVJJOA?oc=5" class="link" target="_blank">Read →</a>
+                </div>
+        
+                <div class="sidebar-item">
+                    <div class="source">MarkTechPost</div>
+                    <h3>Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now - MarkTechPost</h3>
+                    <a href="https://news.google.com/rss/articles/CBMi6AFBVV95cUxOaXJ3bmZfZTQ0MWY3TXpMRElyal80MWxBV0dMZ082S0Z1MzJUWTUtTkpQaEYtc095SzA3bmplWUlCZlhTbEl1Rkxsb3FfbVBoTW9xcXBCVWtTdHhicml5ZmNqdThURGdsT09WS0tDTE9DaTNaVDlEQ0VEMUxUaUpHV2pGYUVUa3ZGbTFXajVPR0tUSkcwX2F4cUg4elFhWld0dW9qeUZEM0MtQ3NiVDdLRXJ4eVJENmN5V2s4RVpTcUVvREo2NFpuSHl5MVlCODJrUHBaeUlTU250MTVsaUFSRlN5V09xdk5i0gHuAUFVX3lxTFB0WjAzeFhBcDRVNGt0NW5nLTZOR1dNUDI0VTByemlnLVY4VTdVbzRMVEoybGxNaElIU0NBalBCcVowWVFpTk9JZFFnOTNSWHUwaWQ0SW1wZ1pzZ0xIcWlBWGlCVE9lNUtGVmthTUU1bW51SmxWLTJXLTFNcVBWOGhET2taRlZXYUhrV3lmcTVCUUJiSFFEcFN6bEZMa3puQWk2dUpldlJDYy03QUhJalBhUHQwazRYVDFyU3NyUGdELUdEUjBHQlZMSGFVTUhjM0xnNXdaV0VfNkFhUS1aS0xKemY4Zzc4b3FzQTQ1SUE?oc=5" class="link" target="_blank">Read →</a>
+                </div>
+        
+            </div>
+        </div>
+        <div class="footer">
+            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 07:18 PM AEST</p>
+        </div>
+    </div>
+</body>
+</html>
+    
