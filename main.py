@@ -32,7 +32,7 @@ def get_aest_time():
 def fetch_google_news(keyword, max_items=2, retries=3):
     """从Google News RSS获取新闻"""
     last_error = None
-    
+
     for attempt in range(retries):
         try:
             # Google News RSS格式
@@ -40,15 +40,15 @@ def fetch_google_news(keyword, max_items=2, retries=3):
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
             resp = requests.get(url, timeout=10, headers=headers)
             resp.raise_for_status()  # Raise an exception for bad status codes
-            
+
             soup = BeautifulSoup(resp.text, 'xml')
             articles = []
-            
+
             for item in soup.select('item')[:max_items]:
                 title_elem = item.select_one('title')
                 link_elem = item.select_one('link')
                 source_elem = item.select_one('source')
-                
+
                 if title_elem and link_elem:
                     source = source_elem.text if source_elem else 'News'
                     articles.append({
@@ -56,14 +56,14 @@ def fetch_google_news(keyword, max_items=2, retries=3):
                         'link': link_elem.text.strip(),
                         'source': source
                     })
-            
+
             if articles:
                 print(f"  ✓ Fetched {len(articles)} articles for '{keyword}'")
             else:
                 print(f"  ⚠ No articles found for '{keyword}'", file=sys.stderr)
-            
+
             return articles
-            
+
         except Exception as e:
             last_error = e
             if attempt < retries - 1:
@@ -71,7 +71,7 @@ def fetch_google_news(keyword, max_items=2, retries=3):
                 time.sleep(2)  # Wait before retrying
             else:
                 print(f"  ✗ All {retries} attempts failed for '{keyword}': {e}", file=sys.stderr)
-    
+
     return []
 
 def fetch_all_news():
@@ -109,14 +109,14 @@ def fetch_all_news():
         'AI technology latest',
         'Deep learning research'
     ]
-    
+
     news = []
     for keyword in keywords:
         articles = fetch_google_news(keyword, max_items=2)
         news.extend(articles)
         if len(news) >= 20:
             break
-    
+
     # 去重（按title）和返回前20条
     seen_titles = set()
     unique_news = []
@@ -126,15 +126,14 @@ def fetch_all_news():
             unique_news.append(item)
             if len(unique_news) >= 20:
                 break
-    
+
     return unique_news
 
 def generate_html_content(news_items):
+    """生成 HTML 内容，邮件显示全部，网页使用 JavaScript 分页"""
     # 报纸风格：每个新闻项指定其布局类型
     # layout types: 'hero' (头条大图), 'featured' (重要新闻), 'sidebar' (侧边栏小方块), 'standard' (标准)
-    # 扩展到 20 条新闻，每页 10 条
-    layouts = ['hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard',
-               'hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard']
+    layouts = ['hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard']
 
     html = """<!DOCTYPE html>
 <html>
@@ -192,9 +191,9 @@ def generate_html_content(news_items):
             color: #666;
         }
 
-        /* 翻页控制 */
+        /* 翻页控制 - 默认隐藏，JavaScript 启用时显示 */
         .pagination {
-            display: flex;
+            display: none;
             justify-content: center;
             gap: 15px;
             padding: 25px 20px;
@@ -202,44 +201,57 @@ def generate_html_content(news_items):
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
         }
-        .pagination a {
-            display: inline-block;
+        .js-enabled .pagination {
+            display: flex;
+        }
+        .pagination button {
             background: #1a1a2e;
             color: white;
+            border: none;
             padding: 12px 24px;
             font-size: 13px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-decoration: none;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        .pagination a:hover {
+        .pagination button:hover {
+            background: #e94560;
+        }
+        .pagination button.active {
             background: #e94560;
         }
 
-        /* 分页容器 - 使用 :target 伪类实现 CSS 分页 */
-        .page-wrapper {
-            position: relative;
+        /* 页面分隔线 - 只在邮件中显示 */
+        .page-break {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            margin: 20px 0;
         }
-        .page-content {
+        .page-break span {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .js-enabled .page-break {
             display: none;
         }
-        /* 默认显示第 1 页 */
-        #page1 {
+
+        /* 分页容器 - 默认显示全部，JS 启用时隐藏 */
+        .page-section {
             display: block;
         }
-        /* 当点击 page2 链接时显示第 2 页，隐藏第 1 页 */
-        #page2:target ~ .page-content #page1,
-        #page2:target {
+        .js-enabled .page-section {
             display: none;
         }
-        #page2:target {
+        .js-enabled .page-section.active {
             display: block;
-        }
-        /* 使用 JavaScript 的浏览器会通过 active 类控制 */
-        .page-content.active {
-            display: block !important;
         }
 
         /* 主布局：左侧主内容区 + 右侧边栏 */
@@ -273,17 +285,6 @@ def generate_html_content(news_items):
             margin-bottom: 25px;
             padding-bottom: 25px;
             border-bottom: 3px double #000;
-        }
-        .hero-article .hero-badge {
-            display: inline-block;
-            background: #e94560;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 4px 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
         }
         .hero-article h2 {
             font-size: 32px;
@@ -454,43 +455,24 @@ def generate_html_content(news_items):
         </div>
     """
 
-    # 分割新闻为两页，每页 10 条
-    page1_news = news_items[:10]
-    page2_news = news_items[10:20] if len(news_items) > 10 else []
-
     # 生成顶部翻页按钮
-    has_page2 = len(page2_news) > 0
+    has_page2 = len(news_items) > 10
     if has_page2:
         html += """
         <div class="pagination">
-            <a href="#page1">Page 1-2</a>
-            <a href="#page2">Page 2-2</a>
+            <button id="btn-page1" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2" onclick="showPage(2)">Page 2-2</button>
         </div>
         """
 
-    # 生成页面内容（使用 page-wrapper 和 target 标记）
-    html += """
-        <div class="page-wrapper">
-        <span id="page2"></span>
-        <div class="page-content">
-    """
-
-    # 生成第 1 页
-    html += """
-        <div id="page1" class="page-content active">
-            <div class="main-layout">
-                <div class="content-area">
-    """
-
+    # 分配新闻到不同区域
     hero_items = []
     featured_items = []
     standard_items = []
     sidebar_items = []
 
-    page_layouts = layouts[:10]
-
-    for i, item in enumerate(page1_news):
-        layout = page_layouts[i] if i < len(page_layouts) else 'standard'
+    for i, item in enumerate(news_items):
+        layout = layouts[i % len(layouts)]
         item_with_layout = {**item, 'index': i + 1}
 
         if layout == 'hero':
@@ -502,6 +484,14 @@ def generate_html_content(news_items):
         else:
             standard_items.append(item_with_layout)
 
+    # 第 1 页内容 (1-10)
+    html += """
+        <div id="page1" class="page-section active">
+            <div class="main-layout">
+                <div class="content-area">
+    """
+
+    # 英雄头条 (第1条)
     if hero_items:
         item = hero_items[0]
         html += f"""
@@ -512,9 +502,11 @@ def generate_html_content(news_items):
                 </article>
         """
 
-    if featured_items:
-        html += '<div class="featured-grid">'
-        for item in featured_items:
+    # 重点新闻 (第2,5条)
+    html += '<div class="featured-grid">'
+    for idx in [0, 1]:
+        if idx < len(featured_items):
+            item = featured_items[idx]
             html += f"""
                     <article class="featured-article">
                         <span class="source-tag">{item['source']}</span>
@@ -522,11 +514,13 @@ def generate_html_content(news_items):
                         <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                     </article>
             """
-        html += '</div>'
+    html += '</div>'
 
-    if standard_items:
-        html += '<div class="standard-list"><h4>In Brief</h4>'
-        for item in standard_items:
+    # 标准新闻 (第6,7,10条)
+    html += '<div class="standard-list"><h4>In Brief</h4>'
+    for idx in [0, 1, 2]:
+        if idx < len(standard_items):
+            item = standard_items[idx]
             html += f"""
                     <div class="standard-item">
                         <span class="number">{item['index']}</span>
@@ -535,7 +529,7 @@ def generate_html_content(news_items):
                         <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                     </div>
             """
-        html += '</div>'
+    html += '</div>'
 
     html += """
             </div>
@@ -543,48 +537,42 @@ def generate_html_content(news_items):
                 <div class="sidebar-title">Quick Reads</div>
         """
 
-    for item in sidebar_items:
-        html += f"""
+    # 侧边栏 (第3,4,8,9条)
+    for idx in [0, 1, 2, 3]:
+        if idx < len(sidebar_items):
+            item = sidebar_items[idx]
+            html += f"""
                 <div class="sidebar-item">
                     <div class="source">{item['source']}</div>
                     <h3>{item['title']}</h3>
                     <a href="{item['link']}" class="link" target="_blank">Read →</a>
                 </div>
-        """
+            """
 
     html += """
             </div>
         </div>
     """
 
-    # 生成第 2 页
+    # 页面分隔符（邮件中显示，网页中隐藏）
     if has_page2:
         html += """
-        <div id="page2" class="page-content">
+        <div class="page-break">
+            <span>— Page Break —</span>
+        </div>
+        """
+
+    # 第 2 页内容 (11-20)
+    if has_page2:
+        html += """
+        <div id="page2" class="page-section">
             <div class="main-layout">
                 <div class="content-area">
         """
 
-        hero_items = []
-        featured_items = []
-        standard_items = []
-        sidebar_items = []
-
-        for i, item in enumerate(page2_news):
-            layout = page_layouts[i] if i < len(page_layouts) else 'standard'
-            item_with_layout = {**item, 'index': 10 + i + 1}
-
-            if layout == 'hero':
-                hero_items.append(item_with_layout)
-            elif layout == 'featured':
-                featured_items.append(item_with_layout)
-            elif layout == 'sidebar':
-                sidebar_items.append(item_with_layout)
-            else:
-                standard_items.append(item_with_layout)
-
-        if hero_items:
-            item = hero_items[0]
+        # 英雄头条 (第11条)
+        if len(hero_items) > 1:
+            item = hero_items[1]
             html += f"""
                     <article class="hero-article">
                         <h2>{item['title']}</h2>
@@ -593,9 +581,11 @@ def generate_html_content(news_items):
                     </article>
             """
 
-        if featured_items:
-            html += '<div class="featured-grid">'
-            for item in featured_items:
+        # 重点新闻 (第12,15条)
+        html += '<div class="featured-grid">'
+        for idx in [2, 3]:
+            if idx < len(featured_items):
+                item = featured_items[idx]
                 html += f"""
                         <article class="featured-article">
                             <span class="source-tag">{item['source']}</span>
@@ -603,11 +593,13 @@ def generate_html_content(news_items):
                             <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                         </article>
                 """
-            html += '</div>'
+        html += '</div>'
 
-        if standard_items:
-            html += '<div class="standard-list"><h4>In Brief</h4>'
-            for item in standard_items:
+        # 标准新闻 (第16,17,20条)
+        html += '<div class="standard-list"><h4>In Brief</h4>'
+        for idx in [3, 4, 5]:
+            if idx < len(standard_items):
+                item = standard_items[idx]
                 html += f"""
                         <div class="standard-item">
                             <span class="number">{item['index']}</span>
@@ -616,7 +608,7 @@ def generate_html_content(news_items):
                             <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                         </div>
                 """
-            html += '</div>'
+        html += '</div>'
 
         html += """
                 </div>
@@ -624,14 +616,17 @@ def generate_html_content(news_items):
                     <div class="sidebar-title">Quick Reads</div>
             """
 
-        for item in sidebar_items:
-            html += f"""
+        # 侧边栏 (第13,14,18,19条)
+        for idx in [4, 5, 6, 7]:
+            if idx < len(sidebar_items):
+                item = sidebar_items[idx]
+                html += f"""
                     <div class="sidebar-item">
                         <div class="source">{item['source']}</div>
                         <h3>{item['title']}</h3>
                         <a href="{item['link']}" class="link" target="_blank">Read →</a>
                     </div>
-            """
+                """
 
         html += """
                 </div>
@@ -639,17 +634,12 @@ def generate_html_content(news_items):
         </div>
         """
 
-    html += """
-        </div>
-    </div>
-    """
-
-    # 生成底部翻页按钮
+    # 底部翻页按钮
     if has_page2:
         html += """
         <div class="pagination">
-            <a href="#page1">Page 1-2</a>
-            <a href="#page2">Page 2-2</a>
+            <button id="btn-page1-bottom" class="active" onclick="showPage(1)">Page 1-2</button>
+            <button id="btn-page2-bottom" onclick="showPage(2)">Page 2-2</button>
         </div>
     """
 
@@ -659,11 +649,25 @@ def generate_html_content(news_items):
         </div>
     </div>
     <script>
+    // 检测 JavaScript 支持，启用分页功能
+    document.documentElement.classList.add('js-enabled');
+
     function showPage(pageNum) {
-        document.querySelectorAll('.page-content').forEach(page => {
+        // 隐藏所有页面
+        document.querySelectorAll('.page-section').forEach(page => {
             page.classList.remove('active');
         });
+        // 显示目标页面
         document.getElementById('page' + pageNum).classList.add('active');
+        // 更新所有按钮状态
+        document.querySelectorAll('.pagination button').forEach(btn => {
+            if (btn.id.includes('page' + pageNum)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // 滚动到顶部
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     </script>
@@ -706,32 +710,32 @@ def save_html_file(html_content, output_path='docs/index.html'):
 
 def main():
     print("🚀 Starting AI Daily News Digest...")
-    
+
     # Fetch news
     print("📡 Fetching news from sources...")
     news = fetch_all_news()
     print(f"✓ Fetched {len(news)} articles total")
-    
+
     if not news:
         print("✗ ERROR: No news found. Cannot send email.", file=sys.stderr)
         sys.exit(1)  # Exit with error code
-    
+
     # Generate HTML
     print("📝 Generating email content...")
     html_content = generate_html_content(news)
-    
+
     # Send email
     gmail_user = os.environ.get('GMAIL_USER')
     gmail_pass = os.environ.get('GMAIL_PASS')
     to_email = os.environ.get('TO_EMAIL')
-    
+
     if not all([gmail_user, gmail_pass, to_email]):
         print("✗ ERROR: Missing required environment variables:", file=sys.stderr)
         print(f"  GMAIL_USER: {'✓' if gmail_user else '✗'}", file=sys.stderr)
         print(f"  GMAIL_PASS: {'✓' if gmail_pass else '✗'}", file=sys.stderr)
         print(f"  TO_EMAIL: {'✓' if to_email else '✗'}", file=sys.stderr)
         sys.exit(1)  # Exit with error code
-    
+
     print(f"📧 Sending email to {to_email}...")
     subject = f"AI Daily News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
     success = send_email(subject, html_content, to_email, gmail_user, gmail_pass)
