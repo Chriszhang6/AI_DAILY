@@ -54,198 +54,60 @@
             color: #666;
         }
 
-        /* 页面分隔线 */
-        .page-break {
-            display: block;
-            text-align: center;
-            padding: 20px;
-            background: #f9f9f9;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
-            margin: 20px 0;
-        }
-        .page-break span {
-            font-size: 14px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* 主布局：左侧主内容区 + 右侧边栏 */
-        .main-layout {
-            display: flex;
-            gap: 0;
-        }
-        .content-area {
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-        }
-        .sidebar {
-            width: 280px;
-            background: #f9f9f9;
-            padding: 20px 15px;
-        }
-        .sidebar-title {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #e94560;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            color: #1a1a2e;
-        }
-
-        /* 英雄头条样式 */
-        .hero-article {
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 3px double #000;
-        }
-        .hero-article h2 {
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 15px;
-            font-family: 'Georgia', serif;
-        }
-        .hero-article .meta {
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 12px;
-            font-style: italic;
-        }
-        .hero-article .hero-link {
-            display: inline-block;
+        /* 版块分隔标题 */
+        .section-title {
             background: #1a1a2e;
             color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 3px;
+            margin: 30px 0 20px 0;
+            border-top: 3px solid #e94560;
+            border-bottom: 3px solid #e94560;
         }
 
-        /* 重点新闻样式 */
-        .featured-grid {
+        /* 新闻网格布局 */
+        .news-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 15px;
+            padding: 20px;
         }
-        .featured-article {
+
+        .news-card {
             border: 1px solid #e0e0e0;
-            padding: 18px;
+            padding: 15px;
             background: white;
             transition: box-shadow 0.2s;
         }
-        .featured-article:hover {
+        .news-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .featured-article .source-tag {
+        .news-card .source-tag {
             font-size: 9px;
             color: #e94560;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
         }
-        .featured-article h3 {
-            font-size: 16px;
+        .news-card h3 {
+            font-size: 15px;
             font-weight: 600;
             line-height: 1.3;
             margin: 10px 0;
             font-family: 'Georgia', serif;
         }
-        .featured-article .read-more {
+        .news-card .read-more {
             font-size: 11px;
             color: #1a1a2e;
             text-decoration: none;
             font-weight: bold;
         }
-
-        /* 标准新闻列表 */
-        .standard-list {
-            border-top: 2px solid #000;
-            padding-top: 20px;
-        }
-        .standard-list h4 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #1a1a2e;
-        }
-        .standard-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .standard-item:last-child {
-            border-bottom: none;
-        }
-        .standard-item .number {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: #1a1a2e;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            line-height: 24px;
-            margin-right: 10px;
-        }
-        .standard-item h3 {
-            display: inline;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        .standard-item .source {
-            display: block;
-            font-size: 10px;
-            color: #999;
-            margin-top: 5px;
-            margin-left: 34px;
-            text-transform: uppercase;
-        }
-        .standard-item .read-more {
-            display: block;
-            font-size: 11px;
-            color: #1a1a2e;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-left: 34px;
-        }
-        .standard-item .read-more:hover {
+        .news-card .read-more:hover {
             color: #e94560;
-        }
-
-        /* 侧边栏小方块 */
-        .sidebar-item {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-        .sidebar-item h3 {
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 1.4;
-            margin: 8px 0;
-        }
-        .sidebar-item .source {
-            font-size: 9px;
-            color: #999;
-            text-transform: uppercase;
-        }
-        .sidebar-item .link {
-            font-size: 10px;
-            color: #e94560;
-            text-decoration: none;
-            font-weight: bold;
         }
 
         .footer {
@@ -268,162 +130,191 @@
         </div>
         <div class="subheader">
             <div class="date">SATURDAY, FEBRUARY 28, 2026</div>
-            <div class="issue">Vol. 20260228 • 20 Stories</div>
+            <div class="issue">Vol. 20260228 • AI News + Layoff Tracker</div>
         </div>
-    
-        <div class="main-layout">
-            <div class="content-area">
-    
-                <article class="hero-article">
-                    <h2>Tumbler Ridge shooter had 2nd ChatGPT account despite being banned, OpenAI says - CBC</h2>
-                    <div class="meta">From CBC • Full story inside</div>
-                    <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxPWDdoM2ZZYlk1ejJSdzBLZzkwS2dkdUc4ZXQ0TWpXWEVndnJxX2ttSDJ5S2JSdHBzT1lZZGVQcDlNQnNSN1dwS1UyUHlSSUVJckhCS0FRbmJpWnE1NFd0MkZOcXp5N0txb1pNV0tiejVjMjZ6ckthY3V2MzdLeTdGT3ZMLXRaYlM5SFRCOFlZY3g?oc=5" class="hero-link" target="_blank">Read Full Story →</a>
-                </article>
-        <div class="featured-grid">
-                    <article class="featured-article">
-                        <span class="source-tag">OpenAI</span>
-                        <h3>Scaling AI for everyone - OpenAI</h3>
-                        <a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTE9nbHVmaUVQblgwdlVjbk5iY1BPZXM2OWVwNy16dloxeDBQTnJuNmduSEtiU21KZkJUdENHZU55cUo2d0E2NXM5Tms1X01kTmZkR3NWM25XWkJJV1R1ZWc?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </article>
-            
-                    <article class="featured-article">
-                        <span class="source-tag">The New York Times</span>
-                        <h3>Google Workers Seek ‘Red Lines’ on Military A.I., Echoing Anthropic - The New York Times</h3>
-                        <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNT2FRQVh1bkNXNER3VVJQS2w0OUpLMzgyRVBwZEM4QTdteWhNaUZFVkNsT05HSkRzVEdBa3hkVmNLYnplQUQwek8tSkhWajlFbHY2R1p5YzhJU3NLTmdIWjNGT3h4Y0JyWEdYYkhJMHQ1bFRITmlxN1Ztb0dha1hEM1pFeUpHRnk4anc?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </article>
-            </div><div class="standard-list"><h4>In Brief</h4>
-                    <div class="standard-item">
-                        <span class="number">6</span>
-                        <h3>AI Is Acing Math Exams Faster Than Scientists Write Them - IEEE Spectrum</h3>
-                        <span class="source">IEEE Spectrum</span>
-                        <a href="https://news.google.com/rss/articles/CBMiV0FVX3lxTE1JTjBvdl9oNDlXeGNwcFVSYnlPMk1ZTkY4Um0tbEFJWmZxZFg3OTZNd19aM1hpV3R1OU0teS1paW5mZzVMc3hUcnhnMkFSZUt2dzlibjluMNIBV0FVX3lxTE1JTjBvdl9oNDlXeGNwcFVSYnlPMk1ZTkY4Um0tbEFJWmZxZFg3OTZNd19aM1hpV3R1OU0teS1paW5mZzVMc3hUcnhnMkFSZUt2dzlibjluMA?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </div>
-            
-                    <div class="standard-item">
-                        <span class="number">7</span>
-                        <h3>Alibaba's new open source Qwen3.5-Medium models offer Sonnet 4.5 performance on local computers - VentureBeat</h3>
-                        <span class="source">VentureBeat</span>
-                        <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxNQklvRUE3UVJxaU41Q3FtclJiMUZFaDRKOFBmdmV6V25VRFBNZ1BVUFVKYUJ0Ym9fam51ZDhjZXpWeTM1MEJPVkNWTWtDVHQzbFVKWUx5MDdyYVRKOHlZak1BOHFTejB5cXl2NEdTN3BPMFk2cmdITC1XeUxwRmdRVlZablJORE14NWx4VDVlWkZiUVlyaGR3NV9pSWVHOXVJdDBQbk1xZ1d2Vm1tdWRR?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </div>
-            
-                    <div class="standard-item">
-                        <span class="number">10</span>
-                        <h3>Alibaba-backed Moonshot releases its second AI update in four months as China’s AI race heats up - CNBC</h3>
-                        <span class="source">CNBC</span>
-                        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNX3dkNmpaZDJzYmg2V1g5VWFSYXpqV016OU00N05VcUhiLXUxLXJ2dWROYWpIVWpYZmo4ajdiOFFRTnc4N2lwekRVb19aVGxDclczUEJSV1gwdlptYWJGSVQxZUNZazZQbmFKMlZnWXNaNzFUMEFOVnB4aEJoSjdMTmNMblNuZ1dOeUFhSmJBMGdMQUk5OW1EcFJFYlZfajlZ0gGmAUFVX3lxTE1HSDlrb2xndldHTTBJWU5DVlVfUEttMHdReDJ2bS0xTTcxdzd0Y01PVTVNNHhyUXpUdm1IUEQtTXBma1FQZ2NOS2hhNGVCRGZFM3Z6R1hrd00tMjZEZ2NDN3VqQTgwTnUyanBrRkhoTDVlRTRuSDlGUzlDYWRITlVhbXo3NWlCTEFLSmhwQl9IUWdUZWQ0WVkwQ1h6R0FoOVM2N3JZdEE?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                    </div>
+    <div class="news-grid">
+            <div class="news-card">
+                <span class="source-tag">OpenAI</span>
+                <h3>Scaling AI for everyone - OpenAI</h3>
+                <a href="https://news.google.com/rss/articles/CBMiXkFVX3lxTE9nbHVmaUVQblgwdlVjbk5iY1BPZXM2OWVwNy16dloxeDBQTnJuNmduSEtiU21KZkJUdENHZU55cUo2d0E2NXM5Tms1X01kTmZkR3NWM25XWkJJV1R1ZWc?oc=5" class="read-more" target="_blank">READ MORE →</a>
             </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Politico</span>
+                <h3>Shooter had second ChatGPT account, OpenAI reveals as it overhauls safety protocols - Politico</h3>
+                <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxOZVU1dUtwSEppX19KR3RUUVR0QUx2Sl9aeXZnc0xodGFJcE1lR1M1Z2Z6THJGZjBwczBvMU13dGt6a1didkpRaHB4UmZFOUFMbEJERW4xSkhQZjMzSE01SEpsTGR2Vl80X1BjanZ2ZTI5VXh6RF8zS0d2eXhqWWRnNGc2bGpUUkE?oc=5" class="read-more" target="_blank">READ MORE →</a>
             </div>
-            <div class="sidebar">
-                <div class="sidebar-title">Quick Reads</div>
         
-                <div class="sidebar-item">
-                    <div class="source">The Guardian</div>
-                    <h3>Anthropic says it ‘cannot in good conscience’ allow Pentagon to remove AI checks - The Guardian</h3>
-                    <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5Hdnl3MTRjRjZRblA0UV9kRkVrVVladFR6MW50ZW1sX2tXdWJlWl9DdTJBajdrQnpxV3VjMXV1X09qMFQyZnJtcWs3NFlIRDcwY1VWM2xCb2lWMURaR0N1TnVyVDFzR3lYNFNQaWlsT25xWW9JUUZrb19TRFF6QQ?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-            
-                <div class="sidebar-item">
-                    <div class="source">CNBC</div>
-                    <h3>The world's biggest sovereign wealth fund is using Anthropic's Claude AI model to screen investments for ethical issues - CNBC</h3>
-                    <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPV1FqRjJQY3lxZTRUc0dqMDM0Y2p6dHAxNVB3V2hPMkJLUGFHMVJDcVVSUkpfcDljNXZMSVBRbk51TEJZNW9aekxfM1hnWEI4OVhVNTZSMl9JZ0lIeHdKVS1GMnZSUE9LZHJVVXcydmYydVp0emxlZnBtWk1xeUFQOEZHTHZzSElHdEsyTE51WDhLTmVpV3luSkUwMNIBoAFBVV95cUxON0wwbnlfdXVORkhXdGpxRTU0YTB0MFVoTlY1azAzSG1vSnFibUdXeGsyVFhnUjQ0QmhteWRDZVA1OURHaDNmYmtBVlFBbGFTWFRrNHNLakdCVjZDNE1yekFtQWtZdXVxSTNKNkFMdTdJWDN6Vm5YLTVlZC15aUNyYTZtV3dqY0NncXlIQlJwVVJvSHRSZjIyZ2N3aFBsNk5s?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-            
-                <div class="sidebar-item">
-                    <div class="source">MarkTechPost</div>
-                    <h3>Alibaba Qwen Team Releases Qwen 3.5 Medium Model Series: A Production Powerhouse Proving that Smaller AI Models are Smarter - MarkTechPost</h3>
-                    <a href="https://news.google.com/rss/articles/CBMi9gFBVV95cUxQTHhSYjJiTk1aX3prRDhCN1EzTV9NYTd5R21NRXkwNVBnNVh4Z2Fwal9uem5wM1VfblRiZS1teEZkT3BZeTJQVW9zUEJnVkp3b0EyYmxBWldHV0NOaHZCa0NRNVpZS016aWRaTXlnSnJLLTd3ZXJ1MWpycHdVMzlLYy04ai1WNHplV1prRlFYelFxUkliYmFLc3R0d0Jjdjl0YTBROHQwemJ3S0Robkw2Mlh2ZFVpOFBKZ1otYTlsVFF4RXFNeGQ5dHBHY3dFOFFmcHZ1X1lvMHpSbEtZM0UyUTJUZU9RTmRkTGVBYlJ1TWFzMjJvaEHSAfsBQVVfeXFMT1FPV1ZkUmFvMndhV1FpanRUc0VUQnBncjF5RXZZZ0FocVRYYjBXQUdGTUl2WnFjV2hLb0tHdFd6WEVpdVZOQ3dIcXgwV0dIZnY3WnJIcURvQ0RIdTFiVmo3a3BGNkpKWU13UlRWTkFoUmlCNkd2Z0dYUjVfQWVJbklaNHNmSThxSlNMNy0wTmM4RDV5bHo0bTUtZ2NnckVWWEdSeDE5T3lKMVh6QV9WRHFVb0I2Z25xTGJYSnNnTHNPTVlyS25ISmR2dlBoVmZtdW9zWk5RRWlkdll0VHNQaGZtS0poYnBxdURveFl1QXZ1M3dwT21IakdhZlU?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-            
-                <div class="sidebar-item">
-                    <div class="source">China Academy</div>
-                    <h3>China’s Kimi (Moonshot AI) Sets Record as Fastest Decacorn | China AI Brief | 2026.02.24 - China Academy</h3>
-                    <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxOYTdUd3BmaHlaWk5ycVI2d1BOWm11bTR5OHVtTmR3SFd1ZWdUNEd1SU9TUTc1MXlWMHp2anJXN29mTGJEVUJuMERnd1llWF9BZnFZcHcwSUczMkZtSmpoZWdvN1pNQVVsTmYtbEl0dWk2MGRTaFpRWEUwMzVpMnpKQlRXRGRyUUFPU1hJT1Z2b0lYdkRwNEVENXNVd2VaUzExV21hWUI2YlJ5QXh4d1M3RndVVXZlVzJmLU42WUE5a0lWRGUxWlhCd2JPNnNiRG5OQjJ2R2RpTUFGU2Fudi1uLWhYemRuTm1hcmVj?oc=5" class="link" target="_blank">Read →</a>
-                </div>
-            
+            <div class="news-card">
+                <span class="source-tag">Axios</span>
+                <h3>Trump moves to blacklist Anthropic AI from all government work - Axios</h3>
+                <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxNM2FoMnc2QmtnZUZ5XzhHZkNnamg5N1psSEJndEk0RDQ5amtFLVVHYmhqVE9Eanp4VU9VOHVzdExoYkRSbmt1b1dBNWpvaVpYc1AtV21mQXdhMnlrU2VmNlR0M05YTUotM1Z4SXBVR0d5NHRlXy1CdEQzdUVpT2tEVEZR?oc=5" class="read-more" target="_blank">READ MORE →</a>
             </div>
-        </div>
-    
-        <div class="page-break">
-            <span>— Page Break —</span>
-        </div>
         
-        <div class="main-layout">
-            <div class="content-area">
+            <div class="news-card">
+                <span class="source-tag">The Guardian</span>
+                <h3>Anthropic says it ‘cannot in good conscience’ allow Pentagon to remove AI checks - The Guardian</h3>
+                <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5Hdnl3MTRjRjZRblA0UV9kRkVrVVladFR6MW50ZW1sX2tXdWJlWl9DdTJBajdrQnpxV3VjMXV1X09qMFQyZnJtcWs3NFlIRDcwY1VWM2xCb2lWMURaR0N1TnVyVDFzR3lYNFNQaWlsT25xWW9JUUZrb19TRFF6QQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
         
-                    <article class="hero-article">
-                        <h2>Zhipu AI’s shares tumble nearly 23% on computing woes, user complaints - South China Morning Post</h2>
-                        <div class="meta">From South China Morning Post • Full story inside</div>
-                        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxOWG1UdWdRTnVVeUtUNWhLQUg1bDZTTWlmams1dFhJTzIyTFVKR19aV01NR3FucG1YNUNlM0VJNTNXbGZEUG1KQ3AyZGdDQkF5dWF1QXFvbVVMZGNuRUhVc3N5R0R5ZTBNSkItR2xfWUhpN0NxQXo5QmVTNVlCWXF5Nmk0RU5zNDFNaUR4VV9XRWc0MlNvbXV0eDdXTThYcm83ekpSdVZoU3ZpaVoyWDV2UVdwazVoM0MxOHJuMVhEeHZfQmNYTk10MS1xUdIBywFBVV95cUxPUm1FeVRHUHc5a1hYSmhsaFctZXpUWlp5RXh4UnRJTTdYY3Q2b2dEU1BFTFM1NW5LRzA5Zmt1cExBd1M5RFoyZXFYakEtbGNrSDRNLXVPdHgzWVM4c3l4aVFUc1FBdnI0YXF2SW9SMnhobUVPZjBKN0dZNDBiT21FOHFQTE5oZmVrV3VnYzZ6Y0Q2WUxiZFIxRWtCTFhfODdaSDNvd1AxQ3Rhd01weHJOZDNacXd1WU5CS2w1bFNjSnVzV1pjZlZDTmx4Zw?oc=5" class="hero-link" target="_blank">Read Full Story →</a>
-                    </article>
-            <div class="featured-grid">
-                        <article class="featured-article">
-                            <span class="source-tag">Reuters</span>
-                            <h3>Chinese AI startup Zhipu releases new flagship model GLM-5 - Reuters</h3>
-                            <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQUTJOUlUweGktZUZOTjRXbWxBdlpqRnYtS2hLcVY5UDZMZGRuVkQzb2g3c1FuRnhRaTZCUGVRblo1Yng1S1lRVUh1U3NHNTJiTDlqZmhScUtFQVdEQlhLOEJRRDdoeXlPRm5OXzRBaTZQS3AxT0dKeExZbFlfTGFuMmpNOTdaTEFnNlNzVVU3ai0wUEV4ZEM5TDNybnA3NDRpSVI2VTliVQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                        </article>
-                
-                        <article class="featured-article">
-                            <span class="source-tag">WSJ</span>
-                            <h3>Exclusive | Altman Says OpenAI Is Working on Pentagon Deal Amid Anthropic Standoff - WSJ</h3>
-                            <a href="https://news.google.com/rss/articles/CBMiugNBVV95cUxQa2pYLWNZR3c0R3NLNmVMcmhrZ19ZT0V3cExMQURITHlOWXBqQU5TQk9VeVY3QmhELU9pMTB3SlVjRzRBQS1sOGlodTFXd1poTHJUYWZhbzFPWG9pTWg4YkdEUkxRNEFvMGkyczZQa0ZTS0xHWnB6TXVWT1VIZ0g3RWVwVzlOOTc0Q25vRE5OQzlzMDVOZVpESXZ1elI1ZXlaTllEVXRaVWxnZV9ONHdfUmpvQ2d6WkJ2UjZ3TDdGVUlnNVh2N21IcDFabE9lQ21YWlNGZWtfR052YjZTSmNsRjYyZnFYUW41a095aFExWVJ1bUdmdU5KU0RpWFNLSm9ScTdralFtcXFQTnpXOGZDMU1RNnZLZ2dFQy15NnZsSjF2cWFCVnF3Y3dSeTNvUThtamFMQkxIWFVidWkwaGctNVM5ak1IbGd4VWpySno4Vm4xVFRIbW9Zd0tSc3RNRVV6cGlNSWNIbFNNQW9sQ2haaHJfMFFFRHVUM0gtMjFRcnB6eDlhMjJBcVVOcV9xSHZIYzI1eF9xdXZ6MGZ4d0tCQ3Q0eDNpaWUxWllwYzIzVjVzZnFSRXRXbDdn?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                        </article>
-                </div><div class="standard-list"><h4>In Brief</h4>
-                        <div class="standard-item">
-                            <span class="number">16</span>
-                            <h3>OpenAI secures up to $110bn in record funding deal - Financial Times</h3>
-                            <span class="source">Financial Times</span>
-                            <a href="https://news.google.com/rss/articles/CBMicEFVX3lxTE9RZEtWZ2FOcmJ5UWI3RXNRY1lTcEhad0hvOHRwQ2NKSkFlTG02OTJaNEJNZEtuMUNoaVo2TUpaXzUxOGtncGEycXNYWUppVDFpRnJsb1VvNmZ3TzF2T1VtTnBqM0JKRXllNVJtTEd6cE8?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                        </div>
-                
-                        <div class="standard-item">
-                            <span class="number">17</span>
-                            <h3>Anthropic Says It Cannot ‘Accede’ to Pentagon in Talks Over A.I. - The New York Times</h3>
-                            <span class="source">The New York Times</span>
-                            <a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxPcG52NUtvd2ctYjQ4c25kaGVZcndSZnFkWmI0ZEhZWGZNSFVfZkZkQmVQLTBFZjlBOUIwX21PVnU2TllJelJTWHZpV3p3dmVQVllVY0RkbEVRWjN2QVZVWVFCRjJSekRIMTFjY2g4dUNVMm9yZ0tDZHVKYUYyelRFUnFwZE4?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                        </div>
-                
-                        <div class="standard-item">
-                            <span class="number">20</span>
-                            <h3>Google DeepMind’s Nano Banana 2 Demo Shows Breakthrough Frame-to-Frame World Modeling – Analysis and Business Implications - blockchain.news</h3>
-                            <span class="source">blockchain.news</span>
-                            <a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxNVEFHbXVOSlhCVWtrN3ZMaG5FR05wNXNpMVh5dXBnd1VORDNGSjI3VjJEZEpXaFJDcU9PMElMNmRPMWZ3TTVWMXNaTUZKTExqRXVJeWN6anNTb1l1bVd1bUpMQ2ZEdFROV2hEc2docHFOMWI1NzRSWDhmcWs1d1RFWndKaVF2SVZXRExJNVg0bzhxaVF1d3ZCZEJOVjlVQng2U0x0WkFYUXVXM0lKdjg5VUhOeXVvSWFvWmo2VXp1em91U3pIZnhxRWFSQ0ZKTWJlYXhYTzVwM2RrTWVxbF9yVkdaZEhQZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                        </div>
+            <div class="news-card">
+                <span class="source-tag">The New York Times</span>
+                <h3>Google Workers Seek ‘Red Lines’ on Military A.I., Echoing Anthropic - The New York Times</h3>
+                <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNT2FRQVh1bkNXNER3VVJQS2w0OUpLMzgyRVBwZEM4QTdteWhNaUZFVkNsT05HSkRzVEdBa3hkVmNLYnplQUQwek8tSkhWajlFbHY2R1p5YzhJU3NLTmdIWjNGT3h4Y0JyWEdYYkhJMHQ1bFRITmlxN1Ztb0dha1hEM1pFeUpHRnk4anc?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">IEEE Spectrum</span>
+                <h3>AI Is Acing Math Exams Faster Than Scientists Write Them - IEEE Spectrum</h3>
+                <a href="https://news.google.com/rss/articles/CBMiV0FVX3lxTE1JTjBvdl9oNDlXeGNwcFVSYnlPMk1ZTkY4Um0tbEFJWmZxZFg3OTZNd19aM1hpV3R1OU0teS1paW5mZzVMc3hUcnhnMkFSZUt2dzlibjluMNIBV0FVX3lxTE1JTjBvdl9oNDlXeGNwcFVSYnlPMk1ZTkY4Um0tbEFJWmZxZFg3OTZNd19aM1hpV3R1OU0teS1paW5mZzVMc3hUcnhnMkFSZUt2dzlibjluMA?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Venturebeat</span>
+                <h3>Alibaba's new open source Qwen3.5-Medium models offer Sonnet 4.5 performance on local computers - Venturebeat</h3>
+                <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxNQklvRUE3UVJxaU41Q3FtclJiMUZFaDRKOFBmdmV6V25VRFBNZ1BVUFVKYUJ0Ym9fam51ZDhjZXpWeTM1MEJPVkNWTWtDVHQzbFVKWUx5MDdyYVRKOHlZak1BOHFTejB5cXl2NEdTN3BPMFk2cmdITC1XeUxwRmdRVlZablJORE14NWx4VDVlWkZiUVlyaGR3NV9pSWVHOXVJdDBQbk1xZ1d2Vm1tdWRR?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">MarkTechPost</span>
+                <h3>Alibaba Qwen Team Releases Qwen 3.5 Medium Model Series: A Production Powerhouse Proving that Smaller AI Models are Smarter - MarkTechPost</h3>
+                <a href="https://news.google.com/rss/articles/CBMi9gFBVV95cUxQTHhSYjJiTk1aX3prRDhCN1EzTV9NYTd5R21NRXkwNVBnNVh4Z2Fwal9uem5wM1VfblRiZS1teEZkT3BZeTJQVW9zUEJnVkp3b0EyYmxBWldHV0NOaHZCa0NRNVpZS016aWRaTXlnSnJLLTd3ZXJ1MWpycHdVMzlLYy04ai1WNHplV1prRlFYelFxUkliYmFLc3R0d0Jjdjl0YTBROHQwemJ3S0Robkw2Mlh2ZFVpOFBKZ1otYTlsVFF4RXFNeGQ5dHBHY3dFOFFmcHZ1X1lvMHpSbEtZM0UyUTJUZU9RTmRkTGVBYlJ1TWFzMjJvaEHSAfsBQVVfeXFMT1FPV1ZkUmFvMndhV1FpanRUc0VUQnBncjF5RXZZZ0FocVRYYjBXQUdGTUl2WnFjV2hLb0tHdFd6WEVpdVZOQ3dIcXgwV0dIZnY3WnJIcURvQ0RIdTFiVmo3a3BGNkpKWU13UlRWTkFoUmlCNkd2Z0dYUjVfQWVJbklaNHNmSThxSlNMNy0wTmM4RDV5bHo0bTUtZ2NnckVWWEdSeDE5T3lKMVh6QV9WRHFVb0I2Z25xTGJYSnNnTHNPTVlyS25ISmR2dlBoVmZtdW9zWk5RRWlkdll0VHNQaGZtS0poYnBxdURveFl1QXZ1M3dwT21IakdhZlU?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">China Academy</span>
+                <h3>China’s Kimi (Moonshot AI) Sets Record as Fastest Decacorn | China AI Brief | 2026.02.24 - China Academy</h3>
+                <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxOYTdUd3BmaHlaWk5ycVI2d1BOWm11bTR5OHVtTmR3SFd1ZWdUNEd1SU9TUTc1MXlWMHp2anJXN29mTGJEVUJuMERnd1llWF9BZnFZcHcwSUczMkZtSmpoZWdvN1pNQVVsTmYtbEl0dWk2MGRTaFpRWEUwMzVpMnpKQlRXRGRyUUFPU1hJT1Z2b0lYdkRwNEVENXNVd2VaUzExV21hWUI2YlJ5QXh4d1M3RndVVXZlVzJmLU42WUE5a0lWRGUxWlhCd2JPNnNiRG5OQjJ2R2RpTUFGU2Fudi1uLWhYemRuTm1hcmVj?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">CNBC</span>
+                <h3>Alibaba-backed Moonshot releases its second AI update in four months as China’s AI race heats up - CNBC</h3>
+                <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNX3dkNmpaZDJzYmg2V1g5VWFSYXpqV016OU00N05VcUhiLXUxLXJ2dWROYWpIVWpYZmo4ajdiOFFRTnc4N2lwekRVb19aVGxDclczUEJSV1gwdlptYWJGSVQxZUNZazZQbmFKMlZnWXNaNzFUMEFOVnB4aEJoSjdMTmNMblNuZ1dOeUFhSmJBMGdMQUk5OW1EcFJFYlZfajlZ0gGmAUFVX3lxTE1HSDlrb2xndldHTTBJWU5DVlVfUEttMHdReDJ2bS0xTTcxdzd0Y01PVTVNNHhyUXpUdm1IUEQtTXBma1FQZ2NOS2hhNGVCRGZFM3Z6R1hrd00tMjZEZ2NDN3VqQTgwTnUyanBrRkhoTDVlRTRuSDlGUzlDYWRITlVhbXo3NWlCTEFLSmhwQl9IUWdUZWQ0WVkwQ1h6R0FoOVM2N3JZdEE?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">South China Morning Post</span>
+                <h3>Zhipu AI’s shares tumble nearly 23% on computing woes, user complaints - South China Morning Post</h3>
+                <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxOWG1UdWdRTnVVeUtUNWhLQUg1bDZTTWlmams1dFhJTzIyTFVKR19aV01NR3FucG1YNUNlM0VJNTNXbGZEUG1KQ3AyZGdDQkF5dWF1QXFvbVVMZGNuRUhVc3N5R0R5ZTBNSkItR2xfWUhpN0NxQXo5QmVTNVlCWXF5Nmk0RU5zNDFNaUR4VV9XRWc0MlNvbXV0eDdXTThYcm83ekpSdVZoU3ZpaVoyWDV2UVdwazVoM0MxOHJuMVhEeHZfQmNYTk10MS1xUdIBywFBVV95cUxPUm1FeVRHUHc5a1hYSmhsaFctZXpUWlp5RXh4UnRJTTdYY3Q2b2dEU1BFTFM1NW5LRzA5Zmt1cExBd1M5RFoyZXFYakEtbGNrSDRNLXVPdHgzWVM4c3l4aVFUc1FBdnI0YXF2SW9SMnhobUVPZjBKN0dZNDBiT21FOHFQTE5oZmVrV3VnYzZ6Y0Q2WUxiZFIxRWtCTFhfODdaSDNvd1AxQ3Rhd01weHJOZDNacXd1WU5CS2w1bFNjSnVzV1pjZlZDTmx4Zw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Reuters</span>
+                <h3>Chinese AI startup Zhipu releases new flagship model GLM-5 - Reuters</h3>
+                <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQUTJOUlUweGktZUZOTjRXbWxBdlpqRnYtS2hLcVY5UDZMZGRuVkQzb2g3c1FuRnhRaTZCUGVRblo1Yng1S1lRVUh1U3NHNTJiTDlqZmhScUtFQVdEQlhLOEJRRDdoeXlPRm5OXzRBaTZQS3AxT0dKeExZbFlfTGFuMmpNOTdaTEFnNlNzVVU3ai0wUEV4ZEM5TDNybnA3NDRpSVI2VTliVQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Financial Times</span>
+                <h3>DeepSeek to release long-awaited AI model in new challenge to US rivals - Financial Times</h3>
+                <a href="https://news.google.com/rss/articles/CBMicEFVX3lxTE1QZHJsbHdvNXhxSEczLURIdEZ2THVwSVpLMDYxX2g1UWVIZERURUdSbWRfYjluX3V0dUNsT2dpNVdoWGE4bWFPSWNkbXlsRHpUYlVUNmxOQ0JDM0JDbXdHRWJiX2IzaVZIZEZJT1YweVI?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Fortune</span>
+                <h3>Walmart exec says U.S. workforces needs to take inspiration from China where ‘5 year-olds are learning DeepSeek’ - Fortune</h3>
+                <a href="https://news.google.com/rss/articles/CBMi-gFBVV95cUxPWl9vQkcyeEZqdHJqb1NpeWlwcTRFZl85RnpxUjdhUU5xLURmSGxLb1VmZzVoUjhNTXNsa3VRTk9EMDJaRnBXSEluNXR5bEhUM1AxQ1dyRGdkY2Nob3BJR0Zyd1RhVnRIT2JlZ2lmWHRRYnppaG0yS2tfSDYyVHIweGlpMmZnZmtid3RyMVVHajhvWFdTUkJrem8yRmo0NGdzTUJvLUlRRWlSUkpRaDY5ZnF6SXZGR2V2cUVxbHljTlNYZHFKQzhKdjItT1BCc0tCSjN5QS1tMHVON0ZqTzFtWlRzRkZKY1o4czhyV3ZsNkNtNmt0bkpCOHln?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Axios</span>
+                <h3>Pentagon approves OpenAI safety red lines after dumping Anthropic - Axios</h3>
+                <a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxNUVlWNS1YcUVNLXk3UUdTcVVUbm1uZzZYNDNwVkhnZ01nWDhCNVRwQ0hScl9iUkh5b0hfdXhPbklCM2o5NGpubFVqd3JxUDBiNVJwN3J0Z05nakZzdG1EWW51dFJWcWlLYm9wRnRhUVhUZkx1blpieFRVZTNOLXlNYw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">The New York Times</span>
+                <h3>OpenAI Reaches A.I. Agreement With Defense Dept. After Anthropic Clash - The New York Times</h3>
+                <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOcHVVNDZDOEJ5RFNPZWdrZmlFUTJEdGVLdGNEX2RBLXl4d0tYUTh0YXJKT21xQmxwelRPUGZGajlyZGhsS19KYThTWnVTRG5paEFaOWw0TDFjOE9aX1hENFQxa0ppWmZrWUpaa29WaWF2MWd3QmNIRkNweWNaNUh0dGFWT0t4MEV0LVhpQW5FRlNQSlg0Z1d2UWliMktIOW8xVDVXRUF0eGkzMU1DN0VZZWx2RXVldFdLcFE?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">AP News</span>
+                <h3>Trump orders US agencies to stop using Anthropic technology in clash over AI safety - AP News</h3>
+                <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQNVdxeGpTY3hXa2wwUTB6S2VyalRWc09hQjMxMUJaN3JpbDliMmFUR0dWenhYWmxmbzF3Ry1FekFJaU1RTGJURHdiZ2lUZE9QZHZfTEMyWVV3V19oT2ZDQnNJNXNQM3lBV1JKWWJrNHljQXk1eW9PUmJNdVRyMFRSX0VFZURJeVFJR2NmLVhtcm11RFQ3WGg3ZjJkOEZZUDQ0SkZWUw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">BBC</span>
+                <h3>Anthropic boss rejects Pentagon demand to drop AI safeguards - BBC</h3>
+                <a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE1kLUhPd0ZlM2YtMlZZMkxLVVNzT3p3NG4yeDc4UjUxV3phUE4xYno2aWdDMEFMVXpPMHR0aWRZR2o2VjBKQnV4bmxzREFmUlIyNmoyYkl5ck9vQQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">blockchain.news</span>
+                <h3>Google DeepMind’s Nano Banana 2 Demo Shows Breakthrough Frame-to-Frame World Modeling – Analysis and Business Implications - blockchain.news</h3>
+                <a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxNVEFHbXVOSlhCVWtrN3ZMaG5FR05wNXNpMVh5dXBnd1VORDNGSjI3VjJEZEpXaFJDcU9PMElMNmRPMWZ3TTVWMXNaTUZKTExqRXVJeWN6anNTb1l1bVd1bUpMQ2ZEdFROV2hEc2docHFOMWI1NzRSWDhmcWs1d1RFWndKaVF2SVZXRExJNVg0bzhxaVF1d3ZCZEJOVjlVQng2U0x0WkFYUXVXM0lKdjg5VUhOeXVvSWFvWmo2VXp1em91U3pIZnhxRWFSQ0ZKTWJlYXhYTzVwM2RrTWVxbF9yVkdaZEhQZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        
+            <div class="news-card">
+                <span class="source-tag">Business Insider</span>
+                <h3>Google Deepmind CEO says the memory shortage is creating an AI 'choke point' - Business Insider</h3>
+                <a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxOTWZRWE5IU0pmMGxGaWl6dFNHVGE4bkwzMzlqZC15MWpaMWxHZ2pMbnAydU05VzVBY2JRV25iVi01eGpuc2FDMHJ1aWFuWTJiQ09BT3M5RXFJNTlwRHlrRWxEZlZoNWxleGpXRWptTjdTWFNxcm1HUGVvZTJseXJ2Ym5JVzl4eVlkOWJVN3NMVHk4RS01S2VpdFZBN3pSYXBOeWVv?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            </div>
+        </div><div class="section-title">AI LAYOFF TRACKER</div><div class="news-grid">
+                <div class="news-card">
+                    <span class="source-tag">Bloomberg.com</span>
+                    <h3>C3.ai to Cut 26% of Workforce Following CEO Transition - Bloomberg.com</h3>
+                    <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOd19fQ05waWtQNEhGVTBxc0xHYUlaYzZjSmJsdUkyNXJOTW5VSlBtZ3BONG04R1plWDB4UTBaTXFkaFR6RGtSU0c3dVpXaTRaaXBUdkZ5aG5leHhyc042UzBaZjBSRkVPeDQzOGZFUTBuUktkLUhmY0RwdmdaYUx0T2ZFNDZVazNYd29BamxyRVBJck55NDhUdGxKMWpacjB0UVVRRGQ2SFZqTlp1ZTdUMQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
                 </div>
-                </div>
-                <div class="sidebar">
-                    <div class="sidebar-title">Quick Reads</div>
             
-                    <div class="sidebar-item">
-                        <div class="source">Reuters</div>
-                        <h3>Exclusive: DeepSeek withholds latest AI model from US chipmakers including Nvidia, sources say - Reuters</h3>
-                        <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxNZmcycGJtVHZxelpFYjVibVpKcnF5V1JWMkRJS1p0eHdiNHM1cm9tRUNLZVdTeFJMRmkxdE50UVVjbFpSNUo5Z3ZGN1EtZlZtdHA2QXMzNVh4T09hUTJodExLOWNUallOZV9FNVZncWR3T040dFdCc3psR20tOFV4QkFiQm10Q2NMRXFBWVIxYWZ4Rmo0NGx4V09kb19HLWl4SEYyWm5OOW9RN2J1QktacG9FS0RtdlBpT3k1a085ZjFkaWs?oc=5" class="link" target="_blank">Read →</a>
-                    </div>
-                
-                    <div class="sidebar-item">
-                        <div class="source">Finbold</div>
-                        <h3>We asked DeepSeek AI what will be Nvidia stock price at end of 2026 - Finbold</h3>
-                        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNY2tiTWFZbFFtQlBFRzBieVBtSlhld0ExdUdHVjloM2tvS0tNd3V5Y3lvWEl4U1VySi05V0NWcE9vQkQ3Vzh1M2ZWLXNDTVhkTl8wWC1OV0ZiM2VEN1cxWm85QzYtaGt4S2cxZDRoaWlUdTl5c0w4VTBZX080U0JsWkc4MUFlVmJTdDA4TVJkTzhGdw?oc=5" class="link" target="_blank">Read →</a>
-                    </div>
-                
-                    <div class="sidebar-item">
-                        <div class="source">Futurism</div>
-                        <h3>Anthropic CEO Warns of "Tsunami" on Horizon - Futurism</h3>
-                        <a href="https://news.google.com/rss/articles/CBMifEFVX3lxTE9vQUFzTVZnZjBzNDZja0hSV1JnR0llazZSOG45dzN4SmJjOXRJWGplUzN3bXRETVhyYkxBX1FQcG16YU9VbkNhQVpOUzNpRjdJajFmdXNOU01McXpaVUMzX3oybEFpTXNzbVFLeHVwVGNuWGVGM01NNVcxYy0?oc=5" class="link" target="_blank">Read →</a>
-                    </div>
-                
-                    <div class="sidebar-item">
-                        <div class="source">Mugglehead Investment Magazine</div>
-                        <h3>Google DeepMind CEO warns of peril should we lose control of AI systems - Mugglehead Investment Magazine</h3>
-                        <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPaHhfOFdDRWV5Ul9Sdm0wVUp2NUFtSFlheEZFYXJveVZEbVlYbG04ellzenZ0SGphcDZzVUhMQ1FxTHlnQ3Vob3I2Qk1MVGFONnlYdUdydWxOc3pPMGpSYVlUYzdSRnRoS3JHT3BFLXMzM3NoTVEweW9ZX2JpOFJFb1NhdE1lN2RPQ0laLWtFT0FrZ0g2clJDMHF2SQ?oc=5" class="link" target="_blank">Read →</a>
-                    </div>
-                
+                <div class="news-card">
+                    <span class="source-tag">CNBC</span>
+                    <h3>AI was behind over 50,000 layoffs in 2025 — here are the top firms to cite it for job cuts - CNBC</h3>
+                    <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNUjZpVUFOVmJ4UllaQ2h6YXlHRzVzdlRGd0paUXFrWms4alBmTlpuN3BfbmduUUphSC1SMjR1aVB3T0FaWE9yZGN6WjRVZFBRdWZPZUVvVnJwYURpMk12Z1lVeDViWkZGWWU1UjhjdldISFNSSEVJWk45VTBQVXdmTE5zaDhwc2g3YkZiU0pVTF94MEpmT2N1ZlhRUktjaWpw0gGmAUFVX3lxTE5vNjZwczBfbi1scnNRb2VVODlTOHRWUV9rSHlRSGpnLWlIUVdzODVva0dOSW5HbzhuZHBhRWhYVHVCck1VUXNYODZYQ1pxSkJyaEJOQjIybmZONHIwXzJYMGFocWcwWlB1Z2l6aTYyZHBJWlpFUWxlWGh5UTlDcDRhYVpsVTVxRnBZNHZuYmF5V2EwOWJ0TVlIcEFjV29yaU1ZRVBtV0E?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">Reuters</span>
+                    <h3>Companies cutting jobs as investments shift toward AI - Reuters</h3>
+                    <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOUWdfaHBhbE4tUnNaZHEzMjRSN0xtRzhVSU16b1NZY0FTMlF3YnNiNk82MjNfYVdfQ2tjZHotWmMyMXgtV2hIMFdSdktyZy14UExzaWY2bUhYR0ExUmZ4NzhCU2NNTjBVZi1XdHJmN0I5cnNjdWJLZFk0ZmlxY2Q3bGhIYWsyY3RHRDVyMng0ZjJIcWFBc25aVGdKaG90bzNCTXhkYTBzbW83c0lvS0E?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">CFO.com</span>
+                    <h3>Block’s job cuts come as mid-market CFOs question AI layoff assumptions - CFO.com</h3>
+                    <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxOQTNTY01sTGUzT1NMaFFId1lXUjlsNldBeHpTY2ZuTy0xTTl5QWUwY3l1Yllac2YzVHY0bFZmc0ZvU1QtYzhGZ2VPYkFqTzFJcmVMa3F4NldCZXZfbVN3Z0t3ZlVDY2dXcHdGVFQ0aHE3TG1CeTBIN3FjaHJXRWtwV0kwM2lod3VMZVQ4aGRaSmN0SktTbGpwaGwwc2dEaGxNQ3phX09NbGRVYk5qQmE3SDRrNEhOM0R6bDVWNnhvMlFWNkVPd0YySHk5ZXlRQQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">AzerNews</span>
+                    <h3>Expert warns of AI replacing workers - AzerNews</h3>
+                    <a href="https://news.google.com/rss/articles/CBMiVEFVX3lxTE5pb1R5ODhRQTExMVhyRzRXX0lNaDBBbjA1a2JPcDRGQ0ZhLU1MTGpHTWg2N0UzTHM5UEE4ZHpZRHZiX2dqQ2hpTWx4TEYtUWNVQW1PQw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">Fortune</span>
+                    <h3>Mark Cuban says AI won’t take your job anytime soon because it still acts like a hungover college intern—with a $100K price tag to show for it - Fortune</h3>
+                    <a href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxQV3FicEtoVWlIQWxfdHc5YlltcUUwNUxyZTVZaTQtcHhreURYU1VsSzRtWEVJOHlKcVBOX0t2N3BxNEo0bGNEcTlfSElpanVSaTk0MkYyX2ZZamlNbm5DWDlfRjZpODBLOGpNZG52R3R1djBxV05PTDQ3eXVjSWNPeWZMSEhVZkNKbXN3SDRHbTd6SDR1QTI5dXFQRkxJQVFFU2c5cTZscWR5VE4weF9ZckYwZVlLengtQ0RuU0xKSExoYktSVDU3VmlzRnhJaS13UHFnTDJjTnBKLVQwSUE?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">Fortune</span>
+                    <h3>Jamie Dimon says society should start preparing for AI job displacement: ‘Now’s the time to start thinking about’ it - Fortune</h3>
+                    <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQanVsTkkwVzdiZ3duS1RqUnVYQ0w1aTAxeGdJVno1cFBCM0UzLUI4dkRhYTRDTVRlVXlCbzQ0SURBNmJ5OFlEcDZCaU9TdWJ2Q0tCdFd0RlhDSlhkMlFGVG1meERLVGd3RnNoR2hwODNOcGpnaU9sVFJjWlFwT2hzVXJxYlIzZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">Forbes</span>
+                    <h3>How To Protect Your Career From AI Job Displacement - Forbes</h3>
+                    <a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOMUNQV3NUM3JZNFF4RktpeUExcU82S0N4cnB6cHIzR0xPY0V2ek9uSW9CZFpTbDhOQ3R1bWVQX19FdFZtYkVNYThsMzhEeko2UXpvaFYzcTM4SGRKNDhtNU8xSEN1ZlJWTlJvTlhUb3gzX3pTUVh4aTd3NFV0R3VkM0ZxR2FJc3lRcmx3SGZGVm4xengwdWRMYVpfRGRWR0szbU4xeHBtNGVaQQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">AP News</span>
+                    <h3>Fintech company Block lays off 4,000 of its 10,000 staff, citing gains from AI - AP News</h3>
+                    <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxPeHV3aTdoZjBmTDU4RU5hX21qQjVVd3NsRTNBYXJpc0pMV0hidjA0UzdEV2NiSnpiTWctbFg4U3VYNGhoQ2QybE91YmxMQzhiTFFnSnZMcG5KWk1Uby05NWVxaHI0Rnc2aUlxby1RVVpNeVlwVlZjekdsdlFfa2FZY21tU0R2Z3djSFN2Nk9iemJ6QQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+                </div>
+            
+                <div class="news-card">
+                    <span class="source-tag">CNBC</span>
+                    <h3>C3 AI shares plummet as company cuts 26% of workforce, posts wider loss than expected - CNBC</h3>
+                    <a href="https://news.google.com/rss/articles/CBMibkFVX3lxTE4wNmJqUzlXQVd2M0FLMnlfZUJNc2w4cVo4NmxyR2E4RmV0UmFSMDIxaFF4bW9zOGRHRzNFTjRsNjlPc01zQS05eWlLUk5yQ1lfdXpiZUdtMWhjSXhMTnBBVnJMWG1hSXlPRGFib0ZB0gFzQVVfeXFMTU92ZHRVVG0tWDh0MDh5X3VYbXpTOEVPeTNUNXl4bWVxYm1qNmVIM1ZMeFRtdGpXc3RZM09JdF9EUE5xZTItNlMyb2NaaEQ0TkVHZm16UllGU29zaEhCaXZTdnJFQV9QRm5wZ2JKR3NwOUxOdw?oc=5" class="read-more" target="_blank">READ MORE →</a>
                 </div>
             </div>
-        </div>
-        
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 09:09 AM AEST</p>
+            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 05:06 PM AEST</p>
         </div>
     </div>
 </body>
