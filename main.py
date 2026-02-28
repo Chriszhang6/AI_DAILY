@@ -145,12 +145,43 @@ def fetch_all_news():
 
     return unique_news
 
-def generate_html_content(news_items):
-    """生成 HTML 内容，邮件显示全部，网页使用 JavaScript 分页"""
-    # 报纸风格：每个新闻项指定其布局类型
-    # layout types: 'hero' (头条大图), 'featured' (重要新闻), 'sidebar' (侧边栏小方块), 'standard' (标准)
-    layouts = ['hero', 'featured', 'sidebar', 'sidebar', 'featured', 'standard', 'standard', 'sidebar', 'sidebar', 'standard']
+def fetch_layoff_news():
+    """从多个关键词聚合AI相关的裁员新闻"""
+    keywords = [
+        # AI导致的裁员关键词
+        'AI layoffs 2025',
+        'AI automation job cuts',
+        'AI replacing workers',
+        'AI job displacement',
+        'company AI layoffs',
+        'tech automation jobs',
+        'AI workforce reduction',
+        'AI efficiency layoffs',
+        'automation replacing jobs',
+        'AI job cuts 2025'
+    ]
 
+    news = []
+    for keyword in keywords:
+        articles = fetch_google_news(keyword, max_items=2)
+        news.extend(articles)
+        if len(news) >= 10:
+            break
+
+    # 去重（按title）和返回前10条
+    seen_titles = set()
+    unique_news = []
+    for item in news:
+        if item['title'] not in seen_titles:
+            seen_titles.add(item['title'])
+            unique_news.append(item)
+            if len(unique_news) >= 10:
+                break
+
+    return unique_news
+
+def generate_html_content(ai_news, layoff_news=None):
+    """生成 HTML 内容"""
     html = """<!DOCTYPE html>
 <html>
 <head>
@@ -207,198 +238,60 @@ def generate_html_content(news_items):
             color: #666;
         }
 
-        /* 页面分隔线 */
-        .page-break {
-            display: block;
-            text-align: center;
-            padding: 20px;
-            background: #f9f9f9;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
-            margin: 20px 0;
-        }
-        .page-break span {
-            font-size: 14px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* 主布局：左侧主内容区 + 右侧边栏 */
-        .main-layout {
-            display: flex;
-            gap: 0;
-        }
-        .content-area {
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-        }
-        .sidebar {
-            width: 280px;
-            background: #f9f9f9;
-            padding: 20px 15px;
-        }
-        .sidebar-title {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #e94560;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            color: #1a1a2e;
-        }
-
-        /* 英雄头条样式 */
-        .hero-article {
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 3px double #000;
-        }
-        .hero-article h2 {
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 15px;
-            font-family: 'Georgia', serif;
-        }
-        .hero-article .meta {
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 12px;
-            font-style: italic;
-        }
-        .hero-article .hero-link {
-            display: inline-block;
+        /* 版块分隔标题 */
+        .section-title {
             background: #1a1a2e;
             color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 3px;
+            margin: 30px 0 20px 0;
+            border-top: 3px solid #e94560;
+            border-bottom: 3px solid #e94560;
         }
 
-        /* 重点新闻样式 */
-        .featured-grid {
+        /* 新闻网格布局 */
+        .news-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 15px;
+            padding: 20px;
         }
-        .featured-article {
+
+        .news-card {
             border: 1px solid #e0e0e0;
-            padding: 18px;
+            padding: 15px;
             background: white;
             transition: box-shadow 0.2s;
         }
-        .featured-article:hover {
+        .news-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .featured-article .source-tag {
+        .news-card .source-tag {
             font-size: 9px;
             color: #e94560;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
         }
-        .featured-article h3 {
-            font-size: 16px;
+        .news-card h3 {
+            font-size: 15px;
             font-weight: 600;
             line-height: 1.3;
             margin: 10px 0;
             font-family: 'Georgia', serif;
         }
-        .featured-article .read-more {
+        .news-card .read-more {
             font-size: 11px;
             color: #1a1a2e;
             text-decoration: none;
             font-weight: bold;
         }
-
-        /* 标准新闻列表 */
-        .standard-list {
-            border-top: 2px solid #000;
-            padding-top: 20px;
-        }
-        .standard-list h4 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #1a1a2e;
-        }
-        .standard-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .standard-item:last-child {
-            border-bottom: none;
-        }
-        .standard-item .number {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: #1a1a2e;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            line-height: 24px;
-            margin-right: 10px;
-        }
-        .standard-item h3 {
-            display: inline;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        .standard-item .source {
-            display: block;
-            font-size: 10px;
-            color: #999;
-            margin-top: 5px;
-            margin-left: 34px;
-            text-transform: uppercase;
-        }
-        .standard-item .read-more {
-            display: block;
-            font-size: 11px;
-            color: #1a1a2e;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-left: 34px;
-        }
-        .standard-item .read-more:hover {
+        .news-card .read-more:hover {
             color: #e94560;
-        }
-
-        /* 侧边栏小方块 */
-        .sidebar-item {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-        .sidebar-item h3 {
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 1.4;
-            margin: 8px 0;
-        }
-        .sidebar-item .source {
-            font-size: 9px;
-            color: #999;
-            text-transform: uppercase;
-        }
-        .sidebar-item .link {
-            font-size: 10px;
-            color: #e94560;
-            text-decoration: none;
-            font-weight: bold;
         }
 
         .footer {
@@ -421,177 +314,35 @@ def generate_html_content(news_items):
         </div>
         <div class="subheader">
             <div class="date">""" + get_aest_time().strftime('%A, %B %d, %Y').upper() + """</div>
-            <div class="issue">Vol. """ + get_aest_time().strftime('%Y%m%d') + """ • """ + str(len(news_items)) + """ Stories</div>
+            <div class="issue">Vol. """ + get_aest_time().strftime('%Y%m%d') + """ • AI News + Layoff Tracker</div>
         </div>
     """
 
-    # 分配新闻到不同区域
-    hero_items = []
-    featured_items = []
-    standard_items = []
-    sidebar_items = []
-
-    for i, item in enumerate(news_items):
-        layout = layouts[i % len(layouts)]
-        item_with_layout = {**item, 'index': i + 1}
-
-        if layout == 'hero':
-            hero_items.append(item_with_layout)
-        elif layout == 'featured':
-            featured_items.append(item_with_layout)
-        elif layout == 'sidebar':
-            sidebar_items.append(item_with_layout)
-        else:
-            standard_items.append(item_with_layout)
-
-    # 第 1 页内容 (1-10)
-    html += """
-        <div class="main-layout">
-            <div class="content-area">
-    """
-
-    # 英雄头条 (第1条)
-    if hero_items:
-        item = hero_items[0]
+    # AI 新闻版块 - 使用简洁的两列网格布局
+    html += '<div class="news-grid">'
+    for item in ai_news:
         html += f"""
-                <article class="hero-article">
-                    <h2>{item['title']}</h2>
-                    <div class="meta">From {item['source']} • Full story inside</div>
-                    <a href="{item['link']}" class="hero-link" target="_blank">Read Full Story →</a>
-                </article>
-        """
-
-    # 重点新闻 (第2,5条)
-    html += '<div class="featured-grid">'
-    for idx in [0, 1]:
-        if idx < len(featured_items):
-            item = featured_items[idx]
-            html += f"""
-                    <article class="featured-article">
-                        <span class="source-tag">{item['source']}</span>
-                        <h3>{item['title']}</h3>
-                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
-                    </article>
-            """
-    html += '</div>'
-
-    # 标准新闻 (第6,7,10条)
-    html += '<div class="standard-list"><h4>In Brief</h4>'
-    for idx in [0, 1, 2]:
-        if idx < len(standard_items):
-            item = standard_items[idx]
-            html += f"""
-                    <div class="standard-item">
-                        <span class="number">{item['index']}</span>
-                        <h3>{item['title']}</h3>
-                        <span class="source">{item['source']}</span>
-                        <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
-                    </div>
-            """
-    html += '</div>'
-
-    html += """
+            <div class="news-card">
+                <span class="source-tag">{item['source']}</span>
+                <h3>{item['title']}</h3>
+                <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
             </div>
-            <div class="sidebar">
-                <div class="sidebar-title">Quick Reads</div>
         """
+    html += '</div>'
 
-    # 侧边栏 (第3,4,8,9条)
-    for idx in [0, 1, 2, 3]:
-        if idx < len(sidebar_items):
-            item = sidebar_items[idx]
+    # 裁员新闻版块
+    if layoff_news and len(layoff_news) > 0:
+        html += '<div class="section-title">AI LAYOFF TRACKER</div>'
+        html += '<div class="news-grid">'
+        for item in layoff_news:
             html += f"""
-                <div class="sidebar-item">
-                    <div class="source">{item['source']}</div>
+                <div class="news-card">
+                    <span class="source-tag">{item['source']}</span>
                     <h3>{item['title']}</h3>
-                    <a href="{item['link']}" class="link" target="_blank">Read →</a>
+                    <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
                 </div>
             """
-
-    html += """
-            </div>
-        </div>
-    """
-
-    # 页面分隔符
-    has_page2 = len(news_items) > 10
-    if has_page2:
-        html += """
-        <div class="page-break">
-            <span>— Page Break —</span>
-        </div>
-        """
-
-    # 第 2 页内容 (11-20)
-    if has_page2:
-        html += """
-        <div class="main-layout">
-            <div class="content-area">
-        """
-
-        # 英雄头条 (第11条)
-        if len(hero_items) > 1:
-            item = hero_items[1]
-            html += f"""
-                    <article class="hero-article">
-                        <h2>{item['title']}</h2>
-                        <div class="meta">From {item['source']} • Full story inside</div>
-                        <a href="{item['link']}" class="hero-link" target="_blank">Read Full Story →</a>
-                    </article>
-            """
-
-        # 重点新闻 (第12,15条)
-        html += '<div class="featured-grid">'
-        for idx in [2, 3]:
-            if idx < len(featured_items):
-                item = featured_items[idx]
-                html += f"""
-                        <article class="featured-article">
-                            <span class="source-tag">{item['source']}</span>
-                            <h3>{item['title']}</h3>
-                            <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
-                        </article>
-                """
         html += '</div>'
-
-        # 标准新闻 (第16,17,20条)
-        html += '<div class="standard-list"><h4>In Brief</h4>'
-        for idx in [3, 4, 5]:
-            if idx < len(standard_items):
-                item = standard_items[idx]
-                html += f"""
-                        <div class="standard-item">
-                            <span class="number">{item['index']}</span>
-                            <h3>{item['title']}</h3>
-                            <span class="source">{item['source']}</span>
-                            <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
-                        </div>
-                """
-        html += '</div>'
-
-        html += """
-                </div>
-                <div class="sidebar">
-                    <div class="sidebar-title">Quick Reads</div>
-            """
-
-        # 侧边栏 (第13,14,18,19条)
-        for idx in [4, 5, 6, 7]:
-            if idx < len(sidebar_items):
-                item = sidebar_items[idx]
-                html += f"""
-                    <div class="sidebar-item">
-                        <div class="source">{item['source']}</div>
-                        <h3>{item['title']}</h3>
-                        <a href="{item['link']}" class="link" target="_blank">Read →</a>
-                    </div>
-                """
-
-        html += """
-                </div>
-            </div>
-        </div>
-        """
 
     html += """
         <div class="footer">
@@ -638,18 +389,23 @@ def save_html_file(html_content, output_path='docs/index.html'):
 def main():
     print("🚀 Starting AI Daily News Digest...")
 
-    # Fetch news
-    print("📡 Fetching news from sources...")
-    news = fetch_all_news()
-    print(f"✓ Fetched {len(news)} articles total")
+    # Fetch AI news
+    print("📡 Fetching AI news from sources...")
+    ai_news = fetch_all_news()
+    print(f"✓ Fetched {len(ai_news)} AI articles")
 
-    if not news:
-        print("✗ ERROR: No news found. Cannot send email.", file=sys.stderr)
-        sys.exit(1)  # Exit with error code
+    if not ai_news:
+        print("✗ ERROR: No AI news found. Cannot send email.", file=sys.stderr)
+        sys.exit(1)
+
+    # Fetch layoff news
+    print("📡 Fetching layoff news from sources...")
+    layoff_news = fetch_layoff_news()
+    print(f"✓ Fetched {len(layoff_news)} layoff articles")
 
     # Generate HTML
     print("📝 Generating email content...")
-    html_content = generate_html_content(news)
+    html_content = generate_html_content(ai_news, layoff_news)
 
     # Send email
     gmail_user = os.environ.get('GMAIL_USER')
@@ -661,7 +417,7 @@ def main():
         print(f"  GMAIL_USER: {'✓' if gmail_user else '✗'}", file=sys.stderr)
         print(f"  GMAIL_PASS: {'✓' if gmail_pass else '✗'}", file=sys.stderr)
         print(f"  TO_EMAIL: {'✓' if to_email else '✗'}", file=sys.stderr)
-        sys.exit(1)  # Exit with error code
+        sys.exit(1)
 
     print(f"📧 Sending email to {to_email}...")
     subject = f"AI Daily News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
@@ -669,7 +425,7 @@ def main():
 
     if not success:
         print("✗ ERROR: Failed to send email", file=sys.stderr)
-        sys.exit(1)  # Exit with error code
+        sys.exit(1)
 
     # Save HTML file for GitHub Pages
     print("💾 Saving HTML file for GitHub Pages...")
