@@ -9,6 +9,8 @@ import sys
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import re
+from difflib import SequenceMatcher
 
 # Check for required lxml dependency for XML parsing
 try:
@@ -28,6 +30,176 @@ except ImportError:
 def get_aest_time():
     """Get current time in Australian Eastern Time (AEST/AEDT)"""
     return datetime.now(ZoneInfo('Australia/Sydney'))
+
+# 权威媒体列表（按优先级排序）
+AUTHORITATIVE_SOURCES = [
+    'Reuters', 'Bloomberg', 'The New York Times', 'Wall Street Journal',
+    'Financial Times', 'The Economist', 'The Verge', 'TechCrunch',
+    'Wired', 'Ars Technica', 'MIT Technology Review', 'Nature',
+    'Science', 'IEEE Spectrum', 'CNBC', 'BBC News', 'The Guardian',
+    'Washington Post', 'AP News', 'AFP'
+]
+
+def get_source_priority(source):
+    """获取媒体权威性优先级，分数越高越权威"""
+    source_upper = source.upper()
+    for i, authoritative in enumerate(AUTHORITATIVE_SOURCES):
+        if authoritative.upper() in source_upper:
+            return len(AUTHORITATIVE_SOURCES) - i  # 权威媒体得高分
+    return 0  # 普通媒体得0分
+
+def extract_key_entities(title):
+    """从标题中提取关键实体（公司、产品、人名）"""
+    entities = set()
+    title_upper = title.upper()
+
+    # AI公司列表
+    companies = [
+        'OPENAI', 'ANTHROPIC', 'CLAUDE', 'DEEPMIND', 'GOOGLE', 'META',
+        'ALIBABA', 'QWEN', 'KIMI', 'MOONSHOT', 'GLM', 'ZHIPU', 'DEEPSEEK',
+        'MICROSOFT', 'AMAZON', 'NVIDIA', 'APPLE', 'TENCENT', 'BYTEDANCE',
+        'BAIDU', 'MISTRAL', 'HUGGING FACE', 'STABILITY AI', 'PERPLEXITY',
+        'COHERE', 'AI21', 'INFLECTION', 'CHARACTER.AI', 'AUTODESK',
+        'SALESFORCE', 'ORACLE', 'IBM', 'SAP', 'ADOBE', 'SPOTIFY',
+        'BLOCK', 'STRIPE', 'PAYPAL', 'INTUIT', 'SERVICENOW'
+    ]
+
+    # AI产品和模型
+    products = [
+        'GPT-4', 'GPT4', 'GPT-5', 'GPT5', 'CHATGPT',
+        'LLAMA', 'LLAMA 2', 'LLAMA 3', 'LLAMA2', 'LLAMA3',
+        'DALL-E', 'DALLE', 'MIDJOURNEY', 'STABLE DIFFUSION',
+        'GEMINI', 'GEMINI PRO', 'GEMINI ULTRA',
+        'SORA', 'VOYAGER', 'SPARC', 'JARVIS',
+        'ALPHAFOLD', 'ALPHACODE', 'ALPHAGEOMETRY',
+        'GROK', 'XAI', 'COPYSCAT', 'JASPER'
+    ]
+
+    # AI知名人物
+    people = [
+        'SAM ALTMAN', 'DARIO AMODEI', 'DEMIS HASSABIS', 'YANN LECUN',
+        'ANDREW NG', 'GEOFFREY HINTON', 'ELON MUSK', 'SATYA NADELLA',
+        'SUNDAR PICHAI', 'MARK ZUCKERBERG', 'JENNA LYONS'
+    ]
+
+    # 提取实体
+    for company in companies:
+        if company in title_upper:
+            entities.add(company)
+
+    for product in products:
+        if product.upper() in title_upper:
+            entities.add(product.upper())
+
+    for person in people:
+        if person in title_upper:
+            entities.add(person)
+
+    return entities
+
+def get_event_type(title):
+    """获取新闻事件类型"""
+    title_lower = title.lower()
+
+    event_patterns = {
+        'launch': ['launch', 'release', 'announce', 'unveil', 'introduce', 'debuts', 'rolls out'],
+        'funding': ['funding', 'raises', 'investment', 'invest', 'venture', 'series a', 'series b', 'ipo'],
+        'layoff': ['layoff', 'lay off', 'layoffs', 'cutting jobs', 'job cuts', 'workforce reduction', 'firing', 'lays off', 'cuts'],
+        'hiring': ['hiring', 'recruiting', 'chief', 'executive', 'appointed', 'joins', 'named'],
+        'partnership': ['partnership', 'partner', 'collaboration', 'collaborate', 'deal', 'acquisition', 'acquire', 'merger'],
+        'regulation': ['regulation', 'regulatory', 'ban', 'lawsuit', 'legal', 'safety', 'concerns', 'investigation'],
+        'research': ['research', 'study', 'paper', 'breakthrough', 'develops', 'scientists', 'discovery'],
+        'performance': ['beats', 'surpasses', 'outperforms', 'benchmark', 'test', 'evaluation', 'ranking']
+    }
+
+    for event_type, patterns in event_patterns.items():
+        for pattern in patterns:
+            if pattern in title_lower:
+                return event_type
+
+    return 'news'  # 默认类型
+
+def title_similarity(title1, title2):
+    """计算两个标题的相似度（考虑实体和事件类型）"""
+    # 获取实体和事件类型
+    entities1 = extract_key_entities(title1)
+    entities2 = extract_key_entities(title2)
+    event1 = get_event_type(title1)
+    event2 = get_event_type(title2)
+
+    # 如果没有实体，使用字符串相似度
+    if not entities1 and not entities2:
+        return SequenceMatcher(None, title1.lower(), title2.lower()).ratio()
+
+    # 计算实体重叠度
+    entity_overlap = len(entities1 & entities2) / max(len(entities1 | entities2), 1)
+
+    # 事件类型相同，增加相似度
+    event_bonus = 0.3 if event1 == event2 else 0
+
+    # 字符串相似度作为补充
+    text_similarity = SequenceMatcher(None, title1.lower(), title2.lower()).ratio()
+
+    # 综合得分
+    similarity = entity_overlap * 0.7 + event_bonus + text_similarity * 0.3
+
+    return min(similarity, 1.0)  # 确保不超过1
+
+def is_same_event(article1, article2, threshold=0.6):
+    """判断两篇文章是否报道同一事件"""
+    # 标题完全相同
+    if article1['title'] == article2['title']:
+        return True
+
+    # URL相同（可能是同一来源）
+    if article1['link'] == article2['link']:
+        return True
+
+    # 计算标题相似度
+    similarity = title_similarity(article1['title'], article2['title'])
+
+    return similarity >= threshold
+
+def deduplicate_articles(articles, target_count=10, similarity_threshold=0.6):
+    """
+    智能去重新闻文章
+
+    Args:
+        articles: 原始文章列表
+        target_count: 目标保留数量
+        similarity_threshold: 相似度阈值
+
+    Returns:
+        去重后的文章列表
+    """
+    if not articles:
+        return []
+
+    # 按媒体权威性排序
+    sorted_articles = sorted(
+        articles,
+        key=lambda x: (get_source_priority(x['source']), len(x['title'])),
+        reverse=True
+    )
+
+    unique_groups = []
+
+    for article in sorted_articles:
+        # 检查是否与已有分组中的文章是同一事件
+        is_duplicate = False
+        for group in unique_groups:
+            if is_same_event(article, group[0], similarity_threshold):
+                group.append(article)  # 加入同一事件组
+                is_duplicate = True
+                break
+
+        if not is_duplicate:
+            unique_groups.append([article])  # 创建新的事件组
+
+    # 从每个事件组中选择最佳文章（组内第一个，因为已经按权威性排序）
+    deduplicated = [group[0] for group in unique_groups]
+
+    return deduplicated[:target_count]
 
 def fetch_google_news(keyword, max_items=2, retries=3):
     """从Google News RSS获取新闻"""
@@ -126,22 +298,16 @@ def fetch_all_news():
         'Deep learning research'
     ]
 
+    # 收集更多新闻以供去重筛选
     news = []
     for keyword in keywords:
-        articles = fetch_google_news(keyword, max_items=2)
+        articles = fetch_google_news(keyword, max_items=3)  # 增加到3条以获得更多候选
         news.extend(articles)
-        if len(news) >= 20:
+        if len(news) >= 50:  # 收集更多候选新闻
             break
 
-    # 去重（按title）和返回前20条
-    seen_titles = set()
-    unique_news = []
-    for item in news:
-        if item['title'] not in seen_titles:
-            seen_titles.add(item['title'])
-            unique_news.append(item)
-            if len(unique_news) >= 20:
-                break
+    # 使用智能去重，返回10条不重复的新闻
+    unique_news = deduplicate_articles(news, target_count=10)
 
     return unique_news
 
@@ -161,22 +327,16 @@ def fetch_layoff_news():
         'AI job cuts 2025'
     ]
 
+    # 收集更多新闻以供去重筛选
     news = []
     for keyword in keywords:
-        articles = fetch_google_news(keyword, max_items=2)
+        articles = fetch_google_news(keyword, max_items=3)  # 增加到3条
         news.extend(articles)
-        if len(news) >= 10:
+        if len(news) >= 30:
             break
 
-    # 去重（按title）和返回前10条
-    seen_titles = set()
-    unique_news = []
-    for item in news:
-        if item['title'] not in seen_titles:
-            seen_titles.add(item['title'])
-            unique_news.append(item)
-            if len(unique_news) >= 10:
-                break
+    # 使用智能去重，返回5条不重复的裁员新闻（减少重复）
+    unique_news = deduplicate_articles(news, target_count=5)
 
     return unique_news
 
@@ -392,7 +552,7 @@ def main():
     # Fetch AI news
     print("📡 Fetching AI news from sources...")
     ai_news = fetch_all_news()
-    print(f"✓ Fetched {len(ai_news)} AI articles")
+    print(f"✓ Fetched {len(ai_news)} unique AI articles")
 
     if not ai_news:
         print("✗ ERROR: No AI news found. Cannot send email.", file=sys.stderr)
@@ -401,7 +561,7 @@ def main():
     # Fetch layoff news
     print("📡 Fetching layoff news from sources...")
     layoff_news = fetch_layoff_news()
-    print(f"✓ Fetched {len(layoff_news)} layoff articles")
+    print(f"✓ Fetched {len(layoff_news)} unique layoff articles")
 
     # Generate HTML
     print("📝 Generating email content...")
