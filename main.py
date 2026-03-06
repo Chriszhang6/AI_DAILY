@@ -341,177 +341,253 @@ def fetch_layoff_news():
     return unique_news
 
 def generate_html_content(ai_news, layoff_news=None):
-    """生成 HTML 内容"""
-    html = """<!DOCTYPE html>
+    """生成 HTML 内容 - 专业报纸风格邮件布局"""
+    now = get_aest_time()
+    date_display = now.strftime('%A, %B %d, %Y').upper()
+    vol_display = now.strftime('%Y.%m.%d')
+    time_display = now.strftime('%I:%M %p').upper()
+
+    html = f"""<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Times New Roman', Georgia, serif;
-            background: #f5f5f5;
-            padding: 15px;
-        }
-        .container {
-            max-width: 1000px;
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f4f4f0;
+            padding: 20px 10px;
+            color: #333;
+            line-height: 1.6;
+        }}
+        .container {{
+            max-width: 620px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .masthead {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 25px 20px;
+            background: #ffffff;
+        }}
+
+        /* Masthead */
+        .masthead {{
+            padding: 28px 30px 20px;
             text-align: center;
-            border-bottom: 4px solid #e94560;
-        }
-        .masthead h1 {
-            font-size: 56px;
-            font-weight: 900;
-            letter-spacing: 8px;
-            margin-bottom: 8px;
-            font-family: 'Arial Black', sans-serif;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .masthead .tagline {
+            border-bottom: 1px solid #e0e0e0;
+        }}
+        .masthead-rule {{
+            border: none;
+            border-top: 2px solid #121212;
+            margin: 0 0 16px 0;
+        }}
+        .masthead h1 {{
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #121212;
+            margin-bottom: 4px;
+        }}
+        .masthead .edition {{
+            font-family: Georgia, 'Times New Roman', serif;
             font-size: 11px;
-            letter-spacing: 3px;
-            opacity: 0.9;
+            letter-spacing: 2px;
+            color: #999;
             text-transform: uppercase;
-        }
-        .subheader {
+        }}
+        .masthead-rule-bottom {{
+            border: none;
+            border-top: 1px solid #121212;
+            margin: 16px 0 0 0;
+        }}
+
+        /* Date bar */
+        .date-bar {{
+            padding: 10px 30px;
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            border-bottom: 2px solid #000;
-            background: #fff;
-        }
-        .subheader .date {
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .subheader .issue {
+        }}
+
+        /* Section headers */
+        .section-label {{
+            padding: 18px 30px 8px;
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
             font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c80000;
+        }}
+        .section-rule {{
+            border: none;
+            border-top: 2px solid #121212;
+            margin: 0 30px;
+        }}
+
+        /* Lead story */
+        .lead-story {{
+            padding: 20px 30px 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }}
+        .lead-story .source {{
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             color: #666;
-        }
-
-        /* 版块分隔标题 */
-        .section-title {
-            background: #1a1a2e;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin: 30px 0 20px 0;
-            border-top: 3px solid #e94560;
-            border-bottom: 3px solid #e94560;
-        }
-
-        /* 新闻网格布局 */
-        .news-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .news-card {
-            border: 1px solid #e0e0e0;
-            padding: 15px;
-            background: white;
-            transition: box-shadow 0.2s;
-        }
-        .news-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .news-card .source-tag {
-            font-size: 9px;
-            color: #e94560;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-        .news-card h3 {
-            font-size: 15px;
-            font-weight: 600;
+            margin-bottom: 6px;
+        }}
+        .lead-story h2 {{
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 24px;
+            font-weight: 700;
             line-height: 1.3;
-            margin: 10px 0;
-            font-family: 'Georgia', serif;
-        }
-        .news-card .read-more {
-            font-size: 11px;
-            color: #1a1a2e;
+            color: #121212;
+            margin-bottom: 12px;
+        }}
+        .lead-story h2 a {{
+            color: #121212;
             text-decoration: none;
-            font-weight: bold;
-        }
-        .news-card .read-more:hover {
-            color: #e94560;
-        }
+        }}
+        .lead-story h2 a:hover {{
+            color: #c80000;
+        }}
 
-        .footer {
-            background: #1a1a2e;
-            color: white;
+        /* Article list */
+        .article-list {{
+            padding: 0 30px;
+        }}
+        .article-item {{
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }}
+        .article-item:last-child {{
+            border-bottom: none;
+        }}
+        .article-item .source {{
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 4px;
+        }}
+        .article-item h3 {{
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: #121212;
+            margin: 0;
+        }}
+        .article-item h3 a {{
+            color: #121212;
+            text-decoration: none;
+        }}
+        .article-item h3 a:hover {{
+            color: #c80000;
+        }}
+
+        /* Layoff section */
+        .section-divider {{
+            margin: 6px 0 0 0;
+        }}
+
+        /* Footer */
+        .footer {{
+            padding: 24px 30px;
             text-align: center;
-            padding: 20px;
-            font-size: 11px;
-        }
-        .footer p {
-            opacity: 0.8;
-        }
+            border-top: 2px solid #121212;
+            margin-top: 10px;
+        }}
+        .footer p {{
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #999;
+            margin: 4px 0;
+        }}
+
+        @media (max-width: 480px) {{
+            .masthead h1 {{ font-size: 30px; letter-spacing: 3px; }}
+            .lead-story h2 {{ font-size: 20px; }}
+            .article-item h3 {{ font-size: 15px; }}
+            .masthead, .date-bar, .section-label, .lead-story, .article-list, .footer {{
+                padding-left: 18px;
+                padding-right: 18px;
+            }}
+            .section-rule {{ margin: 0 18px; }}
+        }}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="masthead">
+            <hr class="masthead-rule">
             <h1>AI DAILY</h1>
-            <div class="tagline">Your Source for Artificial Intelligence News</div>
+            <div class="edition">Your Daily Artificial Intelligence Briefing</div>
+            <hr class="masthead-rule-bottom">
         </div>
-        <div class="subheader">
-            <div class="date">""" + get_aest_time().strftime('%A, %B %d, %Y').upper() + """</div>
-            <div class="issue">Vol. """ + get_aest_time().strftime('%Y%m%d') + """ • AI News + Layoff Tracker</div>
+        <div class="date-bar">
+            <span>{date_display}</span>
+            <span>Vol. {vol_display}</span>
         </div>
-    """
+"""
 
-    # AI 新闻版块 - 使用简洁的两列网格布局
-    html += '<div class="news-grid">'
-    for item in ai_news:
-        html += f"""
-            <div class="news-card">
-                <span class="source-tag">{item['source']}</span>
-                <h3>{item['title']}</h3>
-                <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
+    # AI News section
+    if ai_news:
+        html += '        <div class="section-label">Today\'s Top Stories</div>\n'
+        html += '        <hr class="section-rule">\n'
+
+        # Lead story - first article gets prominent treatment
+        lead = ai_news[0]
+        html += f"""        <div class="lead-story">
+            <div class="source">{lead['source']}</div>
+            <h2><a href="{lead['link']}" target="_blank">{lead['title']}</a></h2>
+        </div>
+"""
+
+        # Remaining articles as a clean list
+        if len(ai_news) > 1:
+            html += '        <div class="article-list">\n'
+            for item in ai_news[1:]:
+                html += f"""            <div class="article-item">
+                <div class="source">{item['source']}</div>
+                <h3><a href="{item['link']}" target="_blank">{item['title']}</a></h3>
             </div>
-        """
-    html += '</div>'
+"""
+            html += '        </div>\n'
 
-    # 裁员新闻版块
+    # Layoff news section
     if layoff_news and len(layoff_news) > 0:
-        html += '<div class="section-title">AI LAYOFF TRACKER</div>'
-        html += '<div class="news-grid">'
+        html += '        <div class="section-divider"></div>\n'
+        html += '        <div class="section-label">AI Layoff Tracker</div>\n'
+        html += '        <hr class="section-rule">\n'
+        html += '        <div class="article-list">\n'
         for item in layoff_news:
-            html += f"""
-                <div class="news-card">
-                    <span class="source-tag">{item['source']}</span>
-                    <h3>{item['title']}</h3>
-                    <a href="{item['link']}" class="read-more" target="_blank">READ MORE →</a>
-                </div>
-            """
-        html += '</div>'
+            html += f"""            <div class="article-item">
+                <div class="source">{item['source']}</div>
+                <h3><a href="{item['link']}" target="_blank">{item['title']}</a></h3>
+            </div>
+"""
+        html += '        </div>\n'
 
-    html += """
+    html += f"""
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • """ + get_aest_time().strftime('%I:%M %p').upper() + """ AEST</p>
+            <p>AI Daily &middot; {date_display}</p>
+            <p>Delivered at {time_display} AEST</p>
         </div>
     </div>
 </body>
 </html>
-    """
+"""
     return html
 
 def send_email(subject, html_content, to_email, gmail_user, gmail_pass):
