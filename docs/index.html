@@ -6,227 +6,264 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Times New Roman', Georgia, serif;
-            background: #f5f5f5;
-            padding: 15px;
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f4f4f0;
+            padding: 20px 10px;
+            color: #333;
+            line-height: 1.6;
         }
         .container {
-            max-width: 1000px;
+            max-width: 620px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #ffffff;
         }
+
+        /* Masthead */
         .masthead {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 25px 20px;
+            padding: 28px 30px 20px;
             text-align: center;
-            border-bottom: 4px solid #e94560;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .masthead-rule {
+            border: none;
+            border-top: 2px solid #121212;
+            margin: 0 0 16px 0;
         }
         .masthead h1 {
-            font-size: 56px;
-            font-weight: 900;
-            letter-spacing: 8px;
-            margin-bottom: 8px;
-            font-family: 'Arial Black', sans-serif;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #121212;
+            margin-bottom: 4px;
         }
-        .masthead .tagline {
+        .masthead .edition {
+            font-family: Georgia, 'Times New Roman', serif;
             font-size: 11px;
-            letter-spacing: 3px;
-            opacity: 0.9;
+            letter-spacing: 2px;
+            color: #999;
             text-transform: uppercase;
         }
-        .subheader {
+        .masthead-rule-bottom {
+            border: none;
+            border-top: 1px solid #121212;
+            margin: 16px 0 0 0;
+        }
+
+        /* Date bar */
+        .date-bar {
+            padding: 10px 30px;
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            border-bottom: 2px solid #000;
-            background: #fff;
         }
-        .subheader .date {
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .subheader .issue {
+
+        /* Section headers */
+        .section-label {
+            padding: 18px 30px 8px;
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
             font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c80000;
+        }
+        .section-rule {
+            border: none;
+            border-top: 2px solid #121212;
+            margin: 0 30px;
+        }
+
+        /* Lead story */
+        .lead-story {
+            padding: 20px 30px 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .lead-story .source {
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             color: #666;
+            margin-bottom: 6px;
         }
-
-        /* 版块分隔标题 */
-        .section-title {
-            background: #1a1a2e;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin: 30px 0 20px 0;
-            border-top: 3px solid #e94560;
-            border-bottom: 3px solid #e94560;
-        }
-
-        /* 新闻网格布局 */
-        .news-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .news-card {
-            border: 1px solid #e0e0e0;
-            padding: 15px;
-            background: white;
-            transition: box-shadow 0.2s;
-        }
-        .news-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .news-card .source-tag {
-            font-size: 9px;
-            color: #e94560;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-        .news-card h3 {
-            font-size: 15px;
-            font-weight: 600;
+        .lead-story h2 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 24px;
+            font-weight: 700;
             line-height: 1.3;
-            margin: 10px 0;
-            font-family: 'Georgia', serif;
+            color: #121212;
+            margin-bottom: 12px;
         }
-        .news-card .read-more {
-            font-size: 11px;
-            color: #1a1a2e;
+        .lead-story h2 a {
+            color: #121212;
             text-decoration: none;
-            font-weight: bold;
         }
-        .news-card .read-more:hover {
-            color: #e94560;
+        .lead-story h2 a:hover {
+            color: #c80000;
         }
 
+        /* Article list */
+        .article-list {
+            padding: 0 30px;
+        }
+        .article-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .article-item:last-child {
+            border-bottom: none;
+        }
+        .article-item .source {
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .article-item h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: #121212;
+            margin: 0;
+        }
+        .article-item h3 a {
+            color: #121212;
+            text-decoration: none;
+        }
+        .article-item h3 a:hover {
+            color: #c80000;
+        }
+
+        /* Layoff section */
+        .section-divider {
+            margin: 6px 0 0 0;
+        }
+
+        /* Footer */
         .footer {
-            background: #1a1a2e;
-            color: white;
+            padding: 24px 30px;
             text-align: center;
-            padding: 20px;
-            font-size: 11px;
+            border-top: 2px solid #121212;
+            margin-top: 10px;
         }
         .footer p {
-            opacity: 0.8;
+            font-family: -apple-system, Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #999;
+            margin: 4px 0;
+        }
+
+        @media (max-width: 480px) {
+            .masthead h1 { font-size: 30px; letter-spacing: 3px; }
+            .lead-story h2 { font-size: 20px; }
+            .article-item h3 { font-size: 15px; }
+            .masthead, .date-bar, .section-label, .lead-story, .article-list, .footer {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+            .section-rule { margin: 0 18px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="masthead">
+            <hr class="masthead-rule">
             <h1>AI DAILY</h1>
-            <div class="tagline">Your Source for Artificial Intelligence News</div>
+            <div class="edition">Your Daily Artificial Intelligence Briefing</div>
+            <hr class="masthead-rule-bottom">
         </div>
-        <div class="subheader">
-            <div class="date">FRIDAY, MARCH 06, 2026</div>
-            <div class="issue">Vol. 20260306 • AI News + Layoff Tracker</div>
+        <div class="date-bar">
+            <span>FRIDAY, MARCH 06, 2026</span>
+            <span>Vol. 2026.03.06</span>
         </div>
-    <div class="news-grid">
-            <div class="news-card">
-                <span class="source-tag">Reuters</span>
-                <h3>US mulls new rules for AI chip exports, including requiring US investments by foreign firms - Reuters</h3>
-                <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNbHlIa3ZDZ0wxc19tUmxrb1l4aml2UEI2S3MtV1RrMWxJV3FsS2ZuMk9oQk9Ed1YyTGZBWlRIU0lFQkxkbmNFbFpOblk0LUo0X2JReEdDdkEyVzFYc0VqOWtfUmhIb2JYbjc4VmtxY1NoTU1jRk5RRUE1Q1NkSGhUZVVmdW9qVzBnYnNOZzVoV21rbFpheFVPMVRLenVVRzVILWU5ZWNGTnhZMGk5anRNTDdnbHRTV1FDOW9j?oc=5" class="read-more" target="_blank">READ MORE →</a>
+        <div class="section-label">Today's Top Stories</div>
+        <hr class="section-rule">
+        <div class="lead-story">
+            <div class="source">Reuters</div>
+            <h2><a href="https://example.com/1" target="_blank">US mulls new rules for AI chip exports, including requiring US investments by foreign firms</a></h2>
+        </div>
+        <div class="article-list">
+            <div class="article-item">
+                <div class="source">Reuters</div>
+                <h3><a href="https://example.com/2" target="_blank">OpenAI hit with lawsuit claiming ChatGPT acted as an unlicensed lawyer</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Reuters</span>
-                <h3>OpenAI hit with lawsuit claiming ChatGPT acted as an unlicensed lawyer - Reuters</h3>
-                <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxQbFJidzdqOGwyNHp6ajRUclBSV1JyOThwclZXNUNjcFZrOHN5b3AxXzlkTUphZFgtc3g1RzN2LVEtZ1B0ZExxOFgwa0tUZi1CbEFXNjVBVV96U3JUd2FkRktsbHlmQ0owMkhZN25RMzRya01uR1NLUzYzVzQ3MWVaSVotOWhHekhEQlFoemlQRmZuS19EY2Z6U0JuN0NaSHBTUUJ3U202NjUzRUNXMldTeDlpc01VU0JXSDFwVk5LUmg?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Reuters</div>
+                <h3><a href="https://example.com/3" target="_blank">OpenAI hires ex-Apple models head from Meta, The Information reports</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Reuters</span>
-                <h3>OpenAI hires ex-Apple models head from Meta, The Information reports - Reuters</h3>
-                <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxOcHkyYW9US0o0cTlnV1FxSzEwa2htdWFPbGlqY3FqR1pxQWVvYVlZVW85XzgxX1VYcUR0QXdOVGtRVlF4RHJsVGhRUmZfNHlMU3ZJb0xVcEhpSS1PQ3hfakVfeXg2STlXR0lBNWd2cm52XzBjcTRKcnJjY3pSUWpkUVRHUEIwNmQwUzRaSWxLMmpyRGU2d0dUcHlqU3dBaXNzeWRzTFFBRFBCd0tUaXpHUGxHN1FmeFU?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Reuters</div>
+                <h3><a href="https://example.com/4" target="_blank">Chinese AI startup Zhipu releases new flagship model GLM-5</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Reuters</span>
-                <h3>Chinese AI startup Zhipu releases new flagship model GLM-5 - Reuters</h3>
-                <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQUTJOUlUweGktZUZOTjRXbWxBdlpqRnYtS2hLcVY5UDZMZGRuVkQzb2g3c1FuRnhRaTZCUGVRblo1Yng1S1lRVUh1U3NHNTJiTDlqZmhScUtFQVdEQlhLOEJRRDdoeXlPRm5OXzRBaTZQS3AxT0dKeExZbFlfTGFuMmpNOTdaTEFnNlNzVVU3ai0wUEV4ZEM5TDNybnA3NDRpSVI2VTliVQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Bloomberg</div>
+                <h3><a href="https://example.com/5" target="_blank">Silicon Valley's Self-Defeating Bid to Preempt DeepSeek</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Bloomberg</span>
-                <h3>Silicon Valley’s Self-Defeating Bid to Preempt DeepSeek - Bloomberg</h3>
-                <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxNdVNIOFk4NEd6dHVNMjNZcm04dlN5ZWR5U3h6M2FFbDV5TU9ZYVFSMmlPbWtSTmZXc2k4TVhwbS1TSzZpLWtackJQNE5vN0VUMzdEV09CNnJiMjRfNnBwWGJ2SE5KZF9hTGNvRlp2V0pWVm9NZzBfY05oTER4ZmthS2RKamRSajJ3Q1l5NkJoQ3p3cjNJQUV6QjdIREZ3SXlGZ09WN2pXNGpBbWFMWWc?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Bloomberg</div>
+                <h3><a href="https://example.com/6" target="_blank">Alibaba Qwen Head Who Warned of OpenAI Gap Steps Down</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Bloomberg</span>
-                <h3>Alibaba Qwen Head Who Warned of OpenAI Gap Steps Down - Bloomberg</h3>
-                <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQN0VGb0hjRHgtLXBjb3BQeDc3T0MxWGlnRS1aQjlWZzM1TXhDeWdSd1RlSC1vNk03anVIaUZoV1hWSlNRSjN1cVJDTXdlYjJ3WXo0a2tLejlmNXJscXozbWttenBaLXp0NFhMNnZtVm92SktmTFlYUERYLXRfbzZmMHVGODNwaHNCS1NDSUJ3UkdRME10OXlhRVNtejU2S09MWjlsMF9hQQ?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">The New York Times</div>
+                <h3><a href="https://example.com/7" target="_blank">Trump Announces A.I. Industry Pledge to Pay for Power</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">The New York Times</span>
-                <h3>Trump Announces A.I. Industry Pledge to Pay for Power - The New York Times</h3>
-                <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxOYnExWlZnRkxTYXR6ZTdESzFDY1VKMy1RUF90cVVwZmRXVjB1a2szVDlxT1FEeUIyTkowYjZubjJlRmR3M1dqM2tiaGNxOUQzbU9OSF9LYUJOUl9XckJLWWJ5NV9GUE9pLTRQMkNiYVpCLTM1VWhVek90MzZhbGR2V2pxS1pYdHZpcnZYNE53?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Financial Times</div>
+                <h3><a href="https://example.com/8" target="_blank">Anthropic chief back in talks with Pentagon about AI deal</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Financial Times</span>
-                <h3>Anthropic chief back in talks with Pentagon about AI deal - Financial Times</h3>
-                <a href="https://news.google.com/rss/articles/CBMicEFVX3lxTE9JR29pZkpWY2lPbGhsUk9HeFY0YkRVeXlmNFRxQ0syUkEtVXRNUm9sVUtLUmlWMERWeTEzaE1sdGdNRVNhOU1uMXRRWXViekNxXzhHMUxlb25Cdno2MUNoVFVja0tuQUZYdy0yVExnaFU?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">Financial Times</div>
+                <h3><a href="https://example.com/9" target="_blank">Amazon AI lab chief to depart amid leadership shake-up</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">Financial Times</span>
-                <h3>Amazon AI lab chief to depart amid leadership shake-up - Financial Times</h3>
-                <a href="https://news.google.com/rss/articles/CBMicEFVX3lxTFBwWjNlUHNyRTZ5bzRvT1lQYnQ4c1BFd0pzQkFQbnpuYy1kWXBZeTd5U3dDWml0ZzFWR1g2Qldncm9NLU1TUFJId1h6cGRDdHZjdk04QmN1U19fMEQwODViR2dMZVA0THFpMmNKRmNxNmU?oc=5" class="read-more" target="_blank">READ MORE →</a>
+            <div class="article-item">
+                <div class="source">TechCrunch</div>
+                <h3><a href="https://example.com/10" target="_blank">Google DeepMind CEO is 'surprised' OpenAI is rushing forward with ads in ChatGPT</a></h3>
             </div>
-        
-            <div class="news-card">
-                <span class="source-tag">TechCrunch</span>
-                <h3>Google DeepMind CEO is ‘surprised’ OpenAI is rushing forward with ads in ChatGPT - TechCrunch</h3>
-                <a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxOSWVLbmNFeUFwQnU1MUJOcFV5dlNPeEtJLXl2UkRfUTh5VUxMam9GSVlDb3lNYVhRbjVCQk1VbWlCYXlrWFJnOV8xdThxbGtwRE50MHhaeHM3Y1BYWmpYVjVMbWpkbDYyMDN5TVdvbFpYclRSc2FKMGltaXYxU3YzcmFPQnJoMTNCU2tuNTFiLURBWEo3emxrem1lU3dORGpDd1Z0S0l6aVhYMkM2a25aMjhMcw?oc=5" class="read-more" target="_blank">READ MORE →</a>
+        </div>
+        <div class="section-divider"></div>
+        <div class="section-label">AI Layoff Tracker</div>
+        <hr class="section-rule">
+        <div class="article-list">
+            <div class="article-item">
+                <div class="source">Bloomberg</div>
+                <h3><a href="https://example.com/11" target="_blank">Bank of England to Scenario Plan an AI Shock Amid Job Loss Fears</a></h3>
             </div>
-        </div><div class="section-title">AI LAYOFF TRACKER</div><div class="news-grid">
-                <div class="news-card">
-                    <span class="source-tag">Bloomberg</span>
-                    <h3>Bank of England to Scenario Plan an AI Shock Amid Job Loss Fears - Bloomberg</h3>
-                    <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOR1RLazloZXd2eVhmMktBNUV4ZzBnOG9hN0JSb0NvRHFiZXpIbGh5YmN5b1VzcEluaFRNcE9ZVk9wMml2QVQzaThEaGdpLUJsN3UzYzR3bUtaSVNwZXFpRmlYSV9FcUlCUE02b0FYNVBlaVBYdkN4WktZcExITElhdlFyTTIxT3N3bkVfM18tUTkzSVNmLThBSGhfSGM4SGhqMk9qSHNwTXlYN1J0V0dsNW50MTdzZw?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                </div>
-            
-                <div class="news-card">
-                    <span class="source-tag">Bloomberg</span>
-                    <h3>Oracle Plans Thousands of Job Cuts in Face of AI Cash Crunch - Bloomberg</h3>
-                    <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxOQXpZblZKSHhXQVlaYUFGLU9yX2JIY2tWNW9WRDc5S21ld1NQUEplZ1lZVmI0YUJCQmdIVU0tcFEwQVJLS1hDUDFBRzNzM1RkZWcyLU9FTXdiRDUwWXpweFMwUmVuS09zcUI2QXBpMm1Ka1BxTW11Smpwd25XTUZHQmhneUNnWEdQdVM4QUJSOHhFSjV1UnU5cGhobE95akFHM2trUG9n?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                </div>
-            
-                <div class="news-card">
-                    <span class="source-tag">The New York Times</span>
-                    <h3>Opinion | I Worked for Block. Its A.I. Job Cuts Aren’t What They Seem. - The New York Times</h3>
-                    <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxOQWk0ZmhnMkdOSTJlcnhTR0lPS2FvZTR5SElpV3BiRjdmcXhYWFl3NGFaNUI5SWF6cC1HS3pkUEhzd0tQTVllc3hzTlpOcHNoRWN5ZmFKWTdNVVRERU1rM0VnN2lOd1BZdUtvdkhtLTluQTVUemJzN1RIWUhNaUVsbzhn?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                </div>
-            
-                <div class="news-card">
-                    <span class="source-tag">The New York Times</span>
-                    <h3>Opinion | How Fast Can A.I. Change the Workplace? - The New York Times</h3>
-                    <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE9va2FURnB6a19yaVBCZlhleUFqeDkwVDExQ2syc2tEZTRjcjRYY0hDWDZMV2FPZ2JFTUZ6eXpKOXB6MDdCeEdnY2JpNnFjQThZb1dDMHRaekxNNl9lRktKcVNCbUtwQXFlR0Q3VlpzZHV1bV9y?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                </div>
-            
-                <div class="news-card">
-                    <span class="source-tag">Fortune</span>
-                    <h3>Tech investor Bill Gurley says workers who went through the ‘college conveyor belt’ and chased safe jobs are at high risk of AI automation - Fortune</h3>
-                    <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxOVEJOQzZ5M1ZTbmxMdzVISEtKQ1JuRDZIc0UxV0tnRG5wYzBvOUpwdVFZeU11aVpTVENWUWI1YU1ySUYwUFRaWnBUZ3pkY3MwclhLbVlQZjF2Qk9IdHZhdFFQOC1EQWVBYjh5UlZwWUlEYzJvRGpfZ3E1TVlsaUNrSzY1dFpIdUZqbnJRWVlXUEw0eWVVQUNlN1lueDhnZ25YOWlrWHEtX3h6N0dFalkzbHE3NVBMdUdheHJwM3lzWkFGYjZsb3Vv?oc=5" class="read-more" target="_blank">READ MORE →</a>
-                </div>
+            <div class="article-item">
+                <div class="source">Bloomberg</div>
+                <h3><a href="https://example.com/12" target="_blank">Oracle Plans Thousands of Job Cuts in Face of AI Cash Crunch</a></h3>
             </div>
+            <div class="article-item">
+                <div class="source">The New York Times</div>
+                <h3><a href="https://example.com/13" target="_blank">Opinion | I Worked for Block. Its A.I. Job Cuts Aren't What They Seem.</a></h3>
+            </div>
+            <div class="article-item">
+                <div class="source">The New York Times</div>
+                <h3><a href="https://example.com/14" target="_blank">Opinion | How Fast Can A.I. Change the Workplace?</a></h3>
+            </div>
+            <div class="article-item">
+                <div class="source">Fortune</div>
+                <h3><a href="https://example.com/15" target="_blank">Tech investor Bill Gurley says workers who went through the college conveyor belt are at high risk of AI automation</a></h3>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>AI DAILY DIGEST • AUTOMATED DELIVERY • 06:28 PM AEST</p>
+            <p>AI Daily &middot; FRIDAY, MARCH 06, 2026</p>
+            <p>Delivered at 06:46 PM AEST</p>
         </div>
     </div>
 </body>
 </html>
-    
