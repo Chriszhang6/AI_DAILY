@@ -45,13 +45,14 @@
 │                                                                               │
 │  Step 1: Fetch News from Multiple Sources                                    │
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │  Keywords searched (12 total):                                         │ │
-│  │  • OpenAI GPT             • Claude AI Anthropic                        │ │
-│  │  • Google DeepMind        • Qwen Alibaba                               │ │
-│  │  • Kimi AI Moonshot       • GLM Zhipu                                  │ │
-│  │  • DeepSeek AI            • Artificial Intelligence breakthrough       │ │
-│  │  • LLM large language model  • Machine Learning news                   │ │
-│  │  • AI technology latest   • Deep learning research                     │ │
+│  AI News Keywords (38 total):                                          │ │
+│  Companies: OpenAI, Claude, DeepMind, Qwen, Kimi, GLM, DeepSeek      │ │
+│  Founders: Sam Altman, Dario Amodei, Demis Hassabis                  │ │
+│  Topics: AI hiring, VC funding, regulation, safety, competition       │ │
+│  Tools: Hugging Face, LangChain, Llama, Mistral, Ollama, etc.         │ │
+│                                                                         │ │
+│  Layoff Keywords (10 total):                                           │ │
+│  AI layoffs, job cuts, automation, workforce reduction, displacement   │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 │                                    ↓                                          │
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
@@ -65,25 +66,25 @@
 │                                    ↓                                          │
 │  Step 2: Aggregate and Deduplicate                                           │
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │  • Collect all articles from different keywords                        │ │
-│  │  • Remove duplicates by title                                          │ │
-│  │  • Keep top 10 unique articles                                         │ │
+│  │  • AI News: Collect all articles, deduplicate by title, keep top 20   │ │
+│  │  • Layoff News: Separate tracking, keep top 10 unique articles        │ │
+│  │  • Sort by media authority and recency                                │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 │                                    ↓                                          │
-│  Step 3: Generate Newspaper-Style HTML Email                                 │
+│  Step 3: Generate Newspaper-Style HTML Email (2 sections)                     │
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │  Layout Structure:                                                     │ │
+│  │  AI News Section: 20 articles in 2-column grid layout                 │ │
 │  │  ┌──────────────────────────────────────────────────────────────────┐ │ │
-│  │  │  Masthead: "AI DAILY" - Professional newspaper header            │ │ │
-│  │  ├──────────────────────────────────────────────────────────────────┤ │ │
-│  │  │  Hero Article (Item 1): Large featured story with badge         │ │ │
-│  │  ├─────────────────────────────────────┬────────────────────────────┤ │ │
-│  │  │  Content Area                       │  Sidebar                   │ │ │
-│  │  │  • Featured Articles (Items 2, 5)   │  • Quick Reads (Items 3,  │ │ │
-│  │  │  • Standard List (Items 6, 7, 10)   │    4, 8, 9) - Compact     │ │ │
-│  │  │    "In Brief" section               │    news boxes             │ │ │
-│  │  └─────────────────────────────────────┴────────────────────────────┘ │ │
-│  │  Responsive CSS: Desktop & Mobile optimized                            │ │
+│  │  │  • Masthead: "AI DAILY" - Professional newspaper header          │ │ │
+│  │  │  • Each article card: source tag, title, "READ MORE" link       │ │ │
+│  │  │  • CSS Grid 2-column layout for responsive design               │ │ │
+│  │  └──────────────────────────────────────────────────────────────────┘ │ │
+│  │  AI Layoff Tracker Section: Up to 10 layoff articles                │ │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │ │
+│  │  │  • Section divider: "AI LAYOFF TRACKER" with distinct styling    │ │ │
+│  │  │  • Same card layout as AI News section                           │ │ │
+│  │  │  • Responsive CSS: Desktop & Mobile optimized                    │ │ │
+│  │  └──────────────────────────────────────────────────────────────────┘ │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 │                                    ↓                                          │
 │  Step 4: Send Email via Gmail SMTP                                           │
