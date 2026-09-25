@@ -93,7 +93,7 @@
 │  │  • Authenticate with GMAIL_USER and GMAIL_PASS                         │ │
 │  │  • Create MIME multipart message (HTML format)                         │ │
 │  │  • Send to TO_EMAIL recipient                                          │ │
-│  │  • Subject: "AI Weekly News | AI 日报 - {date}"                         │ │
+│  │  • Subject: "AI Weekly News | AI 周报 - {date}"                         │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↓
@@ -203,7 +203,7 @@ Stop when we have at least 10 articles
 3. Create email message:
    - From: GMAIL_USER
    - To: TO_EMAIL
-   - Subject: "AI Weekly News | AI 日报 - {date}"
+   - Subject: "AI Weekly News | AI 周报 - {date}"
    - Body: HTML content (multipart MIME)
 4. Send email
 5. Close connection
@@ -270,7 +270,7 @@ Users can easily customize:
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                        GitHub Actions 工作流                           │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │  定时触发器（每天一次）：                                        │  │  │
+│  │  │  定时触发器（每周一次）：                                        │  │  │
 │  │  │  • 22:00 UTC (澳东时间上午8点 / 夏令时上午9点)                  │  │  │
 │  │  │  • 支持随时手动触发                                               │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
@@ -347,7 +347,7 @@ Users can easily customize:
 │  │  • 使用 GMAIL_USER 和 GMAIL_PASS 进行身份验证                          │ │
 │  │  • 创建 MIME 多部分消息（HTML 格式）                                    │ │
 │  │  • 发送到 TO_EMAIL 收件人                                              │ │
-│  │  • 主题：「AI Weekly News | AI 日报 - {日期}」                         │ │
+│  │  • 主题：「AI Weekly News | AI 周报 - {日期}」                         │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↓
@@ -365,7 +365,7 @@ Users can easily customize:
 - GitHub Actions 是 GitHub 提供的免费自动化服务
 - 它允许您按计划或在事件发生时自动运行代码
 - 无需服务器！GitHub 在其云基础设施上运行您的代码
-- 非常适合自动化任务，如发送每日邮件
+- 非常适合自动化任务，如发送每周邮件
 
 **为什么在这个项目中使用 GitHub Actions？**
 - ✅ **免费**：免费账户每月可使用 2,000 分钟
@@ -399,7 +399,7 @@ Users can easily customize:
 
 #### 阶段 1：定时触发
 ```
-1. GitHub Actions 计时器到达计划时间（每天 22:00 UTC）
+1. GitHub Actions 计时器到达计划时间（每周 22:00 UTC）
 2. GitHub 自动启动虚拟机（Ubuntu Linux）
 3. 读取工作流文件 (.github/workflows/ai_weekly_news.yml)
 4. 开始执行...
@@ -457,7 +457,7 @@ Users can easily customize:
 3. 创建邮件消息：
    - 发件人：GMAIL_USER
    - 收件人：TO_EMAIL
-   - 主题：「AI Weekly News | AI 日报 - {日期}」
+   - 主题：「AI Weekly News | AI 周报 - {日期}」
    - 正文：HTML 内容（多部分 MIME）
 4. 发送邮件
 5. 关闭连接
