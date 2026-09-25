@@ -77,16 +77,14 @@ For automated weekly emails:
 
 All logic is contained in `main.py` (~670 lines):
 
-| Function | Purpose |
-|----------|---------|
-| `get_aest_time()` | Returns current AEST/AEDT time using ZoneInfo |
-| `fetch_google_news(keyword, max_items, retries)` | Fetches articles from Google News RSS for a single keyword |
-| `fetch_all_news()` | Aggregates AI news using 38 keywords, deduplicates by title + similarity, sorts by media authority |
-| `fetch_layoff_news()` | Aggregates layoff news using 10 keywords, deduplicates by title + similarity |
-| `generate_html_content(ai_news, layoff_news)` | Generates HTML with 2-column grid layout for both sections |
-| `send_email(subject, html_content, ...)` | Sends email via Gmail SMTP |
-| `save_html_file(html_content)` | Saves HTML to `docs/index.html` for GitHub Pages |
-| `main()` | Orchestrates the entire pipeline |
+- `get_aest_time()`: Returns current AEST/AEDT time using ZoneInfo
+- `fetch_google_news(keyword, max_items, retries)`: Fetches articles from Google News RSS for a single keyword
+- `fetch_all_news()`: Aggregates AI news using 38 keywords, deduplicates by title + similarity, sorts by media authority
+- `fetch_layoff_news()`: Aggregates layoff news using 10 keywords, deduplicates by title + similarity
+- `generate_html_content(ai_news, layoff_news)`: Generates HTML with 2-column grid layout for both sections
+- `send_email(subject, html_content, ...)`: Sends email via Gmail SMTP
+- `save_html_file(html_content)`: Saves HTML to `docs/index.html` for GitHub Pages
+- `main()`: Orchestrates the entire pipeline
 
 ### News Keywords
 
