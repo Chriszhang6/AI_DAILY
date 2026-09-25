@@ -20,7 +20,7 @@ This is the primary guidance document for Claude Code when working with the AI W
 
 The system runs **weekly via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
 
----
+***
 
 ## 🚀 Quick Start
 
@@ -69,7 +69,7 @@ For automated weekly emails:
    - Click "Run workflow"
    - Check inbox in 1-2 minutes!
 
----
+***
 
 ## 🏗️ Architecture
 
@@ -105,7 +105,7 @@ All logic is contained in `main.py` (~670 lines):
 | `GMAIL_PASS` | Yes | Gmail App Password (NOT account password) |
 | `TO_EMAIL` | Yes | Recipient email address |
 
----
+***
 
 ## 🔧 Customization
 
@@ -135,7 +135,7 @@ The `generate_html_content()` function (~lines 113-460 in main.py):
 - Update HTML structure for different layouts
 - Change 2-column to single-column or 3-column grid by editing `.news-grid`
 
----
+***
 
 ## ✅ Testing & Deployment
 
@@ -158,7 +158,7 @@ Check:
 - Email in inbox (formatted HTML)
 - Web version at GitHub Pages: `https://yourusername.github.io/AI_WEEKLY/`
 
----
+***
 
 ## 📝 Important Notes
 
@@ -181,7 +181,7 @@ Check:
 - ✅ **Gmail SMTP**: Standard SMTP delivery
 - ✅ **GitHub Pages**: Free hosting for `docs/index.html`
 
----
+***
 
 ## 📚 For More Details
 
@@ -189,7 +189,7 @@ Check:
 - **Project Tracking**: Check `docs/index.html` to see the latest generated email
 - **GitHub Workflow**: `.github/workflows/ai_weekly_news.yml`
 
----
+***
 
 ## 🔄 Common Workflows
 
@@ -212,7 +212,7 @@ Check:
 3. Wait 1-2 minutes
 4. Check email inbox
 
----
+***
 
 ## 🛠️ Development Commands
 
@@ -230,7 +230,7 @@ python --version
 pip list | grep -E "requests|beautifulsoup4|lxml"
 ```
 
----
+***
 
 **Last Updated**: March 2026
 **Project Status**: Active, running weekly
