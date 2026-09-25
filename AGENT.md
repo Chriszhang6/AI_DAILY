@@ -125,7 +125,7 @@ When adding layoff keywords:
 
 Edit `.github/workflows/ai_weekly_news.yml`:
 - Line 9-11: Modify the cron schedule
-- Current: `cron: '0 22 * * 5'` (22:00 UTC weekly)
+- Current: `cron: '0 22 * * 5'` (every Friday at 22:00 UTC / Saturday morning in Australia)
 - Note: GitHub Actions only supports UTC; schedule does not auto-adjust for DST
 
 ### Modifying HTML Layout
@@ -156,7 +156,7 @@ Check:
 
 ### View Deployed Email
 - Email in inbox (formatted HTML)
-- Web version at GitHub Pages: `https://yourusername.github.io/AI_WEEKLY/`
+- Web version at GitHub Pages: `https://<your-username>.github.io/<your-repo>/`
 
 ***
 
