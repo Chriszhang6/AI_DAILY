@@ -158,7 +158,7 @@ Check:
 
 ### View Deployed Email
 - Email in inbox (formatted HTML)
-- Web version at GitHub Pages: `https://github.com/yourusername/AI_WEEKLY/docs/index.html`
+- Web version at GitHub Pages: `https://yourusername.github.io/AI_WEEKLY/`
 
 ---
 
