@@ -15,7 +15,7 @@
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                        GitHub Actions Workflow                         │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │  Scheduled Trigger (once daily):                                │  │  │
+│  │  │  Scheduled Trigger (once weekly):                               │  │  │
 │  │  │  • 22:00 UTC (8am AEST / 9am AEDT)                              │  │  │
 │  │  │  • Manual trigger available anytime                             │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
@@ -75,7 +75,7 @@
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
 │  │  AI News Section: 20 articles in 2-column grid layout                 │ │
 │  │  ┌──────────────────────────────────────────────────────────────────┐ │ │
-│  │  │  • Masthead: "AI DAILY" - Professional newspaper header          │ │ │
+│  │  │  • Masthead: "AI WEEKLY" - Professional newspaper header          │ │ │
 │  │  │  • Each article card: source tag, title, "READ MORE" link       │ │ │
 │  │  │  • CSS Grid 2-column layout for responsive design               │ │ │
 │  │  └──────────────────────────────────────────────────────────────────┘ │ │
@@ -93,7 +93,7 @@
 │  │  • Authenticate with GMAIL_USER and GMAIL_PASS                         │ │
 │  │  • Create MIME multipart message (HTML format)                         │ │
 │  │  • Send to TO_EMAIL recipient                                          │ │
-│  │  • Subject: "AI Daily News | AI 日报 - {date}"                         │ │
+│  │  • Subject: "AI Weekly News | AI 周报 - {date}"                         │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↓
@@ -111,7 +111,7 @@
 - GitHub Actions is a free automation service provided by GitHub
 - It allows you to run code automatically on a schedule or when events occur
 - No server needed! GitHub runs your code on their cloud infrastructure
-- Perfect for automated tasks like sending daily emails
+- Perfect for automated tasks like sending weekly emails
 
 **Why use GitHub Actions for this project?**
 - ✅ **Free**: Up to 2,000 minutes/month for free accounts
@@ -145,9 +145,9 @@
 
 #### Phase 1: Scheduled Trigger
 ```
-1. GitHub Actions timer reaches scheduled time (22:00 UTC daily)
+1. GitHub Actions timer reaches scheduled time (22:00 UTC weekly)
 2. GitHub automatically starts a virtual machine (Ubuntu Linux)
-3. Workflow file (.github/workflows/ai_daily_news.yml) is read
+3. Workflow file (.github/workflows/ai_weekly_news.yml) is read
 4. Execution begins...
 ```
 
@@ -186,7 +186,7 @@ Stop when we have at least 10 articles
 #### Phase 5: Generate HTML Email
 ```
 1. Create HTML document structure
-2. Add masthead with "AI DAILY" branding
+2. Add masthead with "AI WEEKLY" branding
 3. Assign each article to a layout slot:
    - Article 1 → Hero (large featured story)
    - Articles 2, 5 → Featured (highlighted news)
@@ -203,7 +203,7 @@ Stop when we have at least 10 articles
 3. Create email message:
    - From: GMAIL_USER
    - To: TO_EMAIL
-   - Subject: "AI Daily News | AI 日报 - {date}"
+   - Subject: "AI Weekly News | AI 周报 - {date}"
    - Body: HTML content (multipart MIME)
 4. Send email
 5. Close connection
@@ -251,7 +251,7 @@ Stop when we have at least 10 articles
 
 Users can easily customize:
 - **Keywords**: Change which AI topics to follow (main.py line 74-87)
-- **Schedule**: Modify when emails are sent (.github/workflows/ai_daily_news.yml line 9-11)
+- **Schedule**: Modify when emails are sent (.github/workflows/ai_weekly_news.yml line 9-11)
 - **Layout**: Adjust HTML template and CSS (main.py line 113-460)
 - **Recipient**: Send to different email or multiple recipients
 - **Language**: Add more languages to email content
@@ -270,7 +270,7 @@ Users can easily customize:
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                        GitHub Actions 工作流                           │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │  定时触发器（每天一次）：                                        │  │  │
+│  │  │  定时触发器（每周一次）：                                        │  │  │
 │  │  │  • 22:00 UTC (澳东时间上午8点 / 夏令时上午9点)                  │  │  │
 │  │  │  • 支持随时手动触发                                               │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
@@ -329,7 +329,7 @@ Users can easily customize:
 │  ┌────────────────────────────────────────────────────────────────────────┐ │
 │  │  布局结构：                                                             │ │
 │  │  ┌──────────────────────────────────────────────────────────────────┐ │ │
-│  │  │  报头：「AI DAILY」- 专业报纸风格的头部                          │ │ │
+│  │  │  报头：「AI WEEKLY」- 专业报纸风格的头部                          │ │ │
 │  │  ├──────────────────────────────────────────────────────────────────┤ │ │
 │  │  │  头条文章（文章 1）：大型特写故事，带徽章                        │ │ │
 │  │  ├─────────────────────────────────────┬────────────────────────────┤ │ │
@@ -347,7 +347,7 @@ Users can easily customize:
 │  │  • 使用 GMAIL_USER 和 GMAIL_PASS 进行身份验证                          │ │
 │  │  • 创建 MIME 多部分消息（HTML 格式）                                    │ │
 │  │  • 发送到 TO_EMAIL 收件人                                              │ │
-│  │  • 主题：「AI Daily News | AI 日报 - {日期}」                         │ │
+│  │  • 主题：「AI Weekly News | AI 周报 - {日期}」                         │ │
 │  └────────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↓
@@ -365,7 +365,7 @@ Users can easily customize:
 - GitHub Actions 是 GitHub 提供的免费自动化服务
 - 它允许您按计划或在事件发生时自动运行代码
 - 无需服务器！GitHub 在其云基础设施上运行您的代码
-- 非常适合自动化任务，如发送每日邮件
+- 非常适合自动化任务，如发送每周邮件
 
 **为什么在这个项目中使用 GitHub Actions？**
 - ✅ **免费**：免费账户每月可使用 2,000 分钟
@@ -399,9 +399,9 @@ Users can easily customize:
 
 #### 阶段 1：定时触发
 ```
-1. GitHub Actions 计时器到达计划时间（每天 22:00 UTC）
+1. GitHub Actions 计时器到达计划时间（每周 22:00 UTC）
 2. GitHub 自动启动虚拟机（Ubuntu Linux）
-3. 读取工作流文件 (.github/workflows/ai_daily_news.yml)
+3. 读取工作流文件 (.github/workflows/ai_weekly_news.yml)
 4. 开始执行...
 ```
 
@@ -440,7 +440,7 @@ Users can easily customize:
 #### 阶段 5：生成 HTML 邮件
 ```
 1. 创建 HTML 文档结构
-2. 添加带有「AI DAILY」品牌的报头
+2. 添加带有「AI WEEKLY」品牌的报头
 3. 将每篇文章分配到布局位置：
    - 文章 1 → 头条（大型特写故事）
    - 文章 2, 5 → 精选（重点新闻）
@@ -457,7 +457,7 @@ Users can easily customize:
 3. 创建邮件消息：
    - 发件人：GMAIL_USER
    - 收件人：TO_EMAIL
-   - 主题：「AI Daily News | AI 日报 - {日期}」
+   - 主题：「AI Weekly News | AI 周报 - {日期}」
    - 正文：HTML 内容（多部分 MIME）
 4. 发送邮件
 5. 关闭连接
@@ -505,7 +505,7 @@ Users can easily customize:
 
 用户可以轻松自定义：
 - **关键词**：更改要关注的 AI 主题（main.py 第 74-87 行）
-- **时间表**：修改邮件发送时间（.github/workflows/ai_daily_news.yml 第 9-11 行）
+- **时间表**：修改邮件发送时间（.github/workflows/ai_weekly_news.yml 第 9-11 行）
 - **布局**：调整 HTML 模板和 CSS（main.py 第 113-460 行）
 - **收件人**：发送到不同的邮箱或多个收件人
 - **语言**：向邮件内容添加更多语言

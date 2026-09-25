@@ -531,8 +531,8 @@ def generate_html_content(ai_news, layoff_news=None):
     <div class="container">
         <div class="masthead">
             <hr class="masthead-rule">
-            <h1>AI DAILY</h1>
-            <div class="edition">Your Daily Artificial Intelligence Briefing</div>
+            <h1>AI WEEKLY</h1>
+            <div class="edition">Your Weekly Artificial Intelligence Briefing</div>
             <hr class="masthead-rule-bottom">
         </div>
         <div class="date-bar">
@@ -581,7 +581,7 @@ def generate_html_content(ai_news, layoff_news=None):
 
     html += f"""
         <div class="footer">
-            <p>AI Daily &middot; {date_display}</p>
+            <p>AI Weekly &middot; {date_display}</p>
             <p>Delivered at {time_display} AEST</p>
         </div>
     </div>
@@ -623,7 +623,7 @@ def save_html_file(html_content, output_path='docs/index.html'):
         return False
 
 def main():
-    print("🚀 Starting AI Daily News Digest...")
+    print("🚀 Starting AI Weekly News Digest...")
 
     # Fetch AI news
     print("📡 Fetching AI news from sources...")
@@ -656,7 +656,7 @@ def main():
         sys.exit(1)
 
     print(f"📧 Sending email to {to_email}...")
-    subject = f"AI Daily News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
+    subject = f"AI Weekly News Digest - {get_aest_time().strftime('%Y-%m-%d')}"
     success = send_email(subject, html_content, to_email, gmail_user, gmail_pass)
 
     if not success:
@@ -669,7 +669,7 @@ def main():
     if not html_saved:
         print("⚠ Warning: Failed to save HTML file, but email was sent successfully")
 
-    print("✓ Daily news digest completed successfully!")
+    print("✓ Weekly news digest completed successfully!")
     sys.exit(0)
 
 if __name__ == '__main__':

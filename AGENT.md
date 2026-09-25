@@ -1,15 +1,15 @@
 ---
-name: ai-daily-guidance
-description: Use when working on the AI DAILY news aggregation system. Provides project overview, architecture, setup instructions, and development guidance.
+name: ai-weekly-guidance
+description: Use when working on the AI WEEKLY news aggregation system. Provides project overview, architecture, setup instructions, and development guidance.
 ---
 
-# AI DAILY - Agent Guidance
+# AI WEEKLY - Agent Guidance
 
-This is the primary guidance document for Claude Code when working with the AI DAILY project.
+This is the primary guidance document for Claude Code when working with the AI WEEKLY project.
 
 ## 📋 Project Overview
 
-**AI DAILY** is an automated news aggregation system that:
+**AI WEEKLY** is an automated news aggregation system that:
 1. Fetches AI-related news from Google News RSS using 38 carefully selected keywords
 2. Fetches AI layoff-related news using 10 keywords
 3. Generates a newspaper-style HTML email with two distinct sections:
@@ -18,9 +18,9 @@ This is the primary guidance document for Claude Code when working with the AI D
 4. Sends the email via Gmail SMTP
 5. Saves HTML to `docs/index.html` for GitHub Pages
 
-The system runs **daily via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
+The system runs **weekly via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
 
----
+***
 
 ## 🚀 Quick Start
 
@@ -52,7 +52,7 @@ The system runs **daily via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
 
 ### GitHub Actions Setup (Recommended)
 
-For automated daily emails:
+For automated weekly emails:
 
 1. **Fork/push this repository to your GitHub account**
 
@@ -65,11 +65,11 @@ For automated daily emails:
 
 4. **Test the workflow**
    - Go to Actions tab
-   - Select "AI Daily News" workflow
+   - Select "AI Weekly News" workflow
    - Click "Run workflow"
    - Check inbox in 1-2 minutes!
 
----
+***
 
 ## 🏗️ Architecture
 
@@ -77,16 +77,14 @@ For automated daily emails:
 
 All logic is contained in `main.py` (~670 lines):
 
-| Function | Purpose |
-|----------|---------|
-| `get_aest_time()` | Returns current AEST/AEDT time using ZoneInfo |
-| `fetch_google_news(keyword, max_items, retries)` | Fetches articles from Google News RSS for a single keyword |
-| `fetch_all_news()` | Aggregates AI news using 38 keywords, deduplicates by title + similarity, sorts by media authority |
-| `fetch_layoff_news()` | Aggregates layoff news using 10 keywords, deduplicates by title + similarity |
-| `generate_html_content(ai_news, layoff_news)` | Generates HTML with 2-column grid layout for both sections |
-| `send_email(subject, html_content, ...)` | Sends email via Gmail SMTP |
-| `save_html_file(html_content)` | Saves HTML to `docs/index.html` for GitHub Pages |
-| `main()` | Orchestrates the entire pipeline |
+- `get_aest_time()`: Returns current AEST/AEDT time using ZoneInfo
+- `fetch_google_news(keyword, max_items, retries)`: Fetches articles from Google News RSS for a single keyword
+- `fetch_all_news()`: Aggregates AI news using 38 keywords, deduplicates by title + similarity, sorts by media authority
+- `fetch_layoff_news()`: Aggregates layoff news using 10 keywords, deduplicates by title + similarity
+- `generate_html_content(ai_news, layoff_news)`: Generates HTML with 2-column grid layout for both sections
+- `send_email(subject, html_content, ...)`: Sends email via Gmail SMTP
+- `save_html_file(html_content)`: Saves HTML to `docs/index.html` for GitHub Pages
+- `main()`: Orchestrates the entire pipeline
 
 ### News Keywords
 
@@ -107,7 +105,7 @@ All logic is contained in `main.py` (~670 lines):
 | `GMAIL_PASS` | Yes | Gmail App Password (NOT account password) |
 | `TO_EMAIL` | Yes | Recipient email address |
 
----
+***
 
 ## 🔧 Customization
 
@@ -125,9 +123,9 @@ When adding layoff keywords:
 
 ### Changing Schedule
 
-Edit `.github/workflows/ai_daily_news.yml`:
+Edit `.github/workflows/ai_weekly_news.yml`:
 - Line 9-11: Modify the cron schedule
-- Current: `cron: '0 22 * * *'` (22:00 UTC daily)
+- Current: `cron: '0 22 * * 5'` (every Friday at 22:00 UTC / Saturday morning in Australia)
 - Note: GitHub Actions only supports UTC; schedule does not auto-adjust for DST
 
 ### Modifying HTML Layout
@@ -137,7 +135,7 @@ The `generate_html_content()` function (~lines 113-460 in main.py):
 - Update HTML structure for different layouts
 - Change 2-column to single-column or 3-column grid by editing `.news-grid`
 
----
+***
 
 ## ✅ Testing & Deployment
 
@@ -152,20 +150,20 @@ Check:
 
 ### Manual GitHub Actions Trigger
 1. Go to Actions tab
-2. Select "AI Daily News" workflow
+2. Select "AI Weekly News" workflow
 3. Click "Run workflow"
 4. Wait 1-2 minutes and check inbox
 
 ### View Deployed Email
 - Email in inbox (formatted HTML)
-- Web version at GitHub Pages: `https://github.com/yourusername/AI_DAILY/docs/index.html`
+- Web version at GitHub Pages: `https://<your-username>.github.io/<your-repo>/`
 
----
+***
 
 ## 📝 Important Notes
 
 ### Technical Details
-- **Workflow auto-commits**: Updates `docs/index.html` with message "Update daily news - YYYY-MM-DD"
+- **Workflow auto-commits**: Updates `docs/index.html` with message "Update weekly news - YYYY-MM-DD"
 - **Google News RSS rate limiting**: Each keyword fetches max 2 items to avoid rate limits
 - **lxml is REQUIRED**: Script exits without it - ensure installed via `pip install -r requirements.txt`
 - **Time zone handling**: Uses Python 3.9+ built-in `zoneinfo` (ZoneInfo)
@@ -183,15 +181,15 @@ Check:
 - ✅ **Gmail SMTP**: Standard SMTP delivery
 - ✅ **GitHub Pages**: Free hosting for `docs/index.html`
 
----
+***
 
 ## 📚 For More Details
 
 - **System Architecture Details**: See `SOLUTION_SUMMARY.md` for detailed diagrams and explanations
 - **Project Tracking**: Check `docs/index.html` to see the latest generated email
-- **GitHub Workflow**: `.github/workflows/ai_daily_news.yml`
+- **GitHub Workflow**: `.github/workflows/ai_weekly_news.yml`
 
----
+***
 
 ## 🔄 Common Workflows
 
@@ -209,12 +207,12 @@ Check:
 5. Git add/commit/push
 
 ### Trigger workflow manually
-1. GitHub Actions tab → AI Daily News → Run workflow
+1. GitHub Actions tab → AI Weekly News → Run workflow
 2. Select `main` branch
 3. Wait 1-2 minutes
 4. Check email inbox
 
----
+***
 
 ## 🛠️ Development Commands
 
@@ -232,7 +230,7 @@ python --version
 pip list | grep -E "requests|beautifulsoup4|lxml"
 ```
 
----
+***
 
 **Last Updated**: March 2026
-**Project Status**: Active, running daily
+**Project Status**: Active, running weekly

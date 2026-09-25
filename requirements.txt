@@ -1,4 +1,4 @@
-# Core dependencies for AI Daily News
+# Core dependencies for AI Weekly News
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
