@@ -1,15 +1,15 @@
 ---
-name: ai-daily-guidance
-description: Use when working on the AI DAILY news aggregation system. Provides project overview, architecture, setup instructions, and development guidance.
+name: ai-weekly-guidance
+description: Use when working on the AI WEEKLY news aggregation system. Provides project overview, architecture, setup instructions, and development guidance.
 ---
 
-# AI DAILY - Agent Guidance
+# AI WEEKLY - Agent Guidance
 
-This is the primary guidance document for Claude Code when working with the AI DAILY project.
+This is the primary guidance document for Claude Code when working with the AI WEEKLY project.
 
 ## 📋 Project Overview
 
-**AI DAILY** is an automated news aggregation system that:
+**AI WEEKLY** is an automated news aggregation system that:
 1. Fetches AI-related news from Google News RSS using 38 carefully selected keywords
 2. Fetches AI layoff-related news using 10 keywords
 3. Generates a newspaper-style HTML email with two distinct sections:
@@ -18,7 +18,7 @@ This is the primary guidance document for Claude Code when working with the AI D
 4. Sends the email via Gmail SMTP
 5. Saves HTML to `docs/index.html` for GitHub Pages
 
-The system runs **daily via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
+The system runs **weekly via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
 
 ---
 
@@ -52,7 +52,7 @@ The system runs **daily via GitHub Actions at 22:00 UTC** (8am AEST / 9am AEDT).
 
 ### GitHub Actions Setup (Recommended)
 
-For automated daily emails:
+For automated weekly emails:
 
 1. **Fork/push this repository to your GitHub account**
 
@@ -65,7 +65,7 @@ For automated daily emails:
 
 4. **Test the workflow**
    - Go to Actions tab
-   - Select "AI Daily News" workflow
+   - Select "AI Weekly News" workflow
    - Click "Run workflow"
    - Check inbox in 1-2 minutes!
 
@@ -125,9 +125,9 @@ When adding layoff keywords:
 
 ### Changing Schedule
 
-Edit `.github/workflows/ai_daily_news.yml`:
+Edit `.github/workflows/ai_weekly_news.yml`:
 - Line 9-11: Modify the cron schedule
-- Current: `cron: '0 22 * * *'` (22:00 UTC daily)
+- Current: `cron: '0 22 * * 5'` (22:00 UTC weekly)
 - Note: GitHub Actions only supports UTC; schedule does not auto-adjust for DST
 
 ### Modifying HTML Layout
@@ -152,20 +152,20 @@ Check:
 
 ### Manual GitHub Actions Trigger
 1. Go to Actions tab
-2. Select "AI Daily News" workflow
+2. Select "AI Weekly News" workflow
 3. Click "Run workflow"
 4. Wait 1-2 minutes and check inbox
 
 ### View Deployed Email
 - Email in inbox (formatted HTML)
-- Web version at GitHub Pages: `https://github.com/yourusername/AI_DAILY/docs/index.html`
+- Web version at GitHub Pages: `https://github.com/yourusername/AI_WEEKLY/docs/index.html`
 
 ---
 
 ## 📝 Important Notes
 
 ### Technical Details
-- **Workflow auto-commits**: Updates `docs/index.html` with message "Update daily news - YYYY-MM-DD"
+- **Workflow auto-commits**: Updates `docs/index.html` with message "Update weekly news - YYYY-MM-DD"
 - **Google News RSS rate limiting**: Each keyword fetches max 2 items to avoid rate limits
 - **lxml is REQUIRED**: Script exits without it - ensure installed via `pip install -r requirements.txt`
 - **Time zone handling**: Uses Python 3.9+ built-in `zoneinfo` (ZoneInfo)
@@ -189,7 +189,7 @@ Check:
 
 - **System Architecture Details**: See `SOLUTION_SUMMARY.md` for detailed diagrams and explanations
 - **Project Tracking**: Check `docs/index.html` to see the latest generated email
-- **GitHub Workflow**: `.github/workflows/ai_daily_news.yml`
+- **GitHub Workflow**: `.github/workflows/ai_weekly_news.yml`
 
 ---
 
@@ -209,7 +209,7 @@ Check:
 5. Git add/commit/push
 
 ### Trigger workflow manually
-1. GitHub Actions tab → AI Daily News → Run workflow
+1. GitHub Actions tab → AI Weekly News → Run workflow
 2. Select `main` branch
 3. Wait 1-2 minutes
 4. Check email inbox
@@ -235,4 +235,4 @@ pip list | grep -E "requests|beautifulsoup4|lxml"
 ---
 
 **Last Updated**: March 2026
-**Project Status**: Active, running daily
+**Project Status**: Active, running weekly
